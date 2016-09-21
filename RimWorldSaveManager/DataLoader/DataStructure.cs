@@ -27,6 +27,13 @@ namespace RimWorldSaveManager
 		}
 	}
 
+	public class WorkType
+	{
+		public string DefName;
+		public string FullName;
+		public string[] WorkTags;
+	}
+
 	public class PawnSkill
 	{
 		public string Name;

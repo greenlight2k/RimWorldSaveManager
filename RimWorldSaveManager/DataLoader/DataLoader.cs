@@ -74,8 +74,11 @@ namespace RimWorldSaveManager
 
 				foreach (var directory in Directory.GetDirectories("Mods"))
 				{
-					if (Directory.Exists(string.Join(Path.DirectorySeparatorChar.ToString(), directory, "Defs", "TraitDefs")))
-						foreach (var file in Directory.GetFiles(string.Join(Path.DirectorySeparatorChar.ToString(), directory, "Defs", "TraitDefs"), "*.xml"))
+					Func<string, string, string> CreateFullPath = (s1, s2)
+						=> string.Join(Path.DirectorySeparatorChar.ToString(), directory, s1, s2);
+
+					if (Directory.Exists(CreateFullPath("Defs", "TraitDefs")))
+						foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "TraitDefs"), "*.xml"))
 						{
 							foreach (var traitDef in XDocument.Load(file).Root.Elements())
 							{
@@ -93,8 +96,8 @@ namespace RimWorldSaveManager
 							}
 						}
 
-					if (Directory.Exists(string.Join(Path.DirectorySeparatorChar.ToString(), directory, "Defs", "HediffDefs")))
-						foreach (var file in Directory.GetFiles(string.Join(Path.DirectorySeparatorChar.ToString(), directory, "Defs", "HediffDefs"), "*.xml"))
+					if (Directory.Exists(CreateFullPath("Defs", "HediffDefs")))
+						foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "HediffDefs"), "*.xml"))
 						{
 							var docRoot = XDocument.Load(file).Root;
 
@@ -126,6 +129,28 @@ namespace RimWorldSaveManager
 								foreach (var hediff in hediffs)
 									coreHediff.SubDiffs[hediff.Def] = hediff;
 							}
+						}
+
+					if (Directory.Exists(CreateFullPath("Defs", "WorkTypeDefs")))
+						foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "WorkTypeDefs"), "*.xml"))
+						{
+							var docRoot = XDocument.Load(file).Root;
+
+							var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
+
+							if (workTypeDefsRoot.Count() == 0) continue;
+
+							var workTypeDefs = from workTypeDef in workTypeDefsRoot
+											select new WorkType
+											{
+												DefName = workTypeDef.Element("defName").GetValue(),
+												FullName = workTypeDef.Element("gerundLabel").GetValue(),
+												WorkTags = workTypeDef.Element("workTags")
+													.Elements("li")
+													.Select(element => element.GetValue()).ToArray()
+											};
+
+							WorkTypes = workTypeDefs.ToList();
 						}
 				}
 			}
@@ -334,5 +359,6 @@ namespace RimWorldSaveManager
 		public static Dictionary<string, PawnTrait> Traits = new Dictionary<string, PawnTrait>();
 		public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
 		public static Dictionary<string, PawnBackstory> Backstories = new Dictionary<string, PawnBackstory>();
+		public static List<WorkType> WorkTypes = new List<WorkType>();
 	}
 }
