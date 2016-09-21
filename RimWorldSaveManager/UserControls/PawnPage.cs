@@ -187,9 +187,49 @@ namespace RimWorldSaveManager
 			}
 
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-				BackstoryDescription.Show(backstory.Description, comboBox, e.Bounds.Right, e.Bounds.Bottom);
+				BackstoryDescription.Show(
+					GenerateDetailedInformation(backstory),
+					comboBox,
+					e.Bounds.Right,
+					e.Bounds.Bottom);
 
 			e.DrawFocusRectangle();
+		}
+
+		private string GenerateDetailedInformation(PawnBackstory backstory)
+		{
+			var detailedBackstory = backstory.Description + "\n";
+
+			if (backstory.SkillGains != null)
+			{
+				detailedBackstory += "\nSkill Gains:\n";
+
+				foreach (var skillGain in backstory.SkillGains)
+					detailedBackstory += string.Format("{0}: {1}\n", skillGain.Key, skillGain.Value);
+			}
+
+			if (backstory.WorkDisables != null &&
+				backstory.WorkDisables.Length != 0)
+			{
+				detailedBackstory += "\nIncapable of:\n";
+
+				if (DataLoader.WorkTypes.Count == 0)
+					foreach (var workTag in backstory.WorkDisables)
+						detailedBackstory += workTag + "\n";
+				else
+					foreach (var workTag in backstory.WorkDisables)
+					{
+						var workTypes = DataLoader.WorkTypes.Where(wt => wt.WorkTags.Contains(workTag));
+
+						if (workTypes.Count() == 0)
+							detailedBackstory += workTag + "\n";
+						else
+							foreach (var workType in workTypes)
+								detailedBackstory += workType.FullName + "\n";
+					}
+			}
+
+			return detailedBackstory;
 		}
 
 		private void DropDownClosed(object sender, EventArgs e)

@@ -30,6 +30,19 @@ namespace RimWorldSaveManager
 
 					var root = XDocument.Load(stream).Root;
 
+					Func<XElement, Dictionary<string, int>> GetSkillGains = (rootElement) =>
+					{
+						if (rootElement == null)
+							return null;
+
+						var elements = from element in rootElement.Elements()
+									   select new KeyValuePair<string, int>
+									   (element.Element("key").GetValue(),
+									   element.Element("value").GetValue(0));
+
+						return elements.ToDictionary(kv => kv.Key, kv => kv.Value);
+					};
+
 					var backstories = (from backstory in root.Elements("Backstory")
 									   select new PawnBackstory
 									   {
@@ -37,6 +50,11 @@ namespace RimWorldSaveManager
 										   TitleShort = backstory.Element("TitleShort").GetValue(),
 										   Description = backstory.Element("BaseDesc").GetValue().Replace("\\n", "\n"),
 										   Slot = backstory.Element("Slot").GetValue(),
+										   WorkDisables = backstory.Element("WorkDisables") != null ?
+												backstory.Element("WorkDisables")
+													.Elements().Select(e => e.Value).ToArray()
+											: null,
+										   SkillGains = GetSkillGains(backstory.Element("SkillGains")),
 									   }).Union((from pawn in root.Elements("PawnBio")
 												 select new PawnBackstory
 												 {
@@ -44,6 +62,11 @@ namespace RimWorldSaveManager
 													 TitleShort = pawn.XPathSelectElement("Childhood/TitleShort").GetValue(),
 													 Description = pawn.XPathSelectElement("Childhood/BaseDesc").GetValue().Replace("\\n", "\n"),
 													 Slot = "Childhood",
+													 WorkDisables = pawn.XPathSelectElement("Childhood/WorkDisables") != null ?
+														pawn.XPathSelectElement("Childhood/WorkDisables")
+															.Elements().Select(e => e.Value).ToArray()
+														: null,
+													 SkillGains = GetSkillGains(pawn.XPathSelectElement("Childhood/SkillGains")),
 												 })).Union((from pawn in root.Elements("PawnBio")
 															select new PawnBackstory
 															{
@@ -51,6 +74,11 @@ namespace RimWorldSaveManager
 																TitleShort = pawn.XPathSelectElement("Adulthood/TitleShort").GetValue(),
 																Description = pawn.XPathSelectElement("Adulthood/BaseDesc").GetValue().Replace("\\n", "\n"),
 																Slot = "Adulthood",
+																WorkDisables = pawn.XPathSelectElement("Adulthood/WorkDisables") != null ?
+																	pawn.XPathSelectElement("Adulthood/WorkDisables")
+																		.Elements().Select(e => e.Value).ToArray()
+																	: null,
+																SkillGains = GetSkillGains(pawn.XPathSelectElement("Adulthood/SkillGains")),
 															}));
 
 					foreach (var backstory in backstories)
@@ -141,16 +169,16 @@ namespace RimWorldSaveManager
 							if (workTypeDefsRoot.Count() == 0) continue;
 
 							var workTypeDefs = from workTypeDef in workTypeDefsRoot
-											select new WorkType
-											{
-												DefName = workTypeDef.Element("defName").GetValue(),
-												FullName = workTypeDef.Element("gerundLabel").GetValue(),
-												WorkTags = workTypeDef.Element("workTags")
-													.Elements("li")
-													.Select(element => element.GetValue()).ToArray()
-											};
+											   select new WorkType
+											   {
+												   DefName = workTypeDef.Element("defName").GetValue(),
+												   FullName = workTypeDef.Element("gerundLabel").GetValue(),
+												   WorkTags = workTypeDef.Element("workTags")
+													   .Elements("li")
+													   .Select(element => element.GetValue()).ToArray()
+											   };
 
-							WorkTypes = workTypeDefs.ToList();
+							WorkTypes.AddRange(workTypeDefs);
 						}
 				}
 			}

@@ -56,6 +56,8 @@ namespace RimWorldSaveManager
 		public string TitleShort;
 		public string Description;
 		public string DisplayTitle;
+		public string[] WorkDisables;
+		public Dictionary<string, int> SkillGains;
 
 		public int DescriptionHash
 		{
