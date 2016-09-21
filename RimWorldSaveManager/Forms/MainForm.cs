@@ -15,7 +15,7 @@ namespace RimWorldSaveManager
 
 			var version = Assembly.GetExecutingAssembly().GetName();
 
-			Text = string.Format("{0} v{1} (Alpha 14e)",
+			Text = string.Format("{0} v{1} (Alpha 14e-15c)",
 				version.Name, version.Version.ToString());
 		}
 
