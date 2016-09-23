@@ -35,12 +35,8 @@ namespace RimWorldSaveManager
 						if (rootElement == null)
 							return null;
 
-						var elements = from element in rootElement.Elements()
-									   select new KeyValuePair<string, int>
-									   (element.Element("key").GetValue(),
-									   element.Element("value").GetValue(0));
-
-						return elements.ToDictionary(kv => kv.Key, kv => kv.Value);
+						return rootElement.Elements().ToDictionary(k => k.Element("key").GetValue(),
+							v => v.Element("value").GetValue(0));
 					};
 
 					var backstories = (from backstory in root.Elements("Backstory")
@@ -63,9 +59,9 @@ namespace RimWorldSaveManager
 													 Description = pawn.XPathSelectElement("Childhood/BaseDesc").GetValue().Replace("\\n", "\n"),
 													 Slot = "Childhood",
 													 WorkDisables = pawn.XPathSelectElement("Childhood/WorkDisables") != null ?
-														pawn.XPathSelectElement("Childhood/WorkDisables")
-															.Elements().Select(e => e.Value).ToArray()
-														: null,
+														 pawn.XPathSelectElement("Childhood/WorkDisables")
+															 .Elements().Select(e => e.Value).ToArray()
+														 : null,
 													 SkillGains = GetSkillGains(pawn.XPathSelectElement("Childhood/SkillGains")),
 												 })).Union((from pawn in root.Elements("PawnBio")
 															select new PawnBackstory
