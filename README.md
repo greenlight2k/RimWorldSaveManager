@@ -7,6 +7,9 @@ It supports modded traits as well, and you can place it in your root game folder
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.54.1 ####
+* Updated to support Alpha 16
+* Added default core backstories
 #### v0.54 ####
 * Added extra information to backstories (Trait bonuses and disabled skills)
 #### v0.53 ####
