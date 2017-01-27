@@ -144,7 +144,7 @@ namespace RimWorldSaveManager
             var comboBox = (ComboBox)sender;
             var backstory = (PawnBackstory)comboBox.SelectedItem;
 
-            Console.WriteLine($"Combobox changed to:{backstory}, {backstory.DescriptionKey}");
+            //Console.WriteLine($"Combobox changed to:{backstory}, {backstory.DescriptionKey}");
 
             if (comboBox == childhoodComboBox)
                 PawnClass.childhood = backstory.DescriptionKey;
@@ -180,15 +180,14 @@ namespace RimWorldSaveManager
         {
             var detailedBackstory = backstory.Description + "\n";
 
-            if (backstory.SkillGains != null) {
+            if (backstory.SkillGains != null && backstory.SkillGains.Count > 0) {
                 detailedBackstory += "\nSkill Gains:\n";
 
                 foreach (var skillGain in backstory.SkillGains)
                     detailedBackstory += $"{skillGain.Key}: {skillGain.Value}\n";
             }
 
-            if (backstory.WorkDisables != null &&
-                backstory.WorkDisables.Length != 0) {
+            if (backstory.WorkDisables != null && backstory.WorkDisables.Length > 0) {
                 detailedBackstory += "\nIncapable of:\n";
 
                 if (DataLoader.WorkTypes.Count == 0)

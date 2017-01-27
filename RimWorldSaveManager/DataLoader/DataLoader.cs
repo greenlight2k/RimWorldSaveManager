@@ -5,11 +5,8 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Globalization;
-using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -18,7 +15,6 @@ namespace RimWorldSaveManager
     public class DataLoader
     {
         private Regex decriptionCutterRegex = new Regex("(.{50}\\s)");
-
 
         public DataLoader()
         {
@@ -102,7 +98,7 @@ namespace RimWorldSaveManager
 
             foreach (var story in Backstories.Values) {
                 if (string.IsNullOrEmpty(story.ToString())) {
-                    Console.WriteLine($"WARNING: empty/null story:{story.Title}");
+                    Console.WriteLine($"Empty/null story:{story.Title}");
                 }
             }
 
@@ -211,7 +207,7 @@ namespace RimWorldSaveManager
         private PawnBackstory ExtractBackstory(XElement xml)
         {
             if (string.IsNullOrEmpty((string)xml.Element("Title"))) {
-                Console.WriteLine("Backstory with empty Title.");
+                Console.WriteLine("Found backstory with empty Title.");
                 return null;
             }
             var backstory = new PawnBackstory {
@@ -271,7 +267,7 @@ namespace RimWorldSaveManager
                 .Where(x => Evaluate<bool>(x, "def/text()='" + playerFaction + "'"))
                 .First().Element("loadID").Value;
 
-            Console.WriteLine($"playerFaction:{playerFaction}, colonyFaction:{colonyFaction}");
+            //Console.WriteLine($"playerFaction:{playerFaction}, colonyFaction:{colonyFaction}");
 
             //var pawns = new List<Pawn>();
             foreach (var pawn in SaveDocument.Descendants("thing")) {
@@ -345,72 +341,119 @@ namespace RimWorldSaveManager
 
         public bool SaveData(string path)
         {
-            try {
-                foreach (var pawn in Pawns) {
-                    var pawnPage = pawn.Controls[0] as PawnPage;
+            //try {
+            foreach (var pawn in Pawns) {
+                var pawnPage = pawn.Controls[0] as PawnPage;
 
-                    var pawnElement = EvaluateList<XElement>("map/things/thing[@Class='Pawn']")
-                            .Where(x => x.Element("id").Value == pawn.id)
-                            .Single();
+                /*
+                var pawnElement = EvaluateList<XElement>("map/things/thing[@Class='Pawn']")
+                        .Where(x => x.Element("id").Value == pawn.id)
+                        .Single();
+                        */
+                var pawnElement = SaveDocument
+                        .Descendants("thing")
+                        .Single(x => (string)x.Element("id") == pawn.id);
 
-                    pawnElement.XPathSelectElement("story/childhood").Value = pawn.childhood;
+                var story = pawnElement.Element("story");
 
-                    pawnElement.XPathSelectElement("story/adulthood").Value = pawn.adulthood;
-
-                    foreach (var skill in pawn.skills) {
-                        var skillElement = pawnElement.XPathSelectElements("skills/skills/li")
-                            .Where(s => s.Element("def").Value == skill.Name)
-                            .Single();
-
-                        var skillLevel = pawnPage.Skills[skill.Name].Text;
-                        skill.Passion = pawnPage.Passions[skill.Name].Text == "None" ? null : pawnPage.Passions[skill.Name].Text;
-
-                        if (skillLevel != "-"
-                            && skillElement.Element("level") != null) {
-                            skillElement.Element("level").Value = skillLevel;
-                            if (skillElement.Element("passion") != null)
-                                if (skill.Passion != null)
-                                    skillElement.Element("passion").Value = skill.Passion;
-                                else
-                                    skillElement.Element("passion").Remove();
-                            else if (skill.Passion != null)
-                                skillElement.Add(new XElement("passion", skill.Passion));
-                        }
+                var node = story.Element("childhood");
+                if (!string.IsNullOrEmpty(pawn.childhood)) {
+                    if (node == null) {
+                        node = new XElement("childhood");
+                        story.Add(node);
                     }
-
-                    var traitElement = pawnElement.XPathSelectElement("story/traits/allTraits");
-                    traitElement.RemoveAll();
-
-                    foreach (var item in pawnPage.listBox1.Items) {
-                        var newTraitElement = new XElement("li");
-                        var trait = Traits.Where(x => x.Value.Label == (string)item).Single().Value;
-
-                        newTraitElement.Add(new XElement("def", trait.Def));
-
-                        if (trait.Degree != null)
-                            newTraitElement.Add(new XElement("degree", trait.Degree));
-
-                        traitElement.Add(newTraitElement);
-                    }
-
-                    var hediffElement = pawnElement.XPathSelectElement("healthTracker/hediffSet/hediffs");
-                    hediffElement.RemoveAll();
-
-                    foreach (var hediff in pawn.hediffs) {
-                        hediffElement.Add(hediff.Element);
-                    }
-
-                    pawnElement.XPathSelectElement("ageTracker/ageBiologicalTicks")
-                        .Value = ((long)(pawnPage.BiologicalAgeBox.Value * 3600000L)).ToString();
+                    node.Value = pawn.childhood;
+                } else {
+                    node.Remove();
                 }
 
-                SaveDocument.Save(path);
+                node = story.Element("adulthood");
+                if (!string.IsNullOrEmpty(pawn.adulthood)) {
+                    if (node == null) {
+                        node = new XElement("adulthood");
+                        story.Add(node);
+                    }
+                    node.Value = pawn.adulthood;
+                } else {
+                    node.Remove();
+                }
 
-                MessageBox.Show("Successfully saved changes!");
+                foreach (var skill in pawn.skills) {
+                    /*
+                    var skillElement = pawnElement.XPathSelectElements("skills/skills/li")
+                        .Where(s => s.Element("def").Value == skill.Name)
+                        .Single();
+                        */
+                    var skillElement = pawnElement.Element("skills")
+                            .Element("skills").Elements("li")
+                            .Single(x => (string)x.Element("def") == skill.Name);
+
+                    var skillLevel = pawnPage.Skills[skill.Name].Text;
+                    skill.Passion = pawnPage.Passions[skill.Name].Text == "None" ? null : pawnPage.Passions[skill.Name].Text;
+
+                    var levelElement = skillElement.Element("level");
+                    var passionElement = skillElement.Element("passion");
+
+                    if (skillLevel == "-") {
+                        if (levelElement != null) {
+                            levelElement.Remove();
+                        }
+                    } else {
+                        if (levelElement == null) {
+                            levelElement = new XElement("level");
+                            skillElement.Add(levelElement);
+                        }
+                        levelElement.Value = skillLevel;
+                    }
+
+                    if (skill.Passion == null) {
+                        if (passionElement != null) {
+                            passionElement.Remove();
+                        }
+                    } else {
+                        if (passionElement == null) {
+                            passionElement = new XElement("passion");
+                            skillElement.Add(passionElement);
+                        }
+                        passionElement.Value = skill.Passion;
+                    }
+                }
+
+                var traitElement = pawnElement.XPathSelectElement("story/traits/allTraits");
+                traitElement.RemoveAll();
+
+                foreach (var item in pawnPage.listBox1.Items) {
+                    var newTraitElement = new XElement("li");
+                    var trait = Traits.Where(x => x.Value.Label == (string)item).Single().Value;
+
+                    newTraitElement.Add(new XElement("def", trait.Def));
+
+                    if (trait.Degree != null)
+                        newTraitElement.Add(new XElement("degree", trait.Degree));
+
+                    traitElement.Add(newTraitElement);
+                }
+
+                var hediffElement = pawnElement.XPathSelectElement("healthTracker/hediffSet/hediffs");
+                hediffElement.RemoveAll();
+
+                foreach (var hediff in pawn.hediffs) {
+                    hediffElement.Add(hediff.Element);
+                }
+
+                pawnElement.XPathSelectElement("ageTracker/ageBiologicalTicks")
+                    .Value = ((long)(pawnPage.BiologicalAgeBox.Value * 3600000L)).ToString();
+            }
+
+            SaveDocument.Save(path);
+
+            MessageBox.Show("Successfully saved changes!");
+            /*
             } catch (Exception e) {
                 MessageBox.Show("Failed saving RimWorld Save File\nReason: " + e.Message, @"RimWorld save error");
                 return false;
             }
+            */
             return true;
         }
 

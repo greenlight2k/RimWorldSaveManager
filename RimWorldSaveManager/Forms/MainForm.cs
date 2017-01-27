@@ -7,7 +7,7 @@ namespace RimWorldSaveManager
 {
 	public partial class MainForm : Form
 	{
-		DataLoader dataLoader = new DataLoader();
+	    readonly DataLoader _dataLoader = new DataLoader();
 
 		public MainForm()
 		{
@@ -46,7 +46,7 @@ namespace RimWorldSaveManager
 
 			if (ofn.ShowDialog() == DialogResult.OK)
 			{
-				dataLoader.LoadData(ofn.FileName, tabControl1);
+				_dataLoader.LoadData(ofn.FileName, tabControl1);
 				toolStrip1.Items[2].Enabled = true;
 			}
 		}
@@ -78,7 +78,7 @@ namespace RimWorldSaveManager
 
 			if (sfn.ShowDialog() == DialogResult.OK)
 			{
-				dataLoader.SaveData(sfn.FileName);
+				_dataLoader.SaveData(sfn.FileName);
 			}
 		}
 	}
