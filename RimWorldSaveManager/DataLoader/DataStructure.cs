@@ -58,16 +58,7 @@ namespace RimWorldSaveManager
 		public string DisplayTitle;
 		public string[] WorkDisables;
 		public Dictionary<string, int> SkillGains;
-
-		public int DescriptionHash
-		{
-			get { return Description.StableStringHash(); }
-		}
-
-		public string DescriptionKey
-		{
-			get { return Title.Replace(" ", "") + DescriptionHash; }
-		}
+	    public string DescriptionKey;
 
 		public override string ToString()
 		{

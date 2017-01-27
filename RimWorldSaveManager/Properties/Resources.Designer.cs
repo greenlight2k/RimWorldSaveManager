@@ -106,6 +106,27 @@ namespace RimWorldSaveManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;BackstoryTranslations&gt;
+        ///	&lt;ColonySettler43&gt;
+        ///		&lt;Title&gt;Colony settler&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;NAME was a settler on a new colony world.
+        ///
+        ///Such a life requires a jack-of-all trades at basic hands-on tasks.&lt;/BaseDesc&gt;
+        ///	&lt;/ColonySettler43&gt;
+        ///	&lt;MedievalFarmOaf58&gt;
+        ///		&lt;Title&gt;Medieval farm oaf&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;Oaf&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;Tilling, hoeing, guiding ox carts, pushing wheelbarrows. Digging ditches, planting seeds, predictin [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Backstories {
+            get {
+                return ResourceManager.GetString("Backstories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
@@ -226,7 +247,7 @@ namespace RimWorldSaveManager.Properties {
         ///		&lt;Childhood&gt;
         ///			&lt;Title&gt;Fallen prodigy&lt;/Title&gt;
         ///			&lt;TitleShort&gt;Prodigy&lt;/TitleShort&gt;
-        ///			&lt;BaseDesc&gt;Born on a glitterworld falling into chaos, his father was killed in action. He struggled for a scholarship at Utmaior Academy and had to prove his right to be there. The child genius was jealously bullied  [rest of string was truncated]&quot;;.
+        ///			&lt;BaseDesc&gt;Born on a glitterworld falling into chaos, his father was killed in action. He struggled for a scholarship at Utmaior Academy and had to prove his right to be there. The child genius was jealo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string rimworld_creations {
             get {

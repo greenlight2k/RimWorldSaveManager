@@ -6,383 +6,453 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Globalization;
 using System.Resources;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace RimWorldSaveManager
 {
-	public class DataLoader
-	{
-		public DataLoader()
-		{
-			try
-			{
-				var resources = Properties
-					.Resources
-					.ResourceManager
-					.GetResourceSet(CultureInfo.InvariantCulture, true, true);
+    public class DataLoader
+    {
+        private Regex decriptionCutterRegex = new Regex("(.{50}\\s)");
 
-				foreach (DictionaryEntry file in resources)
-				{
-					var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)file.Value));
 
-					var root = XDocument.Load(stream).Root;
+        public DataLoader()
+        {
+            //try {
+            var resources = Properties
+                .Resources
+                .ResourceManager
+                .GetResourceSet(CultureInfo.InvariantCulture, true, true);
 
-					Func<XElement, Dictionary<string, int>> GetSkillGains = (rootElement) =>
-					{
-						if (rootElement == null)
-							return null;
+            foreach (DictionaryEntry file in resources) {
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)file.Value))) {
 
-						return rootElement.Elements().ToDictionary(k => k.Element("key").GetValue(),
-							v => v.Element("value").GetValue(0));
-					};
+                    var root = XDocument.Load(stream).Root;
+                    var stories = new List<PawnBackstory>();
 
-					var backstories = (from backstory in root.Elements("Backstory")
-									   select new PawnBackstory
-									   {
-										   Title = backstory.Element("Title").GetValue().ToTitleCase(),
-										   TitleShort = backstory.Element("TitleShort").GetValue(),
-										   Description = backstory.Element("BaseDesc").GetValue().Replace("\\n", "\n"),
-										   Slot = backstory.Element("Slot").GetValue(),
-										   WorkDisables = backstory.Element("WorkDisables") != null ?
-												backstory.Element("WorkDisables")
-													.Elements().Select(e => e.Value).ToArray()
-											: null,
-										   SkillGains = GetSkillGains(backstory.Element("SkillGains")),
-									   }).Union((from pawn in root.Elements("PawnBio")
-												 select new PawnBackstory
-												 {
-													 Title = pawn.XPathSelectElement("Childhood/Title").GetValue().ToTitleCase(),
-													 TitleShort = pawn.XPathSelectElement("Childhood/TitleShort").GetValue(),
-													 Description = pawn.XPathSelectElement("Childhood/BaseDesc").GetValue().Replace("\\n", "\n"),
-													 Slot = "Childhood",
-													 WorkDisables = pawn.XPathSelectElement("Childhood/WorkDisables") != null ?
-														 pawn.XPathSelectElement("Childhood/WorkDisables")
-															 .Elements().Select(e => e.Value).ToArray()
-														 : null,
-													 SkillGains = GetSkillGains(pawn.XPathSelectElement("Childhood/SkillGains")),
-												 })).Union((from pawn in root.Elements("PawnBio")
-															select new PawnBackstory
-															{
-																Title = pawn.XPathSelectElement("Adulthood/Title").GetValue().ToTitleCase(),
-																TitleShort = pawn.XPathSelectElement("Adulthood/TitleShort").GetValue(),
-																Description = pawn.XPathSelectElement("Adulthood/BaseDesc").GetValue().Replace("\\n", "\n"),
-																Slot = "Adulthood",
-																WorkDisables = pawn.XPathSelectElement("Adulthood/WorkDisables") != null ?
-																	pawn.XPathSelectElement("Adulthood/WorkDisables")
-																		.Elements().Select(e => e.Value).ToArray()
-																	: null,
-																SkillGains = GetSkillGains(pawn.XPathSelectElement("Adulthood/SkillGains")),
-															}));
+                    if (root.Name.LocalName == "BackstoryTranslations") {
+                        foreach (var story in root.Elements()) {
+                            var backstory = ExtractBackstory(story);
+                            backstory.Slot = "Both";
+                            backstory.DescriptionKey = story.Name.LocalName;
+                            backstory.DisplayTitle = backstory.Title;
 
-					foreach (var backstory in backstories)
-					{
-						if (backstory.Title == "") continue;
+                            Backstories.Add(backstory.DescriptionKey, backstory);
+                            ChildhodStory.Add(backstory);
+                            AdultStory.Add(backstory);
+                        }
+                        stream.Close();
+                        stream.Dispose();
+                        continue;
+                    }
 
-						var backstoryKey = backstory.Title.Replace(" ", "") + backstory.Description.StableStringHash();
-						var fileKey = ((string)file.Key);
+                    foreach (var story in root.Descendants("Backstory")) {
+                        var backstory = ExtractBackstory(story);
+                        if (backstory != null) {
+                            stories.Add(backstory);
+                        }
+                    }
 
-						if (fileKey == "rimworld_creations" ||
-							fileKey == "TynanCustom")
-							backstory.DisplayTitle = "(Special) " + backstory.Title;
-						else if (fileKey.Contains("Tribal"))
-							backstory.DisplayTitle = "(Tribal) " + backstory.Title;
-						else
-							backstory.DisplayTitle = backstory.Title;
+                    foreach (var story in root.Descendants("Childhood")) {
+                        var backstory = ExtractBackstory(story);
+                        if (backstory != null) {
+                            backstory.Slot = "Childhood";
+                            stories.Add(backstory);
+                        }
+                    }
 
-						Backstories.Add(backstoryKey, backstory);
-					}
-				}
+                    foreach (var story in root.Descendants("Adulthood")) {
+                        var backstory = ExtractBackstory(story);
+                        if (backstory != null) {
+                            backstory.Slot = "Adulthood";
+                            stories.Add(backstory);
+                        }
+                    }
 
-				foreach (var directory in Directory.GetDirectories("Mods"))
-				{
-					Func<string, string, string> CreateFullPath = (s1, s2)
-						=> string.Join(Path.DirectorySeparatorChar.ToString(), directory, s1, s2);
+                    foreach (var backstory in stories) {
+                        if (backstory.Title == "") continue;
 
-					if (Directory.Exists(CreateFullPath("Defs", "TraitDefs")))
-						foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "TraitDefs"), "*.xml"))
-						{
-							foreach (var traitDef in XDocument.Load(file).Root.Elements())
-							{
-								var traits = (from trait in traitDef.XPathSelectElements("degreeDatas/li")
-											  select new PawnTrait
-											  {
-												  Def = traitDef.Element("defName").Value,
-												  Label = textInfo.ToTitleCase(trait.Element("label").Value),
-												  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : null
-											  });
+                        backstory.DescriptionKey = backstory.Title.Replace(" ", "") + backstory.Description.StableStringHash();
 
-								foreach (var trait in traits)
-									if (!Traits.ContainsKey(trait.Def + trait.Degree))
-										Traits.Add(trait.Def + trait.Degree, trait);
-							}
-						}
+                        var fileKey = ((string)file.Key);
+                        if (fileKey == "rimworld_creations" ||
+                            fileKey == "TynanCustom")
+                            backstory.DisplayTitle = "(Special) " + backstory.Title;
+                        else if (fileKey.Contains("Tribal"))
+                            backstory.DisplayTitle = "(Tribal) " + backstory.Title;
+                        else
+                            backstory.DisplayTitle = backstory.Title;
 
-					if (Directory.Exists(CreateFullPath("Defs", "HediffDefs")))
-						foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "HediffDefs"), "*.xml"))
-						{
-							var docRoot = XDocument.Load(file).Root;
+                        Backstories.Add(backstory.DescriptionKey, backstory);
+                        if (backstory.Slot == "Childhood") {
+                            ChildhodStory.Add(backstory);
+                        } else {
+                            AdultStory.Add(backstory);
+                        }
+                    }
 
-							var hediffRoots = docRoot.XPathSelectElements("HediffDef/hediffClass/..");
+                    stream.Close();
+                    stream.Dispose();
+                }
+            }
 
-							if (hediffRoots.Count() == 0) continue;
+            foreach (var story in Backstories.Values) {
+                if (string.IsNullOrEmpty(story.ToString())) {
+                    Console.WriteLine($"WARNING: empty/null story:{story.Title}");
+                }
+            }
 
-							foreach (var hediffRoot in hediffRoots)
-							{
+            foreach (var directory in Directory.GetDirectories("Mods")) {
+                Func<string, string, string> CreateFullPath = (s1, s2)
+                    => string.Join(Path.DirectorySeparatorChar.ToString(), directory, s1, s2);
 
-								var parentClass = hediffRoot.Element("hediffClass").Value;
-								var parentName = hediffRoot.Attribute("Name") != null ? hediffRoot.Attribute("Name").Value : "None";
+                if (Directory.Exists(CreateFullPath("Defs", "TraitDefs"))) {
+                    foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "TraitDefs"), "*.xml")) {
+                        using (var fileStream = File.OpenRead(file)) {
+                            foreach (var traitDef in XDocument.Load(fileStream).Root.Elements()) {
+                                var traits = (from trait in traitDef.XPathSelectElements("degreeDatas/li")
+                                              select new PawnTrait {
+                                                  Def = traitDef.Element("defName").Value,
+                                                  Label = textInfo.ToTitleCase(trait.Element("label").Value),
+                                                  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : null
+                                              });
 
-								Hediff coreHediff;
+                                foreach (var trait in traits)
+                                    if (!Traits.ContainsKey(trait.Def + trait.Degree))
+                                        Traits.Add(trait.Def + trait.Degree, trait);
+                            }
+                            fileStream.Close();
+                        }
+                    }
+                }
 
-								if (!Hediffs.TryGetValue(parentClass, out coreHediff))
-									Hediffs.Add(parentClass, coreHediff = new Hediff(parentClass, parentName));
+                if (Directory.Exists(CreateFullPath("Defs", "HediffDefs"))) {
+                    foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "HediffDefs"), "*.xml")) {
+                        using (var fileStream = File.OpenRead(file)) {
+                            var docRoot = XDocument.Load(fileStream).Root;
 
-								var hediffs = (from hediff in docRoot.XPathSelectElements("//HediffDef[boolean(@ParentName) and not(@Abstract)]")
-											   .Where(x => x.Attribute("ParentName").Value == parentName)
-											   select new PawnHealth
-											   {
-												   ParentClass = parentClass,
-												   ParentName = hediff.Attribute("ParentName").Value,
-												   Def = hediff.Element("defName").Value,
-												   Label = textInfo.ToTitleCase(hediff.Element("label").Value),
-											   });
+                            var hediffRoots = docRoot.XPathSelectElements("HediffDef/hediffClass/..");
 
-								foreach (var hediff in hediffs)
-									coreHediff.SubDiffs[hediff.Def] = hediff;
-							}
-						}
+                            if (hediffRoots.Count() == 0) {
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                continue;
+                            }
 
-					if (Directory.Exists(CreateFullPath("Defs", "WorkTypeDefs")))
-						foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "WorkTypeDefs"), "*.xml"))
-						{
-							var docRoot = XDocument.Load(file).Root;
+                            foreach (var hediffRoot in hediffRoots) {
 
-							var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
+                                var parentClass = hediffRoot.Element("hediffClass").Value;
+                                var parentName = hediffRoot.Attribute("Name") != null ? hediffRoot.Attribute("Name").Value : "None";
 
-							if (workTypeDefsRoot.Count() == 0) continue;
+                                Hediff coreHediff;
 
-							var workTypeDefs = from workTypeDef in workTypeDefsRoot
-											   select new WorkType
-											   {
-												   DefName = workTypeDef.Element("defName").GetValue(),
-												   FullName = workTypeDef.Element("gerundLabel").GetValue(),
-												   WorkTags = workTypeDef.Element("workTags")
-													   .Elements("li")
-													   .Select(element => element.GetValue()).ToArray()
-											   };
+                                if (!Hediffs.TryGetValue(parentClass, out coreHediff))
+                                    Hediffs.Add(parentClass, coreHediff = new Hediff(parentClass, parentName));
 
-							WorkTypes.AddRange(workTypeDefs);
-						}
-				}
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show("Failed loading defintion files\nReason: " + e.Message, @"RimWorld load error");
-				Application.Exit();
-			}
+                                var hediffs = (from hediff in docRoot.XPathSelectElements("//HediffDef[boolean(@ParentName) and not(@Abstract)]")
+                                               .Where(x => x.Attribute("ParentName").Value == parentName)
+                                               select new PawnHealth {
+                                                   ParentClass = parentClass,
+                                                   ParentName = hediff.Attribute("ParentName").Value,
+                                                   Def = hediff.Element("defName").Value,
+                                                   Label = textInfo.ToTitleCase(hediff.Element("label").Value),
+                                               });
 
-		}
+                                foreach (var hediff in hediffs)
+                                    coreHediff.SubDiffs[hediff.Def] = hediff;
+                            }
 
-		public bool LoadData(string path, TabControl tabControl)
-		{
-			tabControl.TabPages.Clear();
-			Pawns.Clear();
+                            fileStream.Close();
+                            fileStream.Dispose();
+                        }
+                    }
+                }
 
-			try
-			{
-				SaveDocument = XDocument.Load(path);
+                if (Directory.Exists(CreateFullPath("Defs", "WorkTypeDefs"))) {
+                    foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "WorkTypeDefs"), "*.xml")) {
+                        using (var fileStream = File.OpenRead(file)) {
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
 
-				var playerFaction = EvaluateSingle<XElement>("scenario/playerFaction/factionDef").Value;
+                            if (workTypeDefsRoot.Count() == 0) {
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                continue;
+                            }
 
-				var colonyFaction = "Faction_" +
-					EvaluateList<XElement>("world/factionManager/allFactions/li")
-					.Where(x => Evaluate<bool>(x, "def/text()='" + playerFaction + "'"))
-					.First().Element("loadID").Value;
+                            var workTypeDefs = from workTypeDef in workTypeDefsRoot
+                                               select new WorkType {
+                                                   DefName = workTypeDef.Element("defName").GetValue(),
+                                                   FullName = workTypeDef.Element("gerundLabel").GetValue(),
+                                                   WorkTags = workTypeDef.Element("workTags")
+                                                       .Elements("li")
+                                                       .Select(element => element.GetValue()).ToArray()
+                                               };
 
-				var pawns = (from pawn in EvaluateList<XElement>("map/things/thing[@Class='Pawn']")
-							 .Where(x => Evaluate<bool>(x, "def/text()='Human'")
-								&& x.Element("faction") != null
-								&& x.Element("faction").Value == colonyFaction)
-							 select new Pawn
-							 {
-								 def = pawn.Element("def").GetValue(),
-								 id = pawn.Element("id").GetValue(),
-								 pos = pawn.Element("pos").GetValue(),
-								 faction = pawn.Element("faction").GetValue(),
-								 kindDef = pawn.Element("kindDef").GetValue(),
-								 first = pawn.XPathSelectElement("name/first").GetValue(),
-								 nick = pawn.XPathSelectElement("name/nick").GetValue(),
-								 last = pawn.XPathSelectElement("name/last").GetValue(),
-								 childhood = pawn.XPathSelectElement("story/childhood").GetValue(),
-								 adulthood = pawn.XPathSelectElement("story/adulthood").GetValue(),
-								 ageBiologicalTicks = pawn.XPathSelectElement("ageTracker/ageBiologicalTicks").GetValue(0L),
-								 skills = (from skill in pawn.XPathSelectElements("skills/skills/li")
-										   select new PawnSkill
-										   {
-											   Name = skill.Element("def").GetValue(),
-											   Level = skill.Element("level").GetValue(-1),
-											   Experience = skill.Element("xpSinceLastLevel").GetValue(-1f),
-											   Passion = skill.Element("passion").GetValue(),
-										   }).ToList(),
-								 traits = (from trait in pawn.XPathSelectElements("story/traits/allTraits/li")
-										   select new PawnTrait
-										   {
-											   Def = trait.Element("def").GetValue(),
-											   Degree = trait.Element("degree").GetValue(),
-											   Label = null
-										   }).ToList(),
-								 hediffs = (from hediff in pawn.XPathSelectElements("healthTracker/hediffSet/hediffs/li")
-											select new PawnHealth
-											{
-												ParentClass = hediff.Attribute("Class").GetValue(),
-												Def = hediff.Element("def").GetValue(),
-												Element = hediff
-											}).ToList(),
-							 }).ToList();
+                            WorkTypes.AddRange(workTypeDefs);
+                            fileStream.Close();
+                            fileStream.Dispose();
+                        }
+                    }
+                }
+            }
+            /*
+            } catch (Exception e) {
+                MessageBox.Show("Failed loading defintion files\nReason: " + e.Message, @"RimWorld load error");
+                Application.Exit();
+            }
+            */
+        }
 
-				if (pawns.Count == 0)
-					throw new Exception("No characters found!\nTry playing the game a little more.");
+        private PawnBackstory ExtractBackstory(XElement xml)
+        {
+            if (string.IsNullOrEmpty((string)xml.Element("Title"))) {
+                Console.WriteLine("Backstory with empty Title.");
+                return null;
+            }
+            var backstory = new PawnBackstory {
+                Title = (string)xml.Element("Title"),
+                TitleShort = (string)xml.Element("TitleShort"),
+                Description = (string)xml.Element("BaseDesc"),
+                Slot = (string)xml.Element("Slot")
+            };
+            if (!string.IsNullOrEmpty(backstory.Description)) {
+                backstory.Description = decriptionCutterRegex.Replace(backstory.Description, "$1\n");
+            }
 
-				foreach (var pawn in pawns)
-				{
-					pawn.Text = pawn.first + (pawn.nick == pawn.last ? " " : (" \"" + pawn.nick + "\" ")) + pawn.last;
-					pawn.Controls.Add(new PawnPage(pawn));
-					Pawns.Add(pawn);
-				}
+            backstory.WorkDisables = ExtractWorkDisables(xml.Element("WorkDisables"));
+            backstory.SkillGains = ExtractSkillGains(xml.Element("SkillGains"));
 
-				tabControl.TabPages.AddRange(Pawns.ToArray());
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show("Failed loading RimWorld Save File\nReason: " + e.Message, @"RimWorld load error");
-				tabControl.TabPages.Clear();
-				Pawns.Clear();
-				return false;
-			}
-			return true;
-		}
+            return backstory;
+        }
 
-		public bool SaveData(string path)
-		{
-			try
-			{
-				foreach (var pawn in Pawns)
-				{
-					var pawnPage = pawn.Controls[0] as PawnPage;
+        private string[] ExtractWorkDisables(XElement xml)
+        {
+            if (xml == null) {
+                return new string[0];
+            }
 
-					var pawnElement = EvaluateList<XElement>("map/things/thing[@Class='Pawn']")
-							.Where(x => x.Element("id").Value == pawn.id)
-							.Single();
+            var disables = new List<string>();
+            foreach (var disable in xml.Elements("li")) {
+                disables.Add((string)disable);
+            }
+            return disables.ToArray();
+        }
 
-					pawnElement
-						.XPathSelectElement("story/childhood").Value = pawn.childhood;
+        private Dictionary<string, int> ExtractSkillGains(XElement xml)
+        {
+            var gains = new Dictionary<string, int>();
+            if (xml == null) {
+                return gains;
+            }
 
-					pawnElement
-						.XPathSelectElement("story/adulthood").Value = pawn.adulthood;
+            foreach (var gain in xml.Elements("li")) {
+                gains[(string)gain.Element("key")] = (int)gain.Element("value");
+            }
+            return gains;
+        }
 
-					foreach (var skill in pawn.skills)
-					{
-						var skillElement = pawnElement.XPathSelectElements("skills/skills/li")
-							.Where(s => s.Element("def").Value == skill.Name)
-							.Single();
+        public bool LoadData(string path, TabControl tabControl)
+        {
+            tabControl.TabPages.Clear();
+            Pawns.Clear();
 
-						var skillLevel = pawnPage.Skills[skill.Name].Text;
-						skill.Passion = pawnPage.Passions[skill.Name].Text == "None" ? null : pawnPage.Passions[skill.Name].Text;
+            //try {
+            SaveDocument = XDocument.Load(path);
 
-						if (skillLevel != "-"
-							&& skillElement.Element("level") != null)
-						{
-							skillElement.Element("level").Value = skillLevel;
-							if (skillElement.Element("passion") != null)
-								if (skill.Passion != null)
-									skillElement.Element("passion").Value = skill.Passion;
-								else
-									skillElement.Element("passion").Remove();
-							else if (skill.Passion != null)
-								skillElement.Add(new XElement("passion", skill.Passion));
-						}
-					}
+            var playerFaction = EvaluateSingle<XElement>("scenario/playerFaction/factionDef").Value;
 
-					var traitElement = pawnElement.XPathSelectElement("story/traits/allTraits");
-					traitElement.RemoveAll();
+            var colonyFaction = "Faction_" +
+                EvaluateList<XElement>("world/factionManager/allFactions/li")
+                .Where(x => Evaluate<bool>(x, "def/text()='" + playerFaction + "'"))
+                .First().Element("loadID").Value;
 
-					foreach (var item in pawnPage.listBox1.Items)
-					{
-						var newTraitElement = new XElement("li");
-						var trait = Traits.Where(x => x.Value.Label == (string)item).Single().Value;
+            Console.WriteLine($"playerFaction:{playerFaction}, colonyFaction:{colonyFaction}");
 
-						newTraitElement.Add(new XElement("def", trait.Def));
+            //var pawns = new List<Pawn>();
+            foreach (var pawn in SaveDocument.Descendants("thing")) {
+                if ((string)pawn.Attribute("Class") == "Pawn"
+                    && (string)pawn.Element("def") == "Human"
+                    && (string)pawn.Element("faction") == colonyFaction) {
 
-						if (trait.Degree != null)
-							newTraitElement.Add(new XElement("degree", trait.Degree));
+                    var p = new Pawn {
+                        def = pawn.Element("def").GetValue(),
+                        id = pawn.Element("id").GetValue(),
+                        pos = pawn.Element("pos").GetValue(),
+                        faction = pawn.Element("faction").GetValue(),
+                        kindDef = pawn.Element("kindDef").GetValue(),
+                        first = pawn.XPathSelectElement("name/first").GetValue(),
+                        nick = pawn.XPathSelectElement("name/nick").GetValue(),
+                        last = pawn.XPathSelectElement("name/last").GetValue(),
+                        childhood = pawn.XPathSelectElement("story/childhood").GetValue(),
+                        adulthood = pawn.XPathSelectElement("story/adulthood").GetValue(),
+                        ageBiologicalTicks = pawn.XPathSelectElement("ageTracker/ageBiologicalTicks").GetValue(0L),
+                        skills = (from skill in pawn.XPathSelectElements("skills/skills/li")
+                                  select new PawnSkill {
+                                      Name = skill.Element("def").GetValue(),
+                                      Level = skill.Element("level").GetValue(-1),
+                                      Experience = skill.Element("xpSinceLastLevel").GetValue(-1f),
+                                      Passion = skill.Element("passion").GetValue(),
+                                  }).ToList(),
+                        traits = (from trait in pawn.XPathSelectElements("story/traits/allTraits/li")
+                                  select new PawnTrait {
+                                      Def = trait.Element("def").GetValue(),
+                                      Degree = trait.Element("degree").GetValue(),
+                                      Label = null
+                                  }).ToList(),
+                        hediffs = (from hediff in pawn.XPathSelectElements("healthTracker/hediffSet/hediffs/li")
+                                   select new PawnHealth {
+                                       ParentClass = hediff.Attribute("Class").GetValue(),
+                                       Def = hediff.Element("def").GetValue(),
+                                       Element = hediff
+                                   }).ToList(),
+                    };
+                    p.Text = p.first + (p.nick == p.last ? " " : (" \"" + p.nick + "\" ")) + p.last;
+                    p.Controls.Add(new PawnPage(p));
+                    Pawns.Add(p);
 
-						traitElement.Add(newTraitElement);
-					}
+                    //pawns.Add(p);
+                }
+            }
 
-					var hediffElement = pawnElement.XPathSelectElement("healthTracker/hediffSet/hediffs");
-					hediffElement.RemoveAll();
+            if (Pawns.Count == 0) {
+                throw new Exception("No characters found!\nTry playing the game a little more.");
+            }
 
-					foreach (var hediff in pawn.hediffs)
-					{
-						hediffElement.Add(hediff.Element);
-					}
+            /*
+            foreach (var pawn in pawns) {
+                pawn.Text = pawn.first + (pawn.nick == pawn.last ? " " : (" \"" + pawn.nick + "\" ")) + pawn.last;
+                pawn.Controls.Add(new PawnPage(pawn));
+                Pawns.Add(pawn);
+            }
+            */
 
-					pawnElement.XPathSelectElement("ageTracker/ageBiologicalTicks")
-						.Value = ((long)(pawnPage.BiologicalAgeBox.Value * 3600000L)).ToString();
-				}
+            tabControl.TabPages.AddRange(Pawns.ToArray());
+            /*
+            } catch (Exception e) {
+                MessageBox.Show($"Failed loading RimWorld Save File\nReason: {e.Message}", @"RimWorld load error");
+                tabControl.TabPages.Clear();
+                Pawns.Clear();
+                return false;
+            }
+            */
+            return true;
+        }
 
-				SaveDocument.Save(path);
+        public bool SaveData(string path)
+        {
+            try {
+                foreach (var pawn in Pawns) {
+                    var pawnPage = pawn.Controls[0] as PawnPage;
 
-				MessageBox.Show("Successfully saved changes!");
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show("Failed saving RimWorld Save File\nReason: " + e.Message, @"RimWorld save error");
-				return false;
-			}
-			return true;
-		}
+                    var pawnElement = EvaluateList<XElement>("map/things/thing[@Class='Pawn']")
+                            .Where(x => x.Element("id").Value == pawn.id)
+                            .Single();
 
-		private IEnumerable<T> EvaluateList<T>(string eval)
-		{
-			return (SaveDocument.Root.Element("game").XPathEvaluate(eval) as IEnumerable).Cast<T>();
-		}
+                    pawnElement.XPathSelectElement("story/childhood").Value = pawn.childhood;
 
-		private T EvaluateSingle<T>(string eval)
-		{
-			return (SaveDocument.Root.Element("game").XPathEvaluate(eval) as IEnumerable).Cast<T>().First();
-		}
+                    pawnElement.XPathSelectElement("story/adulthood").Value = pawn.adulthood;
 
-		private T Evaluate<T>(string eval)
-		{
-			return (T)SaveDocument.Root.Element("game").XPathEvaluate(eval);
-		}
+                    foreach (var skill in pawn.skills) {
+                        var skillElement = pawnElement.XPathSelectElements("skills/skills/li")
+                            .Where(s => s.Element("def").Value == skill.Name)
+                            .Single();
 
-		private IEnumerable<T> EvaluateList<T>(XNode node, string eval)
-		{
-			return (node.XPathEvaluate(eval) as IEnumerable).Cast<T>();
-		}
+                        var skillLevel = pawnPage.Skills[skill.Name].Text;
+                        skill.Passion = pawnPage.Passions[skill.Name].Text == "None" ? null : pawnPage.Passions[skill.Name].Text;
 
-		private T EvaluateSingle<T>(XNode node, string eval)
-		{
-			return (node.XPathEvaluate(eval) as IEnumerable).Cast<T>().First();
-		}
+                        if (skillLevel != "-"
+                            && skillElement.Element("level") != null) {
+                            skillElement.Element("level").Value = skillLevel;
+                            if (skillElement.Element("passion") != null)
+                                if (skill.Passion != null)
+                                    skillElement.Element("passion").Value = skill.Passion;
+                                else
+                                    skillElement.Element("passion").Remove();
+                            else if (skill.Passion != null)
+                                skillElement.Add(new XElement("passion", skill.Passion));
+                        }
+                    }
 
-		private T Evaluate<T>(XNode node, string eval)
-		{
-			return (T)node.XPathEvaluate(eval);
-		}
+                    var traitElement = pawnElement.XPathSelectElement("story/traits/allTraits");
+                    traitElement.RemoveAll();
 
-		private XDocument SaveDocument;
-		private List<Pawn> Pawns = new List<Pawn>();
-		private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
+                    foreach (var item in pawnPage.listBox1.Items) {
+                        var newTraitElement = new XElement("li");
+                        var trait = Traits.Where(x => x.Value.Label == (string)item).Single().Value;
 
-		public static Dictionary<string, PawnTrait> Traits = new Dictionary<string, PawnTrait>();
-		public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
-		public static Dictionary<string, PawnBackstory> Backstories = new Dictionary<string, PawnBackstory>();
-		public static List<WorkType> WorkTypes = new List<WorkType>();
-	}
+                        newTraitElement.Add(new XElement("def", trait.Def));
+
+                        if (trait.Degree != null)
+                            newTraitElement.Add(new XElement("degree", trait.Degree));
+
+                        traitElement.Add(newTraitElement);
+                    }
+
+                    var hediffElement = pawnElement.XPathSelectElement("healthTracker/hediffSet/hediffs");
+                    hediffElement.RemoveAll();
+
+                    foreach (var hediff in pawn.hediffs) {
+                        hediffElement.Add(hediff.Element);
+                    }
+
+                    pawnElement.XPathSelectElement("ageTracker/ageBiologicalTicks")
+                        .Value = ((long)(pawnPage.BiologicalAgeBox.Value * 3600000L)).ToString();
+                }
+
+                SaveDocument.Save(path);
+
+                MessageBox.Show("Successfully saved changes!");
+            } catch (Exception e) {
+                MessageBox.Show("Failed saving RimWorld Save File\nReason: " + e.Message, @"RimWorld save error");
+                return false;
+            }
+            return true;
+        }
+
+        private IEnumerable<T> EvaluateList<T>(string eval)
+        {
+            return (SaveDocument.Root.Element("game").XPathEvaluate(eval) as IEnumerable).Cast<T>();
+        }
+
+        private T EvaluateSingle<T>(string eval)
+        {
+            return (SaveDocument.Root.Element("game").XPathEvaluate(eval) as IEnumerable).Cast<T>().First();
+        }
+
+        private T Evaluate<T>(string eval)
+        {
+            return (T)SaveDocument.Root.Element("game").XPathEvaluate(eval);
+        }
+
+        private IEnumerable<T> EvaluateList<T>(XNode node, string eval)
+        {
+            return (node.XPathEvaluate(eval) as IEnumerable).Cast<T>();
+        }
+
+        private T EvaluateSingle<T>(XNode node, string eval)
+        {
+            return (node.XPathEvaluate(eval) as IEnumerable).Cast<T>().First();
+        }
+
+        private T Evaluate<T>(XNode node, string eval)
+        {
+            return (T)node.XPathEvaluate(eval);
+        }
+
+        private XDocument SaveDocument;
+        private List<Pawn> Pawns = new List<Pawn>();
+        private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
+
+        public static Dictionary<string, PawnTrait> Traits = new Dictionary<string, PawnTrait>();
+        public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
+        public static Dictionary<string, PawnBackstory> Backstories = new Dictionary<string, PawnBackstory>();
+        public static List<WorkType> WorkTypes = new List<WorkType>();
+        public static List<PawnBackstory> ChildhodStory = new List<PawnBackstory>();
+        public static List<PawnBackstory> AdultStory = new List<PawnBackstory>();
+    }
 }

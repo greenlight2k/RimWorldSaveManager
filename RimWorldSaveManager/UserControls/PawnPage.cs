@@ -1,240 +1,218 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace RimWorldSaveManager
 {
-	public partial class PawnPage : UserControl
-	{
-		private Pawn PawnClass;
-		private ToolTip BackstoryDescription;
+    public partial class PawnPage : UserControl
+    {
+        private Pawn PawnClass;
+        private ToolTip BackstoryDescription;
 
-		public PawnPage(Pawn pawn)
-		{
-			InitializeComponent();
+        public Dictionary<string, TextBox> Skills;
+        public Dictionary<string, ComboBox> Passions;
 
-			BackstoryDescription = new ToolTip();
+        public PawnPage(Pawn pawn)
+        {
+            InitializeComponent();
+            BackstoryDescription = new ToolTip();
 
-			PawnClass = pawn;
+            PawnClass = pawn;
 
-			foreach (var trait in DataLoader.Traits)
-				comboBox1.Items.Add(trait.Value.Label);
+            foreach (var trait in DataLoader.Traits)
+                comboBox1.Items.Add(trait.Value.Label);
 
-			BiologicalAgeBox.Value = (decimal)(pawn.ageBiologicalTicks / 3600000f);
+            BiologicalAgeBox.Value = (decimal)(pawn.ageBiologicalTicks / 3600000f);
 
-			comboBox1.SelectedIndex = 0;
+            comboBox1.SelectedIndex = 0;
 
-			Skills = new Dictionary<string, TextBox>();
-			Passions = new Dictionary<string, ComboBox>();
+            Skills = new Dictionary<string, TextBox>();
+            Passions = new Dictionary<string, ComboBox>();
 
-			var skillPos = new Size(groupBox1.Margin.Left + groupBox1.Padding.Left, groupBox1.Margin.Top + groupBox1.Padding.Top + 10);
-			groupBox1.Height = pawn.skills.Count * 25 + groupBox1.Margin.Bottom + groupBox1.Padding.Bottom + 15;
+            var skillPos = new Size(groupBox1.Margin.Left + groupBox1.Padding.Left, groupBox1.Margin.Top + groupBox1.Padding.Top + 10);
+            groupBox1.Height = pawn.skills.Count * 25 + groupBox1.Margin.Bottom + groupBox1.Padding.Bottom + 15;
 
-			if (groupBox1.Height > Height + 5)
-				Height = groupBox1.Height + 5;
+            if (groupBox1.Height > Height + 5)
+                Height = groupBox1.Height + 5;
 
-			foreach (var skill in pawn.skills)
-			{
-				var label = new Label();
-				var textBox = new TextBox();
-				var comboBox = new ComboBox();
-				label.Text = skill.Name;
-				label.SetBounds(skillPos.Width, skillPos.Height + 3, TextRenderer.MeasureText(skill.Name, label.Font).Width, 13);
-				textBox.Text = skill.Level == -1 ? "-" : skill.Level.ToString();
-				textBox.SetBounds(skillPos.Width + 100, skillPos.Height, 20, 20);
-				comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-				comboBox.Items.Add("None");
-				comboBox.Items.Add("Minor");
-				comboBox.Items.Add("Major");
-				comboBox.SelectedItem = string.IsNullOrEmpty(skill.Passion) ? "None" : skill.Passion;
-				comboBox.Left = textBox.Right + 5;
-				comboBox.Top = skillPos.Height;
-				Skills.Add(skill.Name, textBox);
-				Passions.Add(skill.Name, comboBox);
-				groupBox1.Controls.Add(label);
-				groupBox1.Controls.Add(textBox);
-				groupBox1.Controls.Add(comboBox);
-				skillPos.Height += 25;
-			}
+            foreach (var skill in pawn.skills) {
+                var label = new Label();
+                var textBox = new TextBox();
+                var comboBox = new ComboBox();
+                label.Text = skill.Name;
+                label.SetBounds(skillPos.Width, skillPos.Height + 3, TextRenderer.MeasureText(skill.Name, label.Font).Width, 13);
+                textBox.Text = skill.Level == -1 ? "-" : skill.Level.ToString();
+                textBox.SetBounds(skillPos.Width + 100, skillPos.Height, 20, 20);
+                comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox.Items.Add("None");
+                comboBox.Items.Add("Minor");
+                comboBox.Items.Add("Major");
+                comboBox.SelectedItem = string.IsNullOrEmpty(skill.Passion) ? "None" : skill.Passion;
+                comboBox.Left = textBox.Right + 5;
+                comboBox.Top = skillPos.Height;
+                Skills.Add(skill.Name, textBox);
+                Passions.Add(skill.Name, comboBox);
+                groupBox1.Controls.Add(label);
+                groupBox1.Controls.Add(textBox);
+                groupBox1.Controls.Add(comboBox);
+                skillPos.Height += 25;
+            }
 
-			foreach (var trait in pawn.traits)
-			{
-				var traitKey = trait.Def + trait.Degree;
-				listBox1.Items.Add(DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : trait.Def);
-			}
+            foreach (var trait in pawn.traits) {
+                var traitKey = trait.Def + trait.Degree;
+                listBox1.Items.Add(DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : trait.Def);
+            }
 
-			foreach (var backstory in DataLoader.Backstories)
-			{
-				((backstory.Value.Slot == "Childhood") ? childhoodComboBox : adulthoodComboBox)
-					.Items.Add(backstory.Value);
-			}
+            childhoodComboBox.Items.AddRange(DataLoader.ChildhodStory.ToArray());
+            adulthoodComboBox.Items.AddRange(DataLoader.AdultStory.ToArray());
 
-			/*Action<ComboBox, string> setBackstory = (comboBox, trimString) =>
-			{
-				var trimIndex = trimString.IndexOf('-');
+            Action<ComboBox, string> setBackstory = (comboBox, storyKey) => {
+                if (string.IsNullOrEmpty(storyKey)) {
+                    return;
+                }
 
-				if (trimIndex == -1)
-					trimIndex = trimString.IndexOfAny(new char[]
-						{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+                PawnBackstory backstory;
+                if (!DataLoader.Backstories.TryGetValue(storyKey, out backstory)) {
+                    Console.WriteLine($"Failed to get backstory for key: {storyKey}");
+                    return;
+                }
 
-				var stageString = trimString.Substring(0, trimIndex);
-				stageString = string.Concat(stageString.Select(x => char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+                comboBox.SelectedIndex = comboBox.FindStringExact(backstory.DisplayTitle);
+            };
 
-				comboBox.SelectedIndex = comboBox.FindStringExact(stageString);
-			};*/
+            setBackstory(childhoodComboBox, pawn.childhood);
+            setBackstory(adulthoodComboBox, pawn.adulthood);
 
-			Action<ComboBox, string> setBackstory = (comboBox, storyKey) =>
-			{
-				PawnBackstory backstory = null;
+            foreach (var hediff in pawn.hediffs) {
+                if (hediff.ParentClass == "Hediff_AddedPart") continue;
+                PawnHealth pawnHealth = null;
+                Hediff hediffClass = null;
 
-				if (DataLoader.Backstories.TryGetValue(storyKey, out backstory) == false)
-					return;
+                bool labelExists = false;
 
-				comboBox.SelectedIndex = comboBox
-				.FindStringExact(backstory.DisplayTitle);
-			};
+                if (DataLoader.Hediffs.TryGetValue(hediff.ParentClass, out hediffClass))
+                    labelExists = hediffClass.SubDiffs.TryGetValue(hediff.Def, out pawnHealth);
 
-			setBackstory(childhoodComboBox, pawn.childhood);
-			setBackstory(adulthoodComboBox, pawn.adulthood);
+                listBox2.Items.Add(labelExists ? pawnHealth.Label : hediff.Def);
+            }
+        }
 
-			foreach (var hediff in pawn.hediffs)
-			{
-				if (hediff.ParentClass == "Hediff_AddedPart") continue;
-				PawnHealth pawnHealth = null;
-				Hediff hediffClass = null;
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            if (listBox1.Items.Count >= 3) {
+                MessageBox.Show("Can not add more than 3 traits");
+                return;
+            }
 
-				bool labelExists = false;
+            if (listBox1.Items.Contains(comboBox1.SelectedItem)) {
+                MessageBox.Show("Can not add identical traits");
+                return;
+            }
 
-				if (DataLoader.Hediffs.TryGetValue(hediff.ParentClass, out hediffClass))
-					labelExists = hediffClass.SubDiffs.TryGetValue(hediff.Def, out pawnHealth);
+            listBox1.Items.Add(comboBox1.SelectedItem);
+        }
 
-				listBox2.Items.Add(labelExists ? pawnHealth.Label : hediff.Def);
-			}
-		}
+        private void button2_Click(object sender, System.EventArgs e)
+        {
+            if (listBox1.SelectedIndex == -1) {
+                MessageBox.Show("Can not remove an unselected trait");
+                return;
+            }
 
-		public Dictionary<string, TextBox> Skills;
-		public Dictionary<string, ComboBox> Passions;
+            listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+        }
 
-		private void button1_Click(object sender, System.EventArgs e)
-		{
-			if (listBox1.Items.Count >= 3)
-			{
-				MessageBox.Show("Can not add more than 3 traits");
-				return;
-			}
+        private void button3_Click(object sender, System.EventArgs e)
+        {
+            if (listBox2.SelectedIndex == -1) {
+                MessageBox.Show("Can not remove an unselected injury");
+                return;
+            }
 
-			if (listBox1.Items.Contains(comboBox1.SelectedItem))
-			{
-				MessageBox.Show("Can not add identical traits");
-				return;
-			}
+            PawnClass.hediffs.RemoveAt(listBox2.SelectedIndex);
 
-			listBox1.Items.Add(comboBox1.SelectedItem);
-		}
+            listBox2.Items.RemoveAt(listBox2.SelectedIndex);
+        }
 
-		private void button2_Click(object sender, System.EventArgs e)
-		{
-			if (listBox1.SelectedIndex == -1)
-			{
-				MessageBox.Show("Can not remove an unselected trait");
-				return;
-			}
+        private void backstoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            var backstory = (PawnBackstory)comboBox.SelectedItem;
 
-			listBox1.Items.RemoveAt(listBox1.SelectedIndex);
-		}
+            Console.WriteLine($"Combobox changed to:{backstory}, {backstory.DescriptionKey}");
 
-		private void button3_Click(object sender, System.EventArgs e)
-		{
-			if (listBox2.SelectedIndex == -1)
-			{
-				MessageBox.Show("Can not remove an unselected injury");
-				return;
-			}
+            if (comboBox == childhoodComboBox)
+                PawnClass.childhood = backstory.DescriptionKey;
+            else
+                PawnClass.adulthood = backstory.DescriptionKey;
+        }
 
-			PawnClass.hediffs.RemoveAt(listBox2.SelectedIndex);
+        private void Backstory_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+                return;
 
-			listBox2.Items.RemoveAt(listBox2.SelectedIndex);
-		}
+            var comboBox = (ComboBox)sender;
+            var backstory = (PawnBackstory)comboBox.SelectedItem;
 
-		private void backstoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			var comboBox = (ComboBox)sender;
+            e.DrawBackground();
 
-			var backstory = (PawnBackstory)comboBox.SelectedItem;
+            using (SolidBrush br = new SolidBrush(e.ForeColor)) {
+                e.Graphics.DrawString(comboBox.GetItemText(comboBox.Items[e.Index]), e.Font, br, e.Bounds);
+            }
 
-			if (comboBox == childhoodComboBox)
-				PawnClass.childhood = backstory.DescriptionKey;
-			else
-				PawnClass.adulthood = backstory.DescriptionKey;
-		}
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+                BackstoryDescription.Show(
+                    GenerateDetailedInformation(backstory),
+                    comboBox,
+                    e.Bounds.Right,
+                    e.Bounds.Bottom);
 
-		private void Backstory_DrawItem(object sender, DrawItemEventArgs e)
-		{
-			if (e.Index < 0)
-				return;
+            e.DrawFocusRectangle();
+        }
 
-			var comboBox = (ComboBox)sender;
-			var backstory = (PawnBackstory)comboBox.SelectedItem;
+        private string GenerateDetailedInformation(PawnBackstory backstory)
+        {
+            var detailedBackstory = backstory.Description + "\n";
 
-			e.DrawBackground();
+            if (backstory.SkillGains != null) {
+                detailedBackstory += "\nSkill Gains:\n";
 
-			using (SolidBrush br = new SolidBrush(e.ForeColor))
-			{
-				e.Graphics.DrawString(comboBox.GetItemText(comboBox.Items[e.Index]), e.Font, br, e.Bounds);
-			}
+                foreach (var skillGain in backstory.SkillGains)
+                    detailedBackstory += $"{skillGain.Key}: {skillGain.Value}\n";
+            }
 
-			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-				BackstoryDescription.Show(
-					GenerateDetailedInformation(backstory),
-					comboBox,
-					e.Bounds.Right,
-					e.Bounds.Bottom);
+            if (backstory.WorkDisables != null &&
+                backstory.WorkDisables.Length != 0) {
+                detailedBackstory += "\nIncapable of:\n";
 
-			e.DrawFocusRectangle();
-		}
+                if (DataLoader.WorkTypes.Count == 0)
+                    foreach (var workTag in backstory.WorkDisables)
+                        detailedBackstory += workTag + "\n";
+                else
+                    foreach (var workTag in backstory.WorkDisables) {
+                        var allWorkTypes = DataLoader.WorkTypes.Where(wt => wt.WorkTags.Contains(workTag));
 
-		private string GenerateDetailedInformation(PawnBackstory backstory)
-		{
-			var detailedBackstory = backstory.Description + "\n";
+                        var workTypes = allWorkTypes as WorkType[] ?? allWorkTypes.ToArray();
+                        if (!workTypes.Any())
+                            detailedBackstory += workTag + "\n";
+                        else
+                            foreach (var workType in workTypes)
+                                detailedBackstory += workType.FullName + "\n";
+                    }
+            }
 
-			if (backstory.SkillGains != null)
-			{
-				detailedBackstory += "\nSkill Gains:\n";
+            return detailedBackstory;
+        }
 
-				foreach (var skillGain in backstory.SkillGains)
-					detailedBackstory += string.Format("{0}: {1}\n", skillGain.Key, skillGain.Value);
-			}
-
-			if (backstory.WorkDisables != null &&
-				backstory.WorkDisables.Length != 0)
-			{
-				detailedBackstory += "\nIncapable of:\n";
-
-				if (DataLoader.WorkTypes.Count == 0)
-					foreach (var workTag in backstory.WorkDisables)
-						detailedBackstory += workTag + "\n";
-				else
-					foreach (var workTag in backstory.WorkDisables)
-					{
-						var workTypes = DataLoader.WorkTypes.Where(wt => wt.WorkTags.Contains(workTag));
-
-						if (workTypes.Count() == 0)
-							detailedBackstory += workTag + "\n";
-						else
-							foreach (var workType in workTypes)
-								detailedBackstory += workType.FullName + "\n";
-					}
-			}
-
-			return detailedBackstory;
-		}
-
-		private void DropDownClosed(object sender, EventArgs e)
-		{
-			BackstoryDescription.Hide((IWin32Window)sender);
-		}
-	}
+        private void DropDownClosed(object sender, EventArgs e)
+        {
+            BackstoryDescription.Hide((IWin32Window)sender);
+        }
+    }
 }
