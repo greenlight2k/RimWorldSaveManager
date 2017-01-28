@@ -49,23 +49,6 @@ namespace RimWorldSaveManager
 		public string Label;
 	}
 
-	public class PawnBackstory
-	{
-		public string Slot;
-		public string Title;
-		public string TitleShort;
-		public string Description;
-		public string DisplayTitle;
-		public string[] WorkDisables;
-		public Dictionary<string, int> SkillGains;
-	    public string DescriptionKey;
-
-		public override string ToString()
-		{
-			return DisplayTitle;
-		}
-	}
-
 	public class Pawn : TabPage
 	{
 		public string def;

@@ -14,94 +14,13 @@ namespace RimWorldSaveManager
 {
     public class DataLoader
     {
-        private Regex decriptionCutterRegex = new Regex("(.{50}\\s)");
+        
 
         public DataLoader()
         {
+            BackstoryDatabase.Load();
+
             //try {
-            var resources = Properties
-                .Resources
-                .ResourceManager
-                .GetResourceSet(CultureInfo.InvariantCulture, true, true);
-
-            foreach (DictionaryEntry file in resources) {
-                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)file.Value))) {
-
-                    var root = XDocument.Load(stream).Root;
-                    var stories = new List<PawnBackstory>();
-
-                    if (root.Name.LocalName == "BackstoryTranslations") {
-                        foreach (var story in root.Elements()) {
-                            var backstory = ExtractBackstory(story);
-                            backstory.Slot = "Both";
-                            backstory.DescriptionKey = story.Name.LocalName;
-                            backstory.DisplayTitle = backstory.Title;
-
-                            Backstories.Add(backstory.DescriptionKey, backstory);
-                            ChildhodStory.Add(backstory);
-                            AdultStory.Add(backstory);
-                        }
-                        stream.Close();
-                        stream.Dispose();
-                        continue;
-                    }
-
-                    foreach (var story in root.Descendants("Backstory")) {
-                        var backstory = ExtractBackstory(story);
-                        if (backstory != null) {
-                            stories.Add(backstory);
-                        }
-                    }
-
-                    foreach (var story in root.Descendants("Childhood")) {
-                        var backstory = ExtractBackstory(story);
-                        if (backstory != null) {
-                            backstory.Slot = "Childhood";
-                            stories.Add(backstory);
-                        }
-                    }
-
-                    foreach (var story in root.Descendants("Adulthood")) {
-                        var backstory = ExtractBackstory(story);
-                        if (backstory != null) {
-                            backstory.Slot = "Adulthood";
-                            stories.Add(backstory);
-                        }
-                    }
-
-                    foreach (var backstory in stories) {
-                        if (backstory.Title == "") continue;
-
-                        backstory.DescriptionKey = backstory.Title.Replace(" ", "") + backstory.Description.StableStringHash();
-
-                        var fileKey = ((string)file.Key);
-                        if (fileKey == "rimworld_creations" ||
-                            fileKey == "TynanCustom")
-                            backstory.DisplayTitle = "(Special) " + backstory.Title;
-                        else if (fileKey.Contains("Tribal"))
-                            backstory.DisplayTitle = "(Tribal) " + backstory.Title;
-                        else
-                            backstory.DisplayTitle = backstory.Title;
-
-                        Backstories.Add(backstory.DescriptionKey, backstory);
-                        if (backstory.Slot == "Childhood") {
-                            ChildhodStory.Add(backstory);
-                        } else {
-                            AdultStory.Add(backstory);
-                        }
-                    }
-
-                    stream.Close();
-                    stream.Dispose();
-                }
-            }
-
-            foreach (var story in Backstories.Values) {
-                if (string.IsNullOrEmpty(story.ToString())) {
-                    Console.WriteLine($"Empty/null story:{story.Title}");
-                }
-            }
-
             foreach (var directory in Directory.GetDirectories("Mods")) {
                 Func<string, string, string> CreateFullPath = (s1, s2)
                     => string.Join(Path.DirectorySeparatorChar.ToString(), directory, s1, s2);
@@ -202,54 +121,6 @@ namespace RimWorldSaveManager
                 Application.Exit();
             }
             */
-        }
-
-        private PawnBackstory ExtractBackstory(XElement xml)
-        {
-            if (string.IsNullOrEmpty((string)xml.Element("Title"))) {
-                Console.WriteLine("Found backstory with empty Title.");
-                return null;
-            }
-            var backstory = new PawnBackstory {
-                Title = (string)xml.Element("Title"),
-                TitleShort = (string)xml.Element("TitleShort"),
-                Description = (string)xml.Element("BaseDesc"),
-                Slot = (string)xml.Element("Slot")
-            };
-            if (!string.IsNullOrEmpty(backstory.Description)) {
-                backstory.Description = decriptionCutterRegex.Replace(backstory.Description, "$1\n");
-            }
-
-            backstory.WorkDisables = ExtractWorkDisables(xml.Element("WorkDisables"));
-            backstory.SkillGains = ExtractSkillGains(xml.Element("SkillGains"));
-
-            return backstory;
-        }
-
-        private string[] ExtractWorkDisables(XElement xml)
-        {
-            if (xml == null) {
-                return new string[0];
-            }
-
-            var disables = new List<string>();
-            foreach (var disable in xml.Elements("li")) {
-                disables.Add((string)disable);
-            }
-            return disables.ToArray();
-        }
-
-        private Dictionary<string, int> ExtractSkillGains(XElement xml)
-        {
-            var gains = new Dictionary<string, int>();
-            if (xml == null) {
-                return gains;
-            }
-
-            foreach (var gain in xml.Elements("li")) {
-                gains[(string)gain.Element("key")] = (int)gain.Element("value");
-            }
-            return gains;
         }
 
         public bool LoadData(string path, TabControl tabControl)
@@ -493,9 +364,6 @@ namespace RimWorldSaveManager
 
         public static Dictionary<string, PawnTrait> Traits = new Dictionary<string, PawnTrait>();
         public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
-        public static Dictionary<string, PawnBackstory> Backstories = new Dictionary<string, PawnBackstory>();
         public static List<WorkType> WorkTypes = new List<WorkType>();
-        public static List<PawnBackstory> ChildhodStory = new List<PawnBackstory>();
-        public static List<PawnBackstory> AdultStory = new List<PawnBackstory>();
     }
 }

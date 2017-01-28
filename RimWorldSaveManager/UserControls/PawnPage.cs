@@ -68,16 +68,16 @@ namespace RimWorldSaveManager
                 listBox1.Items.Add(DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : trait.Def);
             }
 
-            childhoodComboBox.Items.AddRange(DataLoader.ChildhodStory.ToArray());
-            adulthoodComboBox.Items.AddRange(DataLoader.AdultStory.ToArray());
+            childhoodComboBox.Items.AddRange(BackstoryDatabase.ChildhoodStories);
+            adulthoodComboBox.Items.AddRange(BackstoryDatabase.AdulthoodStories);
 
             Action<ComboBox, string> setBackstory = (comboBox, storyKey) => {
                 if (string.IsNullOrEmpty(storyKey)) {
                     return;
                 }
 
-                PawnBackstory backstory;
-                if (!DataLoader.Backstories.TryGetValue(storyKey, out backstory)) {
+                Backstory backstory;
+                if (!BackstoryDatabase.Backstories.TryGetValue(storyKey, out backstory)) {
                     Console.WriteLine($"Failed to get backstory for key: {storyKey}");
                     return;
                 }
@@ -142,14 +142,14 @@ namespace RimWorldSaveManager
         private void backstoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var comboBox = (ComboBox)sender;
-            var backstory = (PawnBackstory)comboBox.SelectedItem;
+            var backstory = (Backstory)comboBox.SelectedItem;
 
-            //Console.WriteLine($"Combobox changed to:{backstory}, {backstory.DescriptionKey}");
+            //Console.WriteLine($"Combobox changed to:{backstory}, {backstory.Id}");
 
             if (comboBox == childhoodComboBox)
-                PawnClass.childhood = backstory.DescriptionKey;
+                PawnClass.childhood = backstory.Id;
             else
-                PawnClass.adulthood = backstory.DescriptionKey;
+                PawnClass.adulthood = backstory.Id;
         }
 
         private void Backstory_DrawItem(object sender, DrawItemEventArgs e)
@@ -158,7 +158,7 @@ namespace RimWorldSaveManager
                 return;
 
             var comboBox = (ComboBox)sender;
-            var backstory = (PawnBackstory)comboBox.SelectedItem;
+            var backstory = (Backstory)comboBox.SelectedItem;
 
             e.DrawBackground();
 
@@ -176,7 +176,7 @@ namespace RimWorldSaveManager
             e.DrawFocusRectangle();
         }
 
-        private string GenerateDetailedInformation(PawnBackstory backstory)
+        private string GenerateDetailedInformation(Backstory backstory)
         {
             var detailedBackstory = backstory.Description + "\n";
 

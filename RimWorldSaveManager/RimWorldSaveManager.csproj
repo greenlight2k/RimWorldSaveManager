@@ -49,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLoader\Data\BackstoryDatabase.cs" />
     <Compile Include="DataLoader\DataLoader.cs" />
-    <Compile Include="DataLoader\DataStructure.cs" />
+    <Compile Include="DataLoader\Data\DataStructure.cs" />
     <Compile Include="DataLoader\Extensions.cs" />
+    <Compile Include="DataLoader\Data\Backstory.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
