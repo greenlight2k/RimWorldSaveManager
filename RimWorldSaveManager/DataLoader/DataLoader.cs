@@ -293,7 +293,7 @@ namespace RimWorldSaveManager
                 var traitElement = pawnElement.XPathSelectElement("story/traits/allTraits");
                 traitElement.RemoveAll();
 
-                foreach (var item in pawnPage.listBox1.Items) {
+                foreach (var item in pawnPage.listBoxTraits.Items) {
                     var newTraitElement = new XElement("li");
                     var trait = Traits.Where(x => x.Value.Label == (string)item).Single().Value;
 

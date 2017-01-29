@@ -7,6 +7,10 @@ It supports modded traits as well, and you can place it in your root game folder
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.54.2 ####
+* Fixed background story ID generation bug, background story can be saved properly now.
+* Background story combo box pulldown entries are now sorted for less searching headache.
+* Fixed background story tooltip so it is less annoying.
 #### v0.54.1 ####
 * Updated to support Alpha 16
 * Added default core backstories

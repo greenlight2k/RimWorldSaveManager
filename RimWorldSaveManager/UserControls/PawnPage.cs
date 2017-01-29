@@ -65,7 +65,7 @@ namespace RimWorldSaveManager
 
             foreach (var trait in pawn.traits) {
                 var traitKey = trait.Def + trait.Degree;
-                listBox1.Items.Add(DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : trait.Def);
+                listBoxTraits.Items.Add(DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : trait.Def);
             }
 
             childhoodComboBox.Items.AddRange(BackstoryDatabase.ChildhoodStories);
@@ -98,53 +98,51 @@ namespace RimWorldSaveManager
                 if (DataLoader.Hediffs.TryGetValue(hediff.ParentClass, out hediffClass))
                     labelExists = hediffClass.SubDiffs.TryGetValue(hediff.Def, out pawnHealth);
 
-                listBox2.Items.Add(labelExists ? pawnHealth.Label : hediff.Def);
+                listBoxInjuries.Items.Add(labelExists ? pawnHealth.Label : hediff.Def);
             }
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
+        private void btnAddTrait_Click(object sender, EventArgs e)
         {
-            if (listBox1.Items.Count >= 3) {
+            if (listBoxTraits.Items.Count >= 3) {
                 MessageBox.Show("Can not add more than 3 traits");
                 return;
             }
 
-            if (listBox1.Items.Contains(comboBox1.SelectedItem)) {
+            if (listBoxTraits.Items.Contains(comboBox1.SelectedItem)) {
                 MessageBox.Show("Can not add identical traits");
                 return;
             }
 
-            listBox1.Items.Add(comboBox1.SelectedItem);
+            listBoxTraits.Items.Add(comboBox1.SelectedItem);
         }
 
-        private void button2_Click(object sender, System.EventArgs e)
+        private void btnRemoveTrait_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex == -1) {
+            if (listBoxTraits.SelectedIndex == -1) {
                 MessageBox.Show("Can not remove an unselected trait");
                 return;
             }
 
-            listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+            listBoxTraits.Items.RemoveAt(listBoxTraits.SelectedIndex);
         }
 
-        private void button3_Click(object sender, System.EventArgs e)
+        private void btnRemoveInjury_Click(object sender, EventArgs e)
         {
-            if (listBox2.SelectedIndex == -1) {
+            if (listBoxInjuries.SelectedIndex == -1) {
                 MessageBox.Show("Can not remove an unselected injury");
                 return;
             }
 
-            PawnClass.hediffs.RemoveAt(listBox2.SelectedIndex);
+            PawnClass.hediffs.RemoveAt(listBoxInjuries.SelectedIndex);
 
-            listBox2.Items.RemoveAt(listBox2.SelectedIndex);
+            listBoxInjuries.Items.RemoveAt(listBoxInjuries.SelectedIndex);
         }
 
         private void backstoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var comboBox = (ComboBox)sender;
             var backstory = (Backstory)comboBox.SelectedItem;
-
-            //Console.WriteLine($"Combobox changed to:{backstory}, {backstory.Id}");
 
             if (comboBox == childhoodComboBox)
                 PawnClass.childhood = backstory.Id;
@@ -160,20 +158,33 @@ namespace RimWorldSaveManager
             var comboBox = (ComboBox)sender;
             var backstory = (Backstory)comboBox.SelectedItem;
 
+            if (e.Bounds.Y < 0 || e.Bounds.Y > comboBox.DropDownHeight) {
+                if (BackstoryDescription.Active) {
+                    BackstoryDescription.Hide((IWin32Window)sender);
+                }
+                return;
+            }
+
             e.DrawBackground();
 
             using (SolidBrush br = new SolidBrush(e.ForeColor)) {
                 e.Graphics.DrawString(comboBox.GetItemText(comboBox.Items[e.Index]), e.Font, br, e.Bounds);
             }
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown) {
                 BackstoryDescription.Show(
-                    GenerateDetailedInformation(backstory),
-                    comboBox,
-                    e.Bounds.Right,
-                    e.Bounds.Bottom);
+                    GenerateDetailedInformation(backstory), comboBox,
+                    e.Bounds.Right + 18, e.Bounds.Bottom);
+            }
 
             e.DrawFocusRectangle();
+        }
+
+        private bool InBound(Control control, Rectangle bound, Point pt)
+        {
+            pt = control.PointToClient(pt);
+            Console.WriteLine($"{bound}|{pt}");
+            return pt.X > bound.Left && pt.X < bound.Right;
         }
 
         private string GenerateDetailedInformation(Backstory backstory)
@@ -213,5 +224,6 @@ namespace RimWorldSaveManager
         {
             BackstoryDescription.Hide((IWin32Window)sender);
         }
+
     }
 }

@@ -31,11 +31,11 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.btnRemoveTrait = new System.Windows.Forms.Button();
+            this.btnAddTrait = new System.Windows.Forms.Button();
+            this.listBoxTraits = new System.Windows.Forms.ListBox();
+            this.btnRemoveInjury = new System.Windows.Forms.Button();
+            this.listBoxInjuries = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.adulthoodComboBox = new System.Windows.Forms.ComboBox();
@@ -60,9 +60,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.comboBox1);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.listBox1);
+            this.groupBox2.Controls.Add(this.btnRemoveTrait);
+            this.groupBox2.Controls.Add(this.btnAddTrait);
+            this.groupBox2.Controls.Add(this.listBoxTraits);
             this.groupBox2.Location = new System.Drawing.Point(269, 32);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(277, 100);
@@ -79,56 +79,56 @@
             this.comboBox1.Size = new System.Drawing.Size(132, 21);
             this.comboBox1.TabIndex = 3;
             // 
-            // button2
+            // btnRemoveTrait
             // 
-            this.button2.Location = new System.Drawing.Point(211, 69);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(60, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Remove";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnRemoveTrait.Location = new System.Drawing.Point(211, 69);
+            this.btnRemoveTrait.Name = "btnRemoveTrait";
+            this.btnRemoveTrait.Size = new System.Drawing.Size(60, 23);
+            this.btnRemoveTrait.TabIndex = 2;
+            this.btnRemoveTrait.Text = "Remove";
+            this.btnRemoveTrait.UseVisualStyleBackColor = true;
+            this.btnRemoveTrait.Click += new System.EventHandler(this.btnRemoveTrait_Click);
             // 
-            // button1
+            // btnAddTrait
             // 
-            this.button1.Location = new System.Drawing.Point(145, 69);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(60, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnAddTrait.Location = new System.Drawing.Point(145, 69);
+            this.btnAddTrait.Name = "btnAddTrait";
+            this.btnAddTrait.Size = new System.Drawing.Size(60, 23);
+            this.btnAddTrait.TabIndex = 1;
+            this.btnAddTrait.Text = "Add";
+            this.btnAddTrait.UseVisualStyleBackColor = true;
+            this.btnAddTrait.Click += new System.EventHandler(this.btnAddTrait_Click);
             // 
-            // listBox1
+            // listBoxTraits
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(7, 20);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(264, 43);
-            this.listBox1.TabIndex = 0;
+            this.listBoxTraits.FormattingEnabled = true;
+            this.listBoxTraits.Location = new System.Drawing.Point(7, 20);
+            this.listBoxTraits.Name = "listBoxTraits";
+            this.listBoxTraits.Size = new System.Drawing.Size(264, 43);
+            this.listBoxTraits.TabIndex = 0;
             // 
-            // button3
+            // btnRemoveInjury
             // 
-            this.button3.Location = new System.Drawing.Point(211, 69);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(60, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Remove";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnRemoveInjury.Location = new System.Drawing.Point(211, 69);
+            this.btnRemoveInjury.Name = "btnRemoveInjury";
+            this.btnRemoveInjury.Size = new System.Drawing.Size(60, 23);
+            this.btnRemoveInjury.TabIndex = 2;
+            this.btnRemoveInjury.Text = "Remove";
+            this.btnRemoveInjury.UseVisualStyleBackColor = true;
+            this.btnRemoveInjury.Click += new System.EventHandler(this.btnRemoveInjury_Click);
             // 
-            // listBox2
+            // listBoxInjuries
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(7, 20);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(264, 43);
-            this.listBox2.TabIndex = 0;
+            this.listBoxInjuries.FormattingEnabled = true;
+            this.listBoxInjuries.Location = new System.Drawing.Point(7, 20);
+            this.listBoxInjuries.Name = "listBoxInjuries";
+            this.listBoxInjuries.Size = new System.Drawing.Size(264, 43);
+            this.listBoxInjuries.TabIndex = 0;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button3);
-            this.groupBox3.Controls.Add(this.listBox2);
+            this.groupBox3.Controls.Add(this.btnRemoveInjury);
+            this.groupBox3.Controls.Add(this.listBoxInjuries);
             this.groupBox3.Location = new System.Drawing.Point(269, 138);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(277, 100);
@@ -150,6 +150,7 @@
             // adulthoodComboBox
             // 
             this.adulthoodComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.adulthoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.adulthoodComboBox.FormattingEnabled = true;
             this.adulthoodComboBox.Location = new System.Drawing.Point(150, 15);
             this.adulthoodComboBox.Name = "adulthoodComboBox";
@@ -162,6 +163,9 @@
             // childhoodComboBox
             // 
             this.childhoodComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.childhoodComboBox.DropDownHeight = 400;
+            this.childhoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.childhoodComboBox.DropDownWidth = 200;
             this.childhoodComboBox.FormattingEnabled = true;
             this.childhoodComboBox.Location = new System.Drawing.Point(7, 15);
             this.childhoodComboBox.Name = "childhoodComboBox";
@@ -222,12 +226,12 @@
 		#endregion
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button btnRemoveTrait;
+		private System.Windows.Forms.Button btnAddTrait;
 		private System.Windows.Forms.ComboBox comboBox1;
-		public System.Windows.Forms.ListBox listBox1;
-		private System.Windows.Forms.Button button3;
-		public System.Windows.Forms.ListBox listBox2;
+		public System.Windows.Forms.ListBox listBoxTraits;
+		private System.Windows.Forms.Button btnRemoveInjury;
+		public System.Windows.Forms.ListBox listBoxInjuries;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.ComboBox adulthoodComboBox;
