@@ -150,7 +150,9 @@
             // adulthoodComboBox
             // 
             this.adulthoodComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.adulthoodComboBox.DropDownHeight = 400;
             this.adulthoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.adulthoodComboBox.DropDownWidth = 200;
             this.adulthoodComboBox.FormattingEnabled = true;
             this.adulthoodComboBox.Location = new System.Drawing.Point(150, 15);
             this.adulthoodComboBox.Name = "adulthoodComboBox";
