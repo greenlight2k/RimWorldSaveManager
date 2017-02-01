@@ -25,9 +25,11 @@ namespace RimWorldSaveManager
             PawnClass = pawn;
 
             foreach (var trait in DataLoader.Traits)
-                comboBox1.Items.Add(trait.Value.Label);
+            {
+                comboBox1.Items.Add(trait.Value);
+            }
 
-            BiologicalAgeBox.Value = (decimal)(pawn.ageBiologicalTicks / 3600000f);
+            BiologicalAgeBox.Value = (decimal)(pawn.AgeBiologicalTicks / 3600000f);
 
             comboBox1.SelectedIndex = 0;
 
@@ -35,19 +37,24 @@ namespace RimWorldSaveManager
             Passions = new Dictionary<string, ComboBox>();
 
             var skillPos = new Size(groupBox1.Margin.Left + groupBox1.Padding.Left, groupBox1.Margin.Top + groupBox1.Padding.Top + 10);
-            groupBox1.Height = pawn.skills.Count * 25 + groupBox1.Margin.Bottom + groupBox1.Padding.Bottom + 15;
+            groupBox1.Height = pawn.Skills.Count * 25 + groupBox1.Margin.Bottom + groupBox1.Padding.Bottom + 15;
 
             if (groupBox1.Height > Height + 5)
                 Height = groupBox1.Height + 5;
 
-            foreach (var skill in pawn.skills) {
+            foreach (var skill in pawn.Skills) {
                 var label = new Label();
-                var textBox = new TextBox();
-                var comboBox = new ComboBox();
                 label.Text = skill.Name;
                 label.SetBounds(skillPos.Width, skillPos.Height + 3, TextRenderer.MeasureText(skill.Name, label.Font).Width, 13);
-                textBox.Text = skill.Level == -1 ? "-" : skill.Level.ToString();
+
+                var textBox = new TextBox();
+                textBox.Text = skill.Level == null ? "-" : skill.Level.ToString();
                 textBox.SetBounds(skillPos.Width + 100, skillPos.Height, 20, 20);
+                textBox.TextChanged += (obj, e) => {
+                    skill.Level = int.Parse(textBox.Text);
+                };
+
+                var comboBox = new ComboBox();
                 comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
                 comboBox.Items.Add("None");
                 comboBox.Items.Add("Minor");
@@ -55,17 +62,22 @@ namespace RimWorldSaveManager
                 comboBox.SelectedItem = string.IsNullOrEmpty(skill.Passion) ? "None" : skill.Passion;
                 comboBox.Left = textBox.Right + 5;
                 comboBox.Top = skillPos.Height;
+                comboBox.SelectionChangeCommitted += (obj, e) => {
+                    skill.Passion = comboBox.SelectedItem.ToString();
+                };
+
                 Skills.Add(skill.Name, textBox);
                 Passions.Add(skill.Name, comboBox);
+
                 groupBox1.Controls.Add(label);
                 groupBox1.Controls.Add(textBox);
                 groupBox1.Controls.Add(comboBox);
+
                 skillPos.Height += 25;
             }
 
-            foreach (var trait in pawn.traits) {
-                var traitKey = trait.Def + trait.Degree;
-                listBoxTraits.Items.Add(DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : trait.Def);
+            foreach (var trait in pawn.Traits) {
+                listBoxTraits.Items.Add(trait);
             }
 
             childhoodComboBox.Items.AddRange(BackstoryDatabase.ChildhoodStories);
@@ -85,20 +97,26 @@ namespace RimWorldSaveManager
                 comboBox.SelectedIndex = comboBox.FindStringExact(backstory.DisplayTitle);
             };
 
-            setBackstory(childhoodComboBox, pawn.childhood);
-            setBackstory(adulthoodComboBox, pawn.adulthood);
+            setBackstory(childhoodComboBox, pawn.Childhood);
+            setBackstory(adulthoodComboBox, pawn.Adulthood);
 
-            foreach (var hediff in pawn.hediffs) {
-                if (hediff.ParentClass == "Hediff_AddedPart") continue;
-                PawnHealth pawnHealth = null;
+            foreach (var pawnHediff in pawn.Hediffs) {
+                if (pawnHediff.ParentClass == "Hediff_AddedPart") continue;
+                HediffDef hediffDef = null;
                 Hediff hediffClass = null;
 
                 bool labelExists = false;
 
-                if (DataLoader.Hediffs.TryGetValue(hediff.ParentClass, out hediffClass))
-                    labelExists = hediffClass.SubDiffs.TryGetValue(hediff.Def, out pawnHealth);
+                if (pawnHediff.ParentClass != null) {
+                    if (DataLoader.Hediffs.TryGetValue(pawnHediff.ParentClass, out hediffClass)) {
+                        if (hediffClass.SubDiffs.TryGetValue(pawnHediff.Def, out hediffDef)) {
+                            pawnHediff.Label = hediffDef.Label;
+                        }
+                    }
+                }
 
-                listBoxInjuries.Items.Add(labelExists ? pawnHealth.Label : hediff.Def);
+
+                listBoxInjuries.Items.Add(pawnHediff);
             }
         }
 
@@ -109,12 +127,17 @@ namespace RimWorldSaveManager
                 return;
             }
 
-            if (listBoxTraits.Items.Contains(comboBox1.SelectedItem)) {
-                MessageBox.Show("Can not add identical traits");
-                return;
+            var selected = (TraitDef) comboBox1.SelectedItem;
+            foreach (var item in listBoxTraits.Items)
+            {
+                if(((PawnTrait)item).Def == selected.Def)
+                {
+                    MessageBox.Show("Can not add identical traits");
+                    return;
+                }
             }
 
-            listBoxTraits.Items.Add(comboBox1.SelectedItem);
+            listBoxTraits.Items.Add(PawnClass.AddTrait((TraitDef)comboBox1.SelectedItem));
         }
 
         private void btnRemoveTrait_Click(object sender, EventArgs e)
@@ -124,6 +147,8 @@ namespace RimWorldSaveManager
                 return;
             }
 
+            //var trait = (PawnTrait) listBoxTraits.SelectedItem;
+            PawnClass.RemoveTrait(listBoxTraits.SelectedIndex);
             listBoxTraits.Items.RemoveAt(listBoxTraits.SelectedIndex);
         }
 
@@ -134,8 +159,12 @@ namespace RimWorldSaveManager
                 return;
             }
 
-            PawnClass.hediffs.RemoveAt(listBoxInjuries.SelectedIndex);
+            var item = (PawnHealth)listBoxInjuries.SelectedItem;
+            item.Element.Remove();
 
+            /*
+            PawnClass.Hediffs.RemoveAt(listBoxInjuries.SelectedIndex);
+            */
             listBoxInjuries.Items.RemoveAt(listBoxInjuries.SelectedIndex);
         }
 
@@ -145,9 +174,9 @@ namespace RimWorldSaveManager
             var backstory = (Backstory)comboBox.SelectedItem;
 
             if (comboBox == childhoodComboBox)
-                PawnClass.childhood = backstory.Id;
+                PawnClass.Childhood = backstory.Id;
             else
-                PawnClass.adulthood = backstory.Id;
+                PawnClass.Adulthood = backstory.Id;
         }
 
         private void Backstory_DrawItem(object sender, DrawItemEventArgs e)

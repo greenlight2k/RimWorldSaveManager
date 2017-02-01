@@ -3,12 +3,12 @@
 
 	<Backstory>
 		<Title>Convent child</Title>
+		<titleShort>Illicit</titleShort>
 		<BaseDesc>The child of an illicit affair, NAME was bought up by nuns in a medieval convent. HECAP learned the value of hard work and submission, but was taught that technology is heretical.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
 			<li>Intellectual</li>
 			<li>Violent</li>
-			<li>Crafting</li>
 		</WorkDisables>
 		<SkillGains>
 			<li><key>Construction</key><value>3</value></li>
@@ -24,6 +24,7 @@
 
 	<Backstory>
 		<Title>Test subject</Title>
+		<titleShort>Testee</titleShort>
 		<BaseDesc>On the most corrupt urbworlds, scientists without a moral compass commit unspeakable atrocities in the name of research. NAME was kept alone in a sealed facility from birth and subjected to a variety of behavioural experiments in an attempt to turn HIM into a perfect super-soldier.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
@@ -53,6 +54,7 @@
 
 	<Backstory>
 		<Title>Medical assistant</Title>
+		<titleShort>Medic</titleShort>
 		<BaseDesc>NAME was born during a catastrophic war in which both sides used napalm extensively. HECAP grew up helping HIS parents in an infirmary, treating the cascade of horrific burns from the battlefields. HECAP was left with a lifelong fear of fire.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
@@ -72,6 +74,7 @@
 
 	<Backstory>
 		<Title>Cult child</Title>
+		<titleShort>Cult kid</titleShort>
 		<BaseDesc>NAME was born into a powerful cult which shunned advanced technology and believed that all illness could be cured by cleansing the soul through sacred art.\n\nAfter HIS first glimpse of the outside world, HE decided to run away.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
@@ -92,6 +95,7 @@
 
 	<Backstory>
 		<Title>Wreckage explorer</Title>
+		<titleShort>Explorer</titleShort>
 		<BaseDesc>Two generations before NAME was born, an apocalyptic war dragged HIS home planet into anarchy. NAME was tasked with watching HIS tribe's herds, but often shirked HIS duties to go exploring the crashed warships scattered around the planet.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
@@ -111,6 +115,7 @@
 
 	<Backstory>
 		<Title>Apocalypse survivor</Title>
+		<titleShort>Survivor</titleShort>
 		<BaseDesc>NAME was born during a time of unrest on HIS homeworld, as climate change threatened mass starvation and flooding. As HE grew up the situation worsened - billions died and peaceful states descended into anarchy. NAME and HIS parents did whatever they had to to survive.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
@@ -131,6 +136,7 @@
 
 	<Backstory>
 		<Title>Story writer</Title>
+		<titleShort>Writer</titleShort>
 		<BaseDesc>As a child, NAME was addicted to reading. HECAP would spend all day in HIS local library with HIS nose in a book. When budget cuts forced the library to close, NAME was distraught. HE decided to fill the gap by writing HIS own stories instead.</BaseDesc>
 		<Slot>Childhood</Slot>
 		<WorkDisables>
@@ -156,6 +162,9 @@
 		<WorkDisables>
 			<li>ManualSkilled</li> 
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Melee</key><value>4</value></li>
 			<li><key>Social</key><value>4</value></li>
@@ -181,6 +190,9 @@
 			<li>Social</li>
 			<li>Caring</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Melee</key><value>5</value></li>
 			<li><key>Social</key><value>-3</value></li>
@@ -202,6 +214,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Social</key><value>8</value></li>
 			<li><key>Crafting</key><value>3</value></li>
@@ -224,6 +239,9 @@
 			<li>Social</li>
 			<li>Artistic</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Shooting</key><value>4</value></li>
 			<li><key>Research</key><value>4</value></li>
@@ -245,6 +263,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li> 
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Melee</key><value>6</value></li>
 			<li><key>Artistic</key><value>4</value></li>
@@ -265,6 +286,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li> 
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Cooking</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Cooking</key><value>7</value></li>
 			<li><key>Construction</key><value>-4</value></li>
@@ -289,6 +313,9 @@
 			<li>Crafting</li>
 			<li>Cooking</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Artistic</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Shooting</key><value>-4</value></li>
 			<li><key>Animals</key><value>6</value></li>
@@ -307,8 +334,9 @@
 		<TitleShort>Vet</TitleShort>
 		<BaseDesc>NAME treated sick and injured animals for a living. Seeing their suffering affected HIS stance on the practice of eating meat, and for many years HE lived as a vegetarian, rejecting the meat-loving culinary tradition of HIS homeworld.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
+		<requiredWorkTags>
+			<li>Caring</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Animals</key><value>4</value></li>
 			<li><key>Medicine</key><value>4</value></li>
@@ -330,6 +358,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li> 
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Mining</key><value>5</value></li>
 			<li><key>Research</key><value>5</value></li>
@@ -344,14 +375,17 @@
 	</Backstory>
 
 	<Backstory>
-		<Title>Counsellor</Title>
-		<TitleShort>Counsellor</TitleShort>
-		<BaseDesc>A terrifying trauma when NAME was a young adult caused HIM to develop a serious eating disorder. With counselling HE learned to have a healthier relationship with food, and decided to put HIS new skills to use helping others overcome their emotional problems.</BaseDesc>
+		<Title>Counselor</Title>
+		<TitleShort>Counselor</TitleShort>
+		<BaseDesc>A terrifying trauma when NAME was a young adult caused HIM to develop a serious eating disorder. With counseling HE learned to have a healthier relationship with food, and decided to put HIS new skills to use helping others overcome their emotional problems.</BaseDesc>
 		<Slot>Adulthood</Slot>
 		<WorkDisables>
 			<li>Scary</li>
 			<li>Cooking</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Social</key><value>9</value></li>
 		</SkillGains>
@@ -372,6 +406,9 @@
 		<WorkDisables>
 			<li>Caring</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Melee</key><value>5</value></li>
 			<li><key>Social</key><value>5</value></li>
@@ -439,6 +476,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li> 
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Artistic</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Construction</key><value>3</value></li>
 			<li><key>Growing</key><value>4</value></li>
@@ -460,6 +500,9 @@
 		<WorkDisables>
 			<li>Artistic</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Shooting</key><value>3</value></li>
 			<li><key>Research</key><value>7</value></li>
@@ -481,6 +524,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li> 
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Construction</key><value>5</value></li>
 			<li><key>Artistic</key><value>7</value></li>
@@ -526,10 +572,13 @@
 			<li>Crafting</li>
 			<li>Cooking</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Artistic</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Growing</key><value>-4</value></li>
 			<li><key>Mining</key><value>4</value></li>
-			<li><key>Artistic</key><value>8</value></li>
+			<li><key>Artistic</key><value>9</value></li>
 		</SkillGains>
 		<SpawnCategories>
 			<li>Civil</li>
@@ -544,8 +593,9 @@
 		<TitleShort>Collector</TitleShort>
 		<BaseDesc>NAME was obsessed with old machines and arcane pieces of technology. HECAP obtained them wherever HE could, and loved taking them apart to see how they worked.\n\nHE had a habit of talking about HIS collection long after people around HIM had stopped listening.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
+		<requiredWorkTags>
+			<li>Crafting</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Social</key><value>-3</value></li>
 			<li><key>Crafting</key><value>6</value></li>
@@ -571,6 +621,9 @@
 			<li>Social</li>
 			<li>Caring</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li><key>Shooting</key><value>8</value></li>
 			<li><key>Melee</key><value>5</value></li>
@@ -584,5 +637,31 @@
 		<BodyTypeMale>Fat</BodyTypeMale>
 		<BodyTypeFemale>Fat</BodyTypeFemale>
 	</Backstory>
+
+	<Backstory>
+		<Title>Con artist</Title>
+		<TitleShort>Con artist</TitleShort>
+		<BaseDesc>NAME never created anything in HIS life. HECAP did, however, prove to be a natural at getting others to give HIM what they had created.</BaseDesc>
+		<Slot>Adulthood</Slot>
+		<SkillGains>
+			<li>
+				<key>Social</key>
+				<value>10</value>
+			</li>
+		</SkillGains>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
+		<SpawnCategories>
+			<li>Trader</li>
+			<li>Slave</li>
+		</SpawnCategories>
+		<BodyTypeMale>Male</BodyTypeMale>
+		<BodyTypeFemale>Thin</BodyTypeFemale>
+		<WorkDisables>
+			<li>Violent</li>
+		</WorkDisables>
+	</Backstory>
+
 
 </Backstories>

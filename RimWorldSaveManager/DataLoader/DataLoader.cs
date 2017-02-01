@@ -14,7 +14,7 @@ namespace RimWorldSaveManager
 {
     public class DataLoader
     {
-        
+
 
         public DataLoader()
         {
@@ -30,7 +30,7 @@ namespace RimWorldSaveManager
                         using (var fileStream = File.OpenRead(file)) {
                             foreach (var traitDef in XDocument.Load(fileStream).Root.Elements()) {
                                 var traits = (from trait in traitDef.XPathSelectElements("degreeDatas/li")
-                                              select new PawnTrait {
+                                              select new TraitDef {
                                                   Def = traitDef.Element("defName").Value,
                                                   Label = textInfo.ToTitleCase(trait.Element("label").Value),
                                                   Degree = trait.Element("degree") != null ? trait.Element("degree").Value : null
@@ -70,7 +70,7 @@ namespace RimWorldSaveManager
 
                                 var hediffs = (from hediff in docRoot.XPathSelectElements("//HediffDef[boolean(@ParentName) and not(@Abstract)]")
                                                .Where(x => x.Attribute("ParentName").Value == parentName)
-                                               select new PawnHealth {
+                                               select new HediffDef {
                                                    ParentClass = parentClass,
                                                    ParentName = hediff.Attribute("ParentName").Value,
                                                    Def = hediff.Element("defName").Value,
@@ -140,49 +140,13 @@ namespace RimWorldSaveManager
 
             //Console.WriteLine($"playerFaction:{playerFaction}, colonyFaction:{colonyFaction}");
 
-            //var pawns = new List<Pawn>();
             foreach (var pawn in SaveDocument.Descendants("thing")) {
                 if ((string)pawn.Attribute("Class") == "Pawn"
                     && (string)pawn.Element("def") == "Human"
                     && (string)pawn.Element("faction") == colonyFaction) {
-
-                    var p = new Pawn {
-                        def = pawn.Element("def").GetValue(),
-                        id = pawn.Element("id").GetValue(),
-                        pos = pawn.Element("pos").GetValue(),
-                        faction = pawn.Element("faction").GetValue(),
-                        kindDef = pawn.Element("kindDef").GetValue(),
-                        first = pawn.XPathSelectElement("name/first").GetValue(),
-                        nick = pawn.XPathSelectElement("name/nick").GetValue(),
-                        last = pawn.XPathSelectElement("name/last").GetValue(),
-                        childhood = pawn.XPathSelectElement("story/childhood").GetValue(),
-                        adulthood = pawn.XPathSelectElement("story/adulthood").GetValue(),
-                        ageBiologicalTicks = pawn.XPathSelectElement("ageTracker/ageBiologicalTicks").GetValue(0L),
-                        skills = (from skill in pawn.XPathSelectElements("skills/skills/li")
-                                  select new PawnSkill {
-                                      Name = skill.Element("def").GetValue(),
-                                      Level = skill.Element("level").GetValue(-1),
-                                      Experience = skill.Element("xpSinceLastLevel").GetValue(-1f),
-                                      Passion = skill.Element("passion").GetValue(),
-                                  }).ToList(),
-                        traits = (from trait in pawn.XPathSelectElements("story/traits/allTraits/li")
-                                  select new PawnTrait {
-                                      Def = trait.Element("def").GetValue(),
-                                      Degree = trait.Element("degree").GetValue(),
-                                      Label = null
-                                  }).ToList(),
-                        hediffs = (from hediff in pawn.XPathSelectElements("healthTracker/hediffSet/hediffs/li")
-                                   select new PawnHealth {
-                                       ParentClass = hediff.Attribute("Class").GetValue(),
-                                       Def = hediff.Element("def").GetValue(),
-                                       Element = hediff
-                                   }).ToList(),
-                    };
-                    p.Text = p.first + (p.nick == p.last ? " " : (" \"" + p.nick + "\" ")) + p.last;
+                    var p = new Pawn(pawn);
                     p.Controls.Add(new PawnPage(p));
                     Pawns.Add(p);
-
-                    //pawns.Add(p);
                 }
             }
 
@@ -212,49 +176,39 @@ namespace RimWorldSaveManager
 
         public bool SaveData(string path)
         {
-            //try {
+            /*
             foreach (var pawn in Pawns) {
                 var pawnPage = pawn.Controls[0] as PawnPage;
 
-                /*
-                var pawnElement = EvaluateList<XElement>("map/things/thing[@Class='Pawn']")
-                        .Where(x => x.Element("id").Value == pawn.id)
-                        .Single();
-                        */
                 var pawnElement = SaveDocument
                         .Descendants("thing")
-                        .Single(x => (string)x.Element("id") == pawn.id);
+                        .Single(x => (string)x.Element("id") == pawn.Id);
 
                 var story = pawnElement.Element("story");
 
                 var node = story.Element("childhood");
-                if (!string.IsNullOrEmpty(pawn.childhood)) {
+                if (!string.IsNullOrEmpty(pawn.Childhood)) {
                     if (node == null) {
                         node = new XElement("childhood");
                         story.Add(node);
                     }
-                    node.Value = pawn.childhood;
+                    node.Value = pawn.Childhood;
                 } else {
                     node.Remove();
                 }
 
                 node = story.Element("adulthood");
-                if (!string.IsNullOrEmpty(pawn.adulthood)) {
+                if (!string.IsNullOrEmpty(pawn.Adulthood)) {
                     if (node == null) {
                         node = new XElement("adulthood");
                         story.Add(node);
                     }
-                    node.Value = pawn.adulthood;
+                    node.Value = pawn.Adulthood;
                 } else {
                     node.Remove();
                 }
 
-                foreach (var skill in pawn.skills) {
-                    /*
-                    var skillElement = pawnElement.XPathSelectElements("skills/skills/li")
-                        .Where(s => s.Element("def").Value == skill.Name)
-                        .Single();
-                        */
+                foreach (var skill in pawn.Skills) {
                     var skillElement = pawnElement.Element("skills")
                             .Element("skills").Elements("li")
                             .Single(x => (string)x.Element("def") == skill.Name);
@@ -308,23 +262,18 @@ namespace RimWorldSaveManager
                 var hediffElement = pawnElement.XPathSelectElement("healthTracker/hediffSet/hediffs");
                 hediffElement.RemoveAll();
 
-                foreach (var hediff in pawn.hediffs) {
+                foreach (var hediff in pawn.Hediffs) {
                     hediffElement.Add(hediff.Element);
                 }
 
                 pawnElement.XPathSelectElement("ageTracker/ageBiologicalTicks")
                     .Value = ((long)(pawnPage.BiologicalAgeBox.Value * 3600000L)).ToString();
             }
+            */
 
             SaveDocument.Save(path);
 
             MessageBox.Show("Successfully saved changes!");
-            /*
-            } catch (Exception e) {
-                MessageBox.Show("Failed saving RimWorld Save File\nReason: " + e.Message, @"RimWorld save error");
-                return false;
-            }
-            */
             return true;
         }
 
@@ -362,7 +311,7 @@ namespace RimWorldSaveManager
         private List<Pawn> Pawns = new List<Pawn>();
         private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
 
-        public static Dictionary<string, PawnTrait> Traits = new Dictionary<string, PawnTrait>();
+        public static Dictionary<string, TraitDef> Traits = new Dictionary<string, TraitDef>();
         public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
         public static List<WorkType> WorkTypes = new List<WorkType>();
     }

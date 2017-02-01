@@ -10,6 +10,10 @@
 			<li>Artistic</li>
 			<li>Intellectual</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+			<li>ManualSkilled</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Construction</key>
@@ -37,8 +41,10 @@
 		<TitleShort>Evangelist</TitleShort>
 		<BaseDesc>On HIS 21st birthday, NAME experienced a religious awakening. HECAP decided to spend the rest of HIS life spreading the word of HIS deity, the beauty of its culture, and its unusual medical tradition.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+			<li>Caring</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Social</key>
@@ -66,8 +72,10 @@
 		<TitleShort>Illuminator</TitleShort>
 		<BaseDesc>Among tunnel-dwellers, those with vision as strong as NAME’s are revered as sages. HECAP would lead the way, marking spots to dig with bioluminescent fungus and warning others of impending danger.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
+		<requiredWorkTags>
+			<li>Mining</li>
+			<li>ManualSkilled</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Mining</key>
@@ -92,8 +100,10 @@
 		<TitleShort>Herbalist</TitleShort>
 		<BaseDesc>NAME lived in the forest near a village. Though many of the villagers feared HIM, sick villagers would come to HIM to purchase salves and poultices made from the herbs HE grew in HIS garden. HECAP was happy to help them — for a price.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
+		<requiredWorkTags>
+			<li>Caring</li>
+			<li>PlantWork</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Growing</key>
@@ -126,7 +136,7 @@
 		<SkillGains>
 			<li>
 				<key>Social</key>
-				<value>5</value>
+				<value>4</value>
 			</li>
 			<li>
 				<key>Construction</key>
@@ -153,8 +163,6 @@
 		<TitleShort>Clerk</TitleShort>
 		<BaseDesc>NAME worked as a low-ranking administrator for a moribund government bureaucracy. HECAP is most at home filling out complicated paperwork and playing office politics.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
 		<SkillGains>
 			<li>
 				<key>Social</key>
@@ -210,10 +218,14 @@
 			<li>Violent</li>
 			<li>Social</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>PlantWork</li>
+			<li>ManualDumb</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Growing</key>
-				<value>3</value>
+				<value>4</value>
 			</li>
 			<li>
 				<key>Medicine</key>
@@ -243,6 +255,10 @@
 		<WorkDisables>
 			<li>Caring</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+			<li>Scary</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Mining</key>
@@ -266,8 +282,10 @@
 		<TitleShort>Janitor</TitleShort>
 		<BaseDesc>While other passengers pass the years between star systems in cryptosleep sarcophagi, NAME had to wake up at periodic intervals to perform inspections, check the navigation systems, and to oil the mechanoids.</BaseDesc>
 		<Slot>Adulthood</Slot>
-		<WorkDisables>
-		</WorkDisables>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+			<li>ManualSkilled</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Construction</key>

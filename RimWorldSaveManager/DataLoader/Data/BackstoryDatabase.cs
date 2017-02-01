@@ -49,6 +49,9 @@ namespace RimWorldSaveManager
                             }
 
                             Backstories[backstory.Id] = backstory;
+
+                            Console.WriteLine($"[Builtin Backstory] {backstory.Id}: {backstory.DisplayTitle}");
+
                             childhodStories.Add(backstory);
                             adultStories.Add(backstory);
                         }
@@ -94,7 +97,9 @@ namespace RimWorldSaveManager
 
                         if (Backstories.ContainsKey(backstory.Id)) {
                             Console.WriteLine($"[WARN] Backstory database already contains entry with key:{backstory.Id}");
-                            continue;
+                            var old = Backstories[backstory.Id];
+                            childhodStories.Remove(old);
+                            adultStories.Remove(old);
                         }
 
                         Backstories[backstory.Id] = backstory;
@@ -104,6 +109,8 @@ namespace RimWorldSaveManager
                         } else {
                             adultStories.Add(backstory);
                         }
+
+                        Console.WriteLine($"[Backstory] {backstory.Id}: {backstory.DisplayTitle}");
                     }
 
                     stream.Close();

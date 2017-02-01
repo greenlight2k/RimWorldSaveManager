@@ -15,6 +15,10 @@
 			<li>Raider</li>
 			<li>Slave</li>
 		</SpawnCategories>
+		<requiredWorkTags>
+			<li>Violent</li>
+			<li>Scary</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Female</BodyTypeFemale>
 	</Backstory>
@@ -35,6 +39,10 @@
 			<li>Intellectual</li>
 			<li>Caring</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+			<li>Scary</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Female</BodyTypeFemale>
     <forcedTraits>
@@ -45,7 +53,7 @@
 	<Backstory>
 		<Title>Illegal shipwright</Title>
 		<TitleShort>Shipwright</TitleShort>
-		<BaseDesc>There is a law that say that you're not allowed to put terawatt-range grasers on a cargo scow. Especially if you hide them under what looks like a communications dish for better ambush potential. NAME discovered that there is great profit to be made, however, from those who are uninterested in these laws.</BaseDesc>
+		<BaseDesc>There is a law that says that you're not allowed to put terawatt-range grasers on a cargo scow. Especially if you hide them under what looks like a communications dish for better ambush potential. NAME discovered that there is great profit to be made, however, from those who are uninterested in these laws.</BaseDesc>
 		<Slot>Adulthood</Slot>
 		<SkillGains>
 			<li><key>Construction</key><value>7</value></li>
@@ -53,6 +61,9 @@
 		<SpawnCategories>
 			<li>Raider</li>
 		</SpawnCategories>
+		<requiredWorkTags>
+			<li>ManualSkilled</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Fat</BodyTypeMale>
 		<BodyTypeFemale>Fat</BodyTypeFemale>
 	</Backstory>
@@ -73,6 +84,9 @@
 			<li>ManualDumb</li>
 			<li>ManualSkilled</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
     <forcedTraits>
@@ -93,6 +107,10 @@
 			<li>Raider</li>
 			<li>Slave</li>
 		</SpawnCategories>
+		<requiredWorkTags>
+			<li>Violent</li>
+			<li>Scary</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
 	</Backstory>
@@ -120,6 +138,10 @@
 			<li>Social</li>
 			<li>Caring</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Violent</li>
+			<li>Scary</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
     <forcedTraits>

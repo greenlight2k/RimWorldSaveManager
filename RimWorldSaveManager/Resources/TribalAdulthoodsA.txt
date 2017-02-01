@@ -6,6 +6,9 @@
 		<TitleShort>Gatherer</TitleShort>
 		<BaseDesc>NAME is a master gatherer. HECAP can find food in the most barren of places using HIS deep knowledge of plants, roots, and berries.</BaseDesc>
 		<Slot>Adulthood</Slot>
+		<requiredWorkTags>
+			<li>PlantWork</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Growing</key>

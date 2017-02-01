@@ -139,23 +139,8 @@
   <data name="ExtraD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExtraD.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="rimworld_creations" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rimworld_creations.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="Travelers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Travelers.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="TribalAdulthoodsA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TribalAdulthoodsA.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="TribalB" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TribalB.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="TribalChildhoodsA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TribalChildhoodsA.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="TynanCustom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TynanCustom.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="Backstories" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\backstories.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

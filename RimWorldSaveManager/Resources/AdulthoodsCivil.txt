@@ -16,6 +16,10 @@
 		</SpawnCategories>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Female</BodyTypeFemale>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+			<li>ManualSkilled</li>
+		</requiredWorkTags>
 	</Backstory>
 
 	<Backstory>
@@ -35,6 +39,11 @@
 		<WorkDisables>
 			<li>Intellectual</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+			<li>PlantWork</li>
+			<li>Mining</li>
+		</requiredWorkTags>
 		<BodyTypeGlobal>Fat</BodyTypeGlobal>
 </Backstory>
 
@@ -58,6 +67,9 @@
 			<li>ManualDumb</li>
 			<li>ManualSkilled</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
 	</Backstory>
@@ -74,6 +86,9 @@
 		<SpawnCategories>
 			<li>Civil</li>
 		</SpawnCategories>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Male</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
 	</Backstory>
@@ -93,6 +108,10 @@
 			<li>Raider</li>
 			<li>Slave</li>
 		</SpawnCategories>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+			<li>ManualSkilled</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Fat</BodyTypeMale>
 		<BodyTypeFemale>Female</BodyTypeFemale>
 	</Backstory>
@@ -110,6 +129,9 @@
 		</SpawnCategories>
 		<BodyTypeMale>Male</BodyTypeMale>
 		<BodyTypeFemale>Female</BodyTypeFemale>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+		</requiredWorkTags>
 	</Backstory>
 
 	<Backstory>
@@ -132,6 +154,10 @@
 		</SpawnCategories>
 		<BodyTypeMale>Hulk</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
+		<requiredWorkTags>
+			<li>Social</li>
+			<li>Violent</li>
+		</requiredWorkTags>
 	</Backstory>
 
 </Backstories>

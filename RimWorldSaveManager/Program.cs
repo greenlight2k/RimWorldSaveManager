@@ -11,6 +11,8 @@ namespace RimWorldSaveManager
 		[STAThread]
 		static void Main()
 		{
+		    //Console.BufferHeight = 2000;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainForm());

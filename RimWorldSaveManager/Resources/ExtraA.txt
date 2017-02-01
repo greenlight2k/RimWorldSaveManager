@@ -27,6 +27,11 @@
 			<li>Slave</li>
 			<li>Traveler</li>
 		</SpawnCategories>
+		<requiredWorkTags>
+			<li>PlantWork</li>
+			<li>ManualDumb</li>
+			<li>Crafting</li>
+		</requiredWorkTags>
 		<BodyTypeMale>Thin</BodyTypeMale>
 		<BodyTypeFemale>Thin</BodyTypeFemale>
     <forcedTraits>
@@ -43,6 +48,9 @@
 			<li>Cleaning</li>
 			<li>ManualDumb</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Cooking</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Cooking</key>
@@ -148,6 +156,9 @@
 				<value>2</value>
 			</li>
 		</SkillGains>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+		</requiredWorkTags>
 		<SpawnCategories>
 			<li>Civil</li>
 			<li>Slave</li>
@@ -165,6 +176,9 @@
 		<WorkDisables>
 			<li>Violent</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Social</key>
@@ -238,6 +252,9 @@
 				<value>1</value>
 			</li>
 		</SkillGains>
+		<requiredWorkTags>
+			<li>Caring</li>
+		</requiredWorkTags>
 		<SpawnCategories>
 			<li>Traveler</li>
 			<li>Slave</li>
@@ -252,6 +269,10 @@
 		<TitleShort>Inventor</TitleShort>
 		<BaseDesc>On HIS homeworld, NAME worked as a moderately successful inventor. HECAP developed several minor technologies.</BaseDesc>
 		<Slot>Adulthood</Slot>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+			<li>Crafting</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Crafting</key>
@@ -276,6 +297,10 @@
 		<TitleShort>Teacher</TitleShort>
 		<BaseDesc>NAME was educated in the liberal arts and taught at a public school. HECAP was widely knowledgeable and well-liked by HIS students.</BaseDesc>
 		<Slot>Adulthood</Slot>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+			<li>Social</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Research</key>
@@ -359,6 +384,9 @@
 		<WorkDisables>
 			<li>ManualDumb</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Intellectual</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Artistic</key>
@@ -419,6 +447,9 @@
 			<li>Caring</li>
 			<li>Hauling</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>Artistic</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Artistic</key>
@@ -443,6 +474,10 @@
 		<TitleShort>Surgeon</TitleShort>
 		<BaseDesc>NAME worked as a surgeon on a world mostly free of disease and human suffering.\n\nHISCAP job mostly involved elaborate and creative cosmetic surgeries. HECAP has a good understanding of human biology, but never had to remove a cancer — or a bullet.</BaseDesc>
 		<Slot>Adulthood</Slot>
+		<requiredWorkTags>
+			<li>Caring</li>
+			<li>Artistic</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Artistic</key>
@@ -476,6 +511,9 @@
 			<li>Intellectual</li>
 			<li>Crafting</li>
 		</WorkDisables>
+		<requiredWorkTags>
+			<li>ManualDumb</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Melee</key>
@@ -504,10 +542,14 @@
 		<TitleShort>Barkeep</TitleShort>
 		<BaseDesc>NAME worked as a bartender on a seedy space station. The job entailed one part drink mixing, one part diplomacy, and one part head-bashing.</BaseDesc>
 		<Slot>Adulthood</Slot>
+		<requiredWorkTags>
+			<li>Social</li>
+			<li>Cooking</li>
+		</requiredWorkTags>
 		<SkillGains>
 			<li>
 				<key>Social</key>
-				<value>2</value>
+				<value>4</value>
 			</li>
 			<li>
 				<key>Melee</key>
@@ -515,7 +557,7 @@
 			</li>
 			<li>
 				<key>Cooking</key>
-				<value>1</value>
+				<value>2</value>
 			</li>
 		</SkillGains>
 		<SpawnCategories>

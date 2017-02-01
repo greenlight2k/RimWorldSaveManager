@@ -9,8 +9,9 @@
 		</Name>
 		<Gender>Male</Gender>
 		<Childhood>
-			<Title>Dumb punk</Title>
-			<BaseDesc>NAME was a worthless child. Despite being born into a decent family, HE failed to live up to expectations, spending his time selling knockoff cigarettes to 15-year-olds.</BaseDesc>
+			<Title>Punk</Title>
+			<titleShort>Punk</titleShort>
+			<BaseDesc>NAME spent his childhood selling knockoff cigarettes to 15-year-olds. The cigarettes were often full of grass clippings.</BaseDesc>
 			<SkillGains>
 				<li>
 					<key>Research</key>
@@ -23,9 +24,9 @@
 			</SkillGains>
 		</Childhood>
 		<Adulthood>
-			<Title>Bad magician</Title>
-			<TitleShort>Magician</TitleShort>
-			<BaseDesc>NAME was an incompetent magician who performed for low wages - usually in front of children. The children were usually very bored, because he is very lazy.</BaseDesc>
+			<Title>Game developer</Title>
+			<TitleShort>Game dev</TitleShort>
+			<BaseDesc>NAME was an independent game developer.\n\nAfter an early success, NAME's career quickly degenerated into a circus of misguided ideas, deals gone wrong, and desperate, failed PR stunts.</BaseDesc>
 			<SkillGains>
 				<li>
 					<key>Construction</key>
