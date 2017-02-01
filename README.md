@@ -7,6 +7,10 @@ It supports modded traits as well, and you can place it in your root game folder
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.54.3 ####
+* Major code base rewrite and refactor.
+* Changes are made in place on the save file.
+* Non-destructive file write, file are not completely rebuild when written to disk, only change deltas are modified.
 #### v0.54.2 ####
 * Fixed background story ID generation bug, background story can be saved properly now.
 * Background story combo box pulldown entries are now sorted for less searching headache.
