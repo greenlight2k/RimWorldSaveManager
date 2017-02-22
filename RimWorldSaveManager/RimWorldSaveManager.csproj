@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8ED50C1C-9195-46D9-BC3D-D4A80A3EFAA1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RimWorldSaveManager</RootNamespace>
     <AssemblyName>RimWorldSaveManager</AssemblyName>
@@ -63,6 +63,12 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PawnPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -79,14 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -94,22 +95,22 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="application.ico" />
+    <Content Include="Resources\AdulthoodsCivil.xml" />
+    <Content Include="Resources\AdulthoodsRaider.xml" />
     <Content Include="Resources\Backstories.xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Resources\TynanCustom.txt" />
-    <None Include="Resources\TribalChildhoodsA.txt" />
-    <None Include="Resources\TribalB.txt" />
-    <None Include="Resources\TribalAdulthoodsA.txt" />
-    <None Include="Resources\Travelers.txt" />
-    <None Include="Resources\rimworld_creations.txt" />
-    <None Include="Resources\ExtraD.txt" />
-    <None Include="Resources\ExtraC.txt" />
-    <None Include="Resources\ExtraB.txt" />
-    <None Include="Resources\ExtraA.txt" />
-    <None Include="Resources\Childhoods.txt" />
-    <None Include="Resources\AdulthoodsRaider.txt" />
-    <None Include="Resources\AdulthoodsCivil.txt" />
+    <Content Include="Resources\Childhoods.xml" />
+    <Content Include="Resources\ExtraA.xml" />
+    <Content Include="Resources\ExtraB.xml" />
+    <Content Include="Resources\ExtraC.xml" />
+    <Content Include="Resources\ExtraD.xml" />
+    <Content Include="Resources\rimworld_creations.xml" />
+    <Content Include="Resources\Travelers.xml" />
+    <Content Include="Resources\TribalAdulthoodsA.xml" />
+    <Content Include="Resources\TribalB.xml" />
+    <Content Include="Resources\TribalChildhoodsA.xml" />
+    <Content Include="Resources\TynanCustom.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

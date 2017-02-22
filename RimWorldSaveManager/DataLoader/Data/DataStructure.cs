@@ -220,23 +220,92 @@ namespace RimWorldSaveManager
             set { _name.Element("last").SetValue(value); }
         }
 
+        public string Name
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Nick)) {
+                    return Nick;
+                }
+                if (!string.IsNullOrEmpty(First)) {
+                    return First;
+                }
+                return Last;
+            }
+        }
+
+        public string He
+        {
+            get
+            {
+                if ((string)_xml.Element("gender") == "Female") {
+                    return "she";
+                }
+                return "he";
+            }
+        }
+
+        public string His
+        {
+            get
+            {
+                if ((string)_xml.Element("gender") == "Female") {
+                    return "her";
+                }
+                return "his";
+            }
+        }
+
+        public string HeCap
+        {
+            get
+            {
+                if ((string)_xml.Element("gender") == "Female") {
+                    return "She";
+                }
+                return "He";
+            }
+        }
+
+        public string HisCap
+        {
+            get
+            {
+                if ((string)_xml.Element("gender") == "Female") {
+                    return "Her";
+                }
+                return "His";
+            }
+        }
+
         public string Childhood
         {
             get
             {
                 var val = (string)_story.Element("childhood");
-                Console.WriteLine($"{Nick} childhood backstory get:{val}");
+                Logger.Debug(string.IsNullOrEmpty(val)
+                    ? $"{Nick} childhood backstory get:NULL"
+                    : $"{Nick} childhood backstory get:{val}");
                 return val;
             }
             set
             {
                 var elem = _story.Element("childhood");
+
+                if (value == null) {
+                    if (elem != null) {
+                        elem.Remove();
+                    }
+                    Logger.Debug($"{Nick} childhood backstory set:NULL");
+                    return;
+                }
+
                 if (elem == null) {
                     elem = new XElement("childhood");
                     _story.Add(elem);
                 }
                 elem.SetValue(value);
-                Console.WriteLine($"{Nick} childhood backstory set:{value}");
+                Logger.Debug($"{Nick} childhood backstory set:{value}");
             }
         }
 
@@ -245,18 +314,28 @@ namespace RimWorldSaveManager
             get
             {
                 var val = (string)_story.Element("adulthood");
-                Console.WriteLine($"{Nick} adulthood backstory get:{val}");
+                Logger.Debug(string.IsNullOrEmpty(val)
+                    ? $"{Nick} adulthood backstory get:NULL"
+                    : $"{Nick} adulthood backstory get:{val}");
                 return val;
             }
             set
             {
                 var elem = _story.Element("adulthood");
+                if (value == null) {
+                    if (elem != null) {
+                        elem.Remove();
+                    }
+                    Logger.Debug($"{Nick} adulthood backstory set:NULL");
+                    return;
+                }
+
                 if (elem == null) {
                     elem = new XElement("adulthood");
                     _story.Add(elem);
                 }
                 elem.SetValue(value);
-                Console.WriteLine($"{Nick} adulthood backstory set:{value}");
+                Logger.Debug($"{Nick} adulthood backstory set:{value}");
             }
         }
 

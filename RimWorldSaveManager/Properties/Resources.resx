@@ -118,31 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AdulthoodsCivil" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AdulthoodsCivil.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="AdulthoodsRaider" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AdulthoodsRaider.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Childhoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Childhoods.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="ExtraA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExtraA.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="ExtraB" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExtraB.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="ExtraC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExtraC.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="ExtraD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExtraD.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Travelers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Travelers.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="Backstories" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\backstories.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="AdulthoodsCivil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\adulthoodscivil.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="AdulthoodsRaider" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\adulthoodsraider.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Childhoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\childhoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ExtraA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\extraa.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ExtraB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\extrab.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ExtraC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\extrac.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ExtraD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\extrad.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="rimworld_creations" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\rimworld_creations.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Travelers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\travelers.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TribalAdulthoodsA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tribaladulthoodsa.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TribalB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tribalb.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TribalChildhoodsA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tribalchildhoodsa.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="TynanCustom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tynancustom.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

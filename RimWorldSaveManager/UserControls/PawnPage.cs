@@ -11,8 +11,8 @@ namespace RimWorldSaveManager
 {
     public partial class PawnPage : UserControl
     {
-        private Pawn PawnClass;
-        private ToolTip BackstoryDescription;
+        private readonly Pawn _pawn;
+        private readonly ToolTip _backstoryDescription;
 
         public Dictionary<string, TextBox> Skills;
         public Dictionary<string, ComboBox> Passions;
@@ -20,12 +20,11 @@ namespace RimWorldSaveManager
         public PawnPage(Pawn pawn)
         {
             InitializeComponent();
-            BackstoryDescription = new ToolTip();
+            _backstoryDescription = new ToolTip();
 
-            PawnClass = pawn;
+            _pawn = pawn;
 
-            foreach (var trait in DataLoader.Traits)
-            {
+            foreach (var trait in DataLoader.Traits) {
                 comboBox1.Items.Add(trait.Value);
             }
 
@@ -85,16 +84,18 @@ namespace RimWorldSaveManager
 
             Action<ComboBox, string> setBackstory = (comboBox, storyKey) => {
                 if (string.IsNullOrEmpty(storyKey)) {
+                    comboBox.SelectedItem = BackstoryDatabase.Backstories["None"];
                     return;
                 }
 
                 Backstory backstory;
                 if (!BackstoryDatabase.Backstories.TryGetValue(storyKey, out backstory)) {
-                    Console.WriteLine($"Failed to get backstory for key: {storyKey}");
+                    Logger.Err($"Failed to get backstory for key: {storyKey}");
                     return;
                 }
 
-                comboBox.SelectedIndex = comboBox.FindStringExact(backstory.DisplayTitle);
+                comboBox.SelectedItem = backstory;
+                //comboBox.SelectedIndex = comboBox.FindStringExact(backstory.DisplayTitle);
             };
 
             setBackstory(childhoodComboBox, pawn.Childhood);
@@ -127,17 +128,15 @@ namespace RimWorldSaveManager
                 return;
             }
 
-            var selected = (TraitDef) comboBox1.SelectedItem;
-            foreach (var item in listBoxTraits.Items)
-            {
-                if(((PawnTrait)item).Def == selected.Def)
-                {
+            var selected = (TraitDef)comboBox1.SelectedItem;
+            foreach (var item in listBoxTraits.Items) {
+                if (((PawnTrait)item).Def == selected.Def) {
                     MessageBox.Show("Can not add identical traits");
                     return;
                 }
             }
 
-            listBoxTraits.Items.Add(PawnClass.AddTrait((TraitDef)comboBox1.SelectedItem));
+            listBoxTraits.Items.Add(_pawn.AddTrait((TraitDef)comboBox1.SelectedItem));
         }
 
         private void btnRemoveTrait_Click(object sender, EventArgs e)
@@ -148,7 +147,7 @@ namespace RimWorldSaveManager
             }
 
             //var trait = (PawnTrait) listBoxTraits.SelectedItem;
-            PawnClass.RemoveTrait(listBoxTraits.SelectedIndex);
+            _pawn.RemoveTrait(listBoxTraits.SelectedIndex);
             listBoxTraits.Items.RemoveAt(listBoxTraits.SelectedIndex);
         }
 
@@ -163,7 +162,7 @@ namespace RimWorldSaveManager
             item.Element.Remove();
 
             /*
-            PawnClass.Hediffs.RemoveAt(listBoxInjuries.SelectedIndex);
+            Pawn.Hediffs.RemoveAt(listBoxInjuries.SelectedIndex);
             */
             listBoxInjuries.Items.RemoveAt(listBoxInjuries.SelectedIndex);
         }
@@ -173,10 +172,11 @@ namespace RimWorldSaveManager
             var comboBox = (ComboBox)sender;
             var backstory = (Backstory)comboBox.SelectedItem;
 
-            if (comboBox == childhoodComboBox)
-                PawnClass.Childhood = backstory.Id;
-            else
-                PawnClass.Adulthood = backstory.Id;
+            if (comboBox == childhoodComboBox) {
+                _pawn.Childhood = backstory.Id == "None" ? null : backstory.Id;
+            } else {
+                _pawn.Adulthood = backstory.Id == "None" ? null : backstory.Id;
+            }
         }
 
         private void Backstory_DrawItem(object sender, DrawItemEventArgs e)
@@ -188,8 +188,8 @@ namespace RimWorldSaveManager
             var backstory = (Backstory)comboBox.SelectedItem;
 
             if (e.Bounds.Y < 0 || e.Bounds.Y > comboBox.DropDownHeight) {
-                if (BackstoryDescription.Active) {
-                    BackstoryDescription.Hide((IWin32Window)sender);
+                if (_backstoryDescription.Active) {
+                    _backstoryDescription.Hide((IWin32Window)sender);
                 }
                 return;
             }
@@ -201,7 +201,7 @@ namespace RimWorldSaveManager
             }
 
             if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown) {
-                BackstoryDescription.Show(
+                _backstoryDescription.Show(
                     GenerateDetailedInformation(backstory), comboBox,
                     e.Bounds.Right + 18, e.Bounds.Bottom);
             }
@@ -246,12 +246,17 @@ namespace RimWorldSaveManager
                     }
             }
 
-            return detailedBackstory;
+            return
+                detailedBackstory.Replace("NAME", _pawn.Name)
+                    .Replace("HECAP", _pawn.HeCap)
+                    .Replace("HISCAP", _pawn.HisCap)
+                    .Replace("HE", _pawn.He)
+                    .Replace("HIS", _pawn.His);
         }
 
         private void DropDownClosed(object sender, EventArgs e)
         {
-            BackstoryDescription.Hide((IWin32Window)sender);
+            _backstoryDescription.Hide((IWin32Window)sender);
         }
 
     }

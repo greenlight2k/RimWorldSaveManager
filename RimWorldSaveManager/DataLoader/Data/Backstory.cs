@@ -29,12 +29,12 @@ namespace RimWorldSaveManager
         public static Backstory Extract(XElement xml)
         {
             if (xml == null) {
-                Console.WriteLine("[WARN] Trying to extract backstory from null XElement.");
+                Logger.Err("Trying to extract backstory from null XElement.");
                 return null;
             }
 
             if (string.IsNullOrEmpty((string)xml.Element("Title"))) {
-                Console.WriteLine("Found backstory with empty Title.");
+                Logger.Err("Found backstory with empty Title.");
                 return null;
             }
 
@@ -44,10 +44,12 @@ namespace RimWorldSaveManager
                 Description = (string)xml.Element("BaseDesc"),
                 Slot = (string)xml.Element("Slot")
             };
-
-            if (!string.IsNullOrEmpty(backstory.Description)) {
-                backstory.Description = DecriptionCutterRegex.Replace(backstory.Description, "$1\n");
+            if (string.IsNullOrEmpty(backstory.Description)) {
+                backstory.Description = (string)xml.Element("baseDesc");
             }
+            backstory.Description = backstory.Description.Replace("\\n", "\n");
+
+            backstory.DisplayTitle = backstory.Title;
 
             backstory.WorkDisables = ExtractWorkDisables(xml.Element("WorkDisables"));
             backstory.SkillGains = ExtractSkillGains(xml.Element("SkillGains"));
@@ -55,6 +57,10 @@ namespace RimWorldSaveManager
             backstory.Id = RemoveNonAlphanumeric(CapitalizedNoSpaces(backstory.Title.Replace('-', ' '))) + Math.Abs(StableStringHash(backstory.Description) % 100);
 
             //backstory.Id = backstory.Title.Replace(" ", "") + backstory.Description.StableStringHash();
+
+            if (!string.IsNullOrEmpty(backstory.Description)) {
+                backstory.Description = DecriptionCutterRegex.Replace(backstory.Description, "$1\n");
+            }
 
             return backstory;
         }

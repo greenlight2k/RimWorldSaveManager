@@ -235,6 +235,30 @@ namespace RimWorldSaveManager.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;PlayerCreatedBios&gt;
+        ///	&lt;PawnBio&gt;
+        ///		&lt;Name&gt;
+        ///			&lt;First&gt;James&lt;/First&gt;
+        ///			&lt;Last&gt;Grey&lt;/Last&gt;
+        ///			&lt;Nick&gt;Doc&lt;/Nick&gt;
+        ///		&lt;/Name&gt;
+        ///		&lt;Gender&gt;Male&lt;/Gender&gt;
+        ///		&lt;PirateKing&gt;True&lt;/PirateKing&gt;
+        ///		&lt;Childhood&gt;
+        ///			&lt;Title&gt;Fallen prodigy&lt;/Title&gt;
+        ///			&lt;TitleShort&gt;Prodigy&lt;/TitleShort&gt;
+        ///			&lt;BaseDesc&gt;NAME was born on a glitterworld falling into chaos. HISCAP father was killed in action.
+        ///
+        ///HECAP struggled for a scholarship at Utmaior Academy and had to prove his right to be there. A child  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string rimworld_creations {
+            get {
+                return ResourceManager.GetString("rimworld_creations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
         ///&lt;Backstory&gt;
@@ -257,6 +281,110 @@ namespace RimWorldSaveManager.Properties {
         internal static string Travelers {
             get {
                 return ResourceManager.GetString("Travelers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Backstories&gt;
+        ///  
+        ///	&lt;Backstory&gt;
+        ///		&lt;Title&gt;Gatherer&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;Gatherer&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;NAME is a master gatherer. HECAP can find food in the most barren of places using HIS deep knowledge of plants, roots, and berries.&lt;/BaseDesc&gt;
+        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///		&lt;requiredWorkTags&gt;
+        ///			&lt;li&gt;PlantWork&lt;/li&gt;
+        ///		&lt;/requiredWorkTags&gt;
+        ///		&lt;SkillGains&gt;
+        ///			&lt;li&gt;
+        ///				&lt;key&gt;Growing&lt;/key&gt;
+        ///				&lt;value&gt;4&lt;/value&gt;
+        ///			&lt;/li&gt;
+        ///		&lt;/SkillGains&gt;
+        ///		&lt;SpawnCategories&gt;
+        ///			&lt;l [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TribalAdulthoodsA {
+            get {
+                return ResourceManager.GetString("TribalAdulthoodsA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Backstories&gt;
+        ///
+        ///  &lt;Backstory&gt;
+        ///    &lt;Title&gt;Abandoned child&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Abandoned&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;NAME was born sickly. Thinking that HE would only burden the tribe, HIS parents left HIM out in the elements. Somehow, HE survived.&lt;/BaseDesc&gt;
+        ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
+        ///    &lt;WorkDisables&gt;
+        ///    &lt;/WorkDisables&gt;
+        ///    &lt;SkillGains&gt;
+        ///      &lt;li&gt;
+        ///        &lt;key&gt;Melee&lt;/key&gt;
+        ///        &lt;value&gt;3&lt;/value&gt;
+        ///      &lt;/li&gt;
+        ///      &lt;li&gt;
+        ///        &lt;key&gt;Crafting&lt;/key&gt;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TribalB {
+            get {
+                return ResourceManager.GetString("TribalB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Backstories&gt;
+        ///
+        ///	&lt;Backstory&gt;
+        ///		&lt;Title&gt;Tribe child&lt;/Title&gt;
+        ///		&lt;titleShort&gt;Tribal&lt;/titleShort&gt;
+        ///		&lt;BaseDesc&gt;NAME grew up in the tribe, running around the village, moving with the muffalo herds, learning essential skills from HIS parents.\n\nHECAP never learned to read and never saw a machine that wasn&apos;t an ancient ruin.&lt;/BaseDesc&gt;
+        ///		&lt;Slot&gt;Childhood&lt;/Slot&gt;
+        ///		&lt;SkillGains&gt;
+        ///			&lt;li&gt;
+        ///				&lt;key&gt;Growing&lt;/key&gt;
+        ///				&lt;value&gt;2&lt;/value&gt;
+        ///			&lt;/li&gt;
+        ///			&lt;li&gt;
+        ///				&lt;key&gt;Melee&lt;/key&gt;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TribalChildhoodsA {
+            get {
+                return ResourceManager.GetString("TribalChildhoodsA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;PlayerCreatedBios&gt;
+        ///
+        ///	&lt;PawnBio&gt;
+        ///		&lt;Name&gt;
+        ///			&lt;First&gt;Tynan&lt;/First&gt;
+        ///			&lt;Last&gt;Sylvester&lt;/Last&gt;
+        ///			&lt;Nick&gt;Tynan&lt;/Nick&gt;
+        ///		&lt;/Name&gt;
+        ///		&lt;Gender&gt;Male&lt;/Gender&gt;
+        ///		&lt;Childhood&gt;
+        ///			&lt;Title&gt;Punk&lt;/Title&gt;
+        ///			&lt;titleShort&gt;Punk&lt;/titleShort&gt;
+        ///			&lt;BaseDesc&gt;NAME spent his childhood selling knockoff cigarettes to 15-year-olds. The cigarettes were often full of grass clippings.&lt;/BaseDesc&gt;
+        ///			&lt;SkillGains&gt;
+        ///				&lt;li&gt;
+        ///					&lt;key&gt;Research&lt;/key&gt;
+        ///					&lt;value&gt;-2&lt;/value&gt;
+        ///				&lt;/li&gt;
+        ///				&lt;li&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TynanCustom {
+            get {
+                return ResourceManager.GetString("TynanCustom", resourceCulture);
             }
         }
     }
