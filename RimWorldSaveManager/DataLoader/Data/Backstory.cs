@@ -59,7 +59,7 @@ namespace RimWorldSaveManager
             //backstory.Id = backstory.Title.Replace(" ", "") + backstory.Description.StableStringHash();
 
             if (!string.IsNullOrEmpty(backstory.Description)) {
-                backstory.Description = DecriptionCutterRegex.Replace(backstory.Description, "$1\n");
+                //backstory.Description = DecriptionCutterRegex.Replace(backstory.Description, "$1\n");
             }
 
             return backstory;

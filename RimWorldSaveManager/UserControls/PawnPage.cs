@@ -12,7 +12,7 @@ namespace RimWorldSaveManager
     public partial class PawnPage : UserControl
     {
         private readonly Pawn _pawn;
-        private readonly ToolTip _backstoryDescription;
+        //private readonly ToolTip _backstoryDescription;
 
         public Dictionary<string, TextBox> Skills;
         public Dictionary<string, ComboBox> Passions;
@@ -20,7 +20,7 @@ namespace RimWorldSaveManager
         public PawnPage(Pawn pawn)
         {
             InitializeComponent();
-            _backstoryDescription = new ToolTip();
+            //_backstoryDescription = new ToolTip();
 
             _pawn = pawn;
 
@@ -188,9 +188,11 @@ namespace RimWorldSaveManager
             var backstory = (Backstory)comboBox.SelectedItem;
 
             if (e.Bounds.Y < 0 || e.Bounds.Y > comboBox.DropDownHeight) {
+                /*
                 if (_backstoryDescription.Active) {
                     _backstoryDescription.Hide((IWin32Window)sender);
                 }
+                */
                 return;
             }
 
@@ -200,10 +202,14 @@ namespace RimWorldSaveManager
                 e.Graphics.DrawString(comboBox.GetItemText(comboBox.Items[e.Index]), e.Font, br, e.Bounds);
             }
 
-            if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown) {
+            if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown)
+            {
+                DescriptionText.Lines = GenerateDetailedInformation(backstory).Split('\n');
+                /*
                 _backstoryDescription.Show(
                     GenerateDetailedInformation(backstory), comboBox,
                     e.Bounds.Right + 18, e.Bounds.Bottom);
+                    */
             }
 
             e.DrawFocusRectangle();
@@ -218,7 +224,7 @@ namespace RimWorldSaveManager
 
         private string GenerateDetailedInformation(Backstory backstory)
         {
-            var detailedBackstory = backstory.Description + "\n";
+            var detailedBackstory = $"{backstory.Title}\n\n{backstory.Description}\n";
 
             if (backstory.SkillGains != null && backstory.SkillGains.Count > 0) {
                 detailedBackstory += "\nSkill Gains:\n";
@@ -256,7 +262,8 @@ namespace RimWorldSaveManager
 
         private void DropDownClosed(object sender, EventArgs e)
         {
-            _backstoryDescription.Hide((IWin32Window)sender);
+            DescriptionText.Text = "";
+            //_backstoryDescription.Hide((IWin32Window)sender);
         }
 
     }

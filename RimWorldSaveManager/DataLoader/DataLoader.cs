@@ -145,7 +145,9 @@ namespace RimWorldSaveManager
                     && (string)pawn.Element("def") == "Human"
                     && (string)pawn.Element("faction") == colonyFaction) {
                     var p = new Pawn(pawn);
-                    p.Controls.Add(new PawnPage(p));
+                    var page = new PawnPage(p);
+                    page.Dock = DockStyle.Fill;
+                    p.Controls.Add(page);
                     Pawns.Add(p);
                 }
             }

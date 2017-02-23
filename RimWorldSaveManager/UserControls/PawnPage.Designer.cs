@@ -42,28 +42,38 @@
             this.childhoodComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.BiologicalAgeBox = new System.Windows.Forms.NumericUpDown();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.DescriptionText = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BiologicalAgeBox)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(260, 90);
+            this.groupBox1.Size = new System.Drawing.Size(260, 415);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Skills";
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.btnRemoveTrait);
             this.groupBox2.Controls.Add(this.btnAddTrait);
             this.groupBox2.Controls.Add(this.listBoxTraits);
-            this.groupBox2.Location = new System.Drawing.Point(269, 32);
+            this.groupBox2.Location = new System.Drawing.Point(6, 40);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(277, 100);
             this.groupBox2.TabIndex = 7;
@@ -72,6 +82,8 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(7, 70);
@@ -81,6 +93,7 @@
             // 
             // btnRemoveTrait
             // 
+            this.btnRemoveTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveTrait.Location = new System.Drawing.Point(211, 69);
             this.btnRemoveTrait.Name = "btnRemoveTrait";
             this.btnRemoveTrait.Size = new System.Drawing.Size(60, 23);
@@ -91,6 +104,7 @@
             // 
             // btnAddTrait
             // 
+            this.btnAddTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddTrait.Location = new System.Drawing.Point(145, 69);
             this.btnAddTrait.Name = "btnAddTrait";
             this.btnAddTrait.Size = new System.Drawing.Size(60, 23);
@@ -101,6 +115,9 @@
             // 
             // listBoxTraits
             // 
+            this.listBoxTraits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxTraits.FormattingEnabled = true;
             this.listBoxTraits.Location = new System.Drawing.Point(7, 20);
             this.listBoxTraits.Name = "listBoxTraits";
@@ -109,6 +126,7 @@
             // 
             // btnRemoveInjury
             // 
+            this.btnRemoveInjury.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemoveInjury.Location = new System.Drawing.Point(211, 69);
             this.btnRemoveInjury.Name = "btnRemoveInjury";
             this.btnRemoveInjury.Size = new System.Drawing.Size(60, 23);
@@ -119,6 +137,9 @@
             // 
             // listBoxInjuries
             // 
+            this.listBoxInjuries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxInjuries.FormattingEnabled = true;
             this.listBoxInjuries.Location = new System.Drawing.Point(7, 20);
             this.listBoxInjuries.Name = "listBoxInjuries";
@@ -127,9 +148,11 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Location = new System.Drawing.Point(269, 138);
+            this.groupBox3.Location = new System.Drawing.Point(6, 146);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(277, 100);
             this.groupBox3.TabIndex = 8;
@@ -138,9 +161,11 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.adulthoodComboBox);
             this.groupBox4.Controls.Add(this.childhoodComboBox);
-            this.groupBox4.Location = new System.Drawing.Point(269, 244);
+            this.groupBox4.Location = new System.Drawing.Point(6, 252);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(277, 42);
             this.groupBox4.TabIndex = 9;
@@ -154,6 +179,7 @@
             this.adulthoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.adulthoodComboBox.DropDownWidth = 200;
             this.adulthoodComboBox.FormattingEnabled = true;
+            this.adulthoodComboBox.IntegralHeight = false;
             this.adulthoodComboBox.Location = new System.Drawing.Point(150, 15);
             this.adulthoodComboBox.Name = "adulthoodComboBox";
             this.adulthoodComboBox.Size = new System.Drawing.Size(121, 21);
@@ -169,6 +195,7 @@
             this.childhoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.childhoodComboBox.DropDownWidth = 200;
             this.childhoodComboBox.FormattingEnabled = true;
+            this.childhoodComboBox.IntegralHeight = false;
             this.childhoodComboBox.Location = new System.Drawing.Point(7, 15);
             this.childhoodComboBox.Name = "childhoodComboBox";
             this.childhoodComboBox.Size = new System.Drawing.Size(121, 21);
@@ -180,7 +207,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(273, 7);
+            this.label1.Location = new System.Drawing.Point(3, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 10;
@@ -189,7 +216,7 @@
             // BiologicalAgeBox
             // 
             this.BiologicalAgeBox.DecimalPlaces = 2;
-            this.BiologicalAgeBox.Location = new System.Drawing.Point(350, 5);
+            this.BiologicalAgeBox.Location = new System.Drawing.Point(83, 0);
             this.BiologicalAgeBox.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -204,24 +231,74 @@
             0,
             0});
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.DescriptionText);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox5.Location = new System.Drawing.Point(562, 0);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(8);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox5.Size = new System.Drawing.Size(295, 415);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Description";
+            // 
+            // DescriptionText
+            // 
+            this.DescriptionText.BackColor = System.Drawing.SystemColors.Window;
+            this.DescriptionText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DescriptionText.Location = new System.Drawing.Point(5, 18);
+            this.DescriptionText.Multiline = true;
+            this.DescriptionText.Name = "DescriptionText";
+            this.DescriptionText.ReadOnly = true;
+            this.DescriptionText.Size = new System.Drawing.Size(285, 392);
+            this.DescriptionText.TabIndex = 0;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.panel2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox4);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(260, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(302, 415);
+            this.flowLayoutPanel1.TabIndex = 14;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.BiologicalAgeBox);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Location = new System.Drawing.Point(6, 6);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(277, 28);
+            this.panel2.TabIndex = 0;
+            // 
             // PawnPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.BiologicalAgeBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.AutoSize = true;
+            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox1);
             this.Name = "PawnPage";
-            this.Size = new System.Drawing.Size(550, 344);
+            this.Size = new System.Drawing.Size(857, 415);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.BiologicalAgeBox)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 
@@ -240,5 +317,9 @@
 		private System.Windows.Forms.ComboBox childhoodComboBox;
 		private System.Windows.Forms.Label label1;
 		public System.Windows.Forms.NumericUpDown BiologicalAgeBox;
-	}
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox DescriptionText;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Panel panel2;
+    }
 }
