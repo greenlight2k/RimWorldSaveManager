@@ -379,6 +379,7 @@ namespace RimWorldSaveManager
         {
             var trait = PawnTrait.Create(def);
             _traits.Add(trait.Element);
+            Traits.Add(trait);
             return trait;
         }
 

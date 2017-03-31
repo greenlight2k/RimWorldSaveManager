@@ -116,17 +116,19 @@ namespace RimWorldSaveManager
                     }
                 }
 
-
                 listBoxInjuries.Items.Add(pawnHediff);
             }
         }
 
         private void btnAddTrait_Click(object sender, EventArgs e)
         {
+            // Remove the 3 traits hard limit.
+            /*
             if (listBoxTraits.Items.Count >= 3) {
                 MessageBox.Show("Can not add more than 3 traits");
                 return;
             }
+            */
 
             var selected = (TraitDef)comboBox1.SelectedItem;
             foreach (var item in listBoxTraits.Items) {
@@ -147,6 +149,7 @@ namespace RimWorldSaveManager
             }
 
             //var trait = (PawnTrait) listBoxTraits.SelectedItem;
+            Console.WriteLine($"Selected index: {listBoxTraits.SelectedIndex}");
             _pawn.RemoveTrait(listBoxTraits.SelectedIndex);
             listBoxTraits.Items.RemoveAt(listBoxTraits.SelectedIndex);
         }
@@ -188,11 +191,6 @@ namespace RimWorldSaveManager
             var backstory = (Backstory)comboBox.SelectedItem;
 
             if (e.Bounds.Y < 0 || e.Bounds.Y > comboBox.DropDownHeight) {
-                /*
-                if (_backstoryDescription.Active) {
-                    _backstoryDescription.Hide((IWin32Window)sender);
-                }
-                */
                 return;
             }
 
@@ -205,11 +203,6 @@ namespace RimWorldSaveManager
             if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown)
             {
                 DescriptionText.Lines = GenerateDetailedInformation(backstory).Split('\n');
-                /*
-                _backstoryDescription.Show(
-                    GenerateDetailedInformation(backstory), comboBox,
-                    e.Bounds.Right + 18, e.Bounds.Bottom);
-                    */
             }
 
             e.DrawFocusRectangle();
@@ -263,7 +256,6 @@ namespace RimWorldSaveManager
         private void DropDownClosed(object sender, EventArgs e)
         {
             DescriptionText.Text = "";
-            //_backstoryDescription.Hide((IWin32Window)sender);
         }
 
     }
