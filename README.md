@@ -2,7 +2,7 @@
 
 This is done for educational purposes, so don't expect it to be all so great (or good, for that matter).
 But, it does do the basic skill/trait editing, and hopefully without (m)any issues.
-It supports modded traits as well, and you can place it in your root game folder, or copy the Mods folder to the program's location.
+Copy the executable file (.exe) into your game directory and run it.
 
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
