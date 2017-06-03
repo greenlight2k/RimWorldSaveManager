@@ -64,8 +64,6 @@ namespace RimWorldSaveManager.UserControls
                 HediffDef hediffDef = null;
                 Hediff hediffClass = null;
 
-                bool labelExists = false;
-
                 if (pawnHediff.ParentClass != null)
                 {
                     if (DataLoader.Hediffs.TryGetValue(pawnHediff.ParentClass, out hediffClass))

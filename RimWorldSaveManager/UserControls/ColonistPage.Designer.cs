@@ -69,7 +69,7 @@
             // 
             this.skillsGroupBox.Location = new System.Drawing.Point(190, 3);
             this.skillsGroupBox.Name = "skillsGroupBox";
-            this.skillsGroupBox.Size = new System.Drawing.Size(313, 472);
+            this.skillsGroupBox.Size = new System.Drawing.Size(313, 549);
             this.skillsGroupBox.TabIndex = 1;
             this.skillsGroupBox.TabStop = false;
             this.skillsGroupBox.Text = "Skills";
@@ -82,7 +82,7 @@
             this.ageGroupBox.Controls.Add(this.label1);
             this.ageGroupBox.Location = new System.Drawing.Point(509, 112);
             this.ageGroupBox.Name = "ageGroupBox";
-            this.ageGroupBox.Size = new System.Drawing.Size(386, 100);
+            this.ageGroupBox.Size = new System.Drawing.Size(386, 76);
             this.ageGroupBox.TabIndex = 2;
             this.ageGroupBox.TabStop = false;
             this.ageGroupBox.Text = "Age";
@@ -140,31 +140,34 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.adulthoodComboBox);
             this.groupBox4.Controls.Add(this.childhoodComboBox);
-            this.groupBox4.Location = new System.Drawing.Point(900, 7);
+            this.groupBox4.Location = new System.Drawing.Point(509, 194);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(311, 82);
+            this.groupBox4.Size = new System.Drawing.Size(385, 54);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Backstory";
             // 
             // adulthoodComboBox
             // 
+            this.adulthoodComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.adulthoodComboBox.DropDownHeight = 400;
             this.adulthoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.adulthoodComboBox.DropDownWidth = 200;
             this.adulthoodComboBox.FormattingEnabled = true;
             this.adulthoodComboBox.IntegralHeight = false;
-            this.adulthoodComboBox.Location = new System.Drawing.Point(7, 42);
+            this.adulthoodComboBox.Location = new System.Drawing.Point(154, 15);
             this.adulthoodComboBox.Name = "adulthoodComboBox";
             this.adulthoodComboBox.Size = new System.Drawing.Size(141, 21);
             this.adulthoodComboBox.TabIndex = 1;
+            this.adulthoodComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Backstory_DrawItem);
+            this.adulthoodComboBox.SelectedIndexChanged += new System.EventHandler(this.backstoryComboBox_SelectedIndexChanged);
+            this.adulthoodComboBox.DropDownClosed += new System.EventHandler(this.DropDownClosed);
             // 
             // childhoodComboBox
             // 
+            this.childhoodComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.childhoodComboBox.DropDownHeight = 400;
             this.childhoodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.childhoodComboBox.DropDownWidth = 200;
@@ -174,16 +177,20 @@
             this.childhoodComboBox.Name = "childhoodComboBox";
             this.childhoodComboBox.Size = new System.Drawing.Size(141, 21);
             this.childhoodComboBox.TabIndex = 0;
+            this.childhoodComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Backstory_DrawItem);
+            this.childhoodComboBox.SelectedIndexChanged += new System.EventHandler(this.backstoryComboBox_SelectedIndexChanged);
+            this.childhoodComboBox.DropDownClosed += new System.EventHandler(this.DropDownClosed);
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.traitComboBox);
             this.groupBox2.Controls.Add(this.btnRemoveTrait);
             this.groupBox2.Controls.Add(this.btnAddTrait);
             this.groupBox2.Controls.Add(this.listBoxTraits);
-            this.groupBox2.Location = new System.Drawing.Point(509, 218);
+            this.groupBox2.Location = new System.Drawing.Point(187, 558);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 129);
+            this.groupBox2.Size = new System.Drawing.Size(313, 134);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Traits";
@@ -194,15 +201,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.traitComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.traitComboBox.FormattingEnabled = true;
-            this.traitComboBox.Location = new System.Drawing.Point(7, 99);
+            this.traitComboBox.Location = new System.Drawing.Point(7, 104);
             this.traitComboBox.Name = "traitComboBox";
-            this.traitComboBox.Size = new System.Drawing.Size(241, 21);
+            this.traitComboBox.Size = new System.Drawing.Size(168, 21);
             this.traitComboBox.TabIndex = 3;
             // 
             // btnRemoveTrait
             // 
             this.btnRemoveTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveTrait.Location = new System.Drawing.Point(320, 98);
+            this.btnRemoveTrait.Location = new System.Drawing.Point(247, 103);
             this.btnRemoveTrait.Name = "btnRemoveTrait";
             this.btnRemoveTrait.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveTrait.TabIndex = 2;
@@ -213,7 +220,7 @@
             // btnAddTrait
             // 
             this.btnAddTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTrait.Location = new System.Drawing.Point(254, 98);
+            this.btnAddTrait.Location = new System.Drawing.Point(181, 103);
             this.btnAddTrait.Name = "btnAddTrait";
             this.btnAddTrait.Size = new System.Drawing.Size(60, 23);
             this.btnAddTrait.TabIndex = 1;
@@ -227,9 +234,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxTraits.FormattingEnabled = true;
-            this.listBoxTraits.Location = new System.Drawing.Point(7, 20);
+            this.listBoxTraits.Location = new System.Drawing.Point(6, 14);
             this.listBoxTraits.Name = "listBoxTraits";
-            this.listBoxTraits.Size = new System.Drawing.Size(373, 69);
+            this.listBoxTraits.Size = new System.Drawing.Size(300, 82);
             this.listBoxTraits.TabIndex = 0;
             // 
             // groupBox3
@@ -238,9 +245,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Location = new System.Drawing.Point(509, 353);
+            this.groupBox3.Location = new System.Drawing.Point(509, 254);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(386, 311);
+            this.groupBox3.Size = new System.Drawing.Size(386, 438);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Injuries";
@@ -248,7 +255,7 @@
             // btnRemoveInjury
             // 
             this.btnRemoveInjury.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveInjury.Location = new System.Drawing.Point(320, 280);
+            this.btnRemoveInjury.Location = new System.Drawing.Point(320, 407);
             this.btnRemoveInjury.Name = "btnRemoveInjury";
             this.btnRemoveInjury.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveInjury.TabIndex = 2;
@@ -258,39 +265,39 @@
             // 
             // listBoxInjuries
             // 
-            this.listBoxInjuries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxInjuries.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxInjuries.FormattingEnabled = true;
             this.listBoxInjuries.Location = new System.Drawing.Point(7, 20);
             this.listBoxInjuries.Name = "listBoxInjuries";
-            this.listBoxInjuries.Size = new System.Drawing.Size(372, 251);
+            this.listBoxInjuries.Size = new System.Drawing.Size(372, 394);
             this.listBoxInjuries.TabIndex = 0;
             // 
             // groupBox5
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.DescriptionText);
-            this.groupBox5.Location = new System.Drawing.Point(900, 92);
+            this.groupBox5.Location = new System.Drawing.Point(898, 3);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox5.Size = new System.Drawing.Size(311, 572);
+            this.groupBox5.Size = new System.Drawing.Size(280, 429);
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Description";
             // 
             // DescriptionText
             // 
+            this.DescriptionText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.DescriptionText.BackColor = System.Drawing.SystemColors.Window;
-            this.DescriptionText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DescriptionText.Location = new System.Drawing.Point(5, 18);
             this.DescriptionText.Multiline = true;
             this.DescriptionText.Name = "DescriptionText";
             this.DescriptionText.ReadOnly = true;
-            this.DescriptionText.Size = new System.Drawing.Size(301, 549);
+            this.DescriptionText.Size = new System.Drawing.Size(270, 403);
             this.DescriptionText.TabIndex = 0;
             // 
             // listBox1
@@ -299,7 +306,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 0);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(181, 669);
+            this.listBox1.Size = new System.Drawing.Size(181, 695);
             this.listBox1.TabIndex = 14;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             // 
@@ -382,7 +389,7 @@
             this.Controls.Add(this.ageGroupBox);
             this.Controls.Add(this.skillsGroupBox);
             this.Name = "ColonistPage";
-            this.Size = new System.Drawing.Size(1216, 669);
+            this.Size = new System.Drawing.Size(1185, 695);
             this.ageGroupBox.ResumeLayout(false);
             this.ageGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).EndInit();
