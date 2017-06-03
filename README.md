@@ -7,6 +7,10 @@ Copy the executable file (.exe) into your game directory and run it.
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.6.0.1 ####
+* Small hotfix for new SaveGames
+* Add support for non-Human, playable Colonists, "Humanoid Alien Framework" (Orassans, ...)
+* CAUTION: Backstories or Traits from Mods are not supported.
 #### v0.6.0.0 ####
 * Code base rewrite
 * Put all colonists into a list on the first tab
