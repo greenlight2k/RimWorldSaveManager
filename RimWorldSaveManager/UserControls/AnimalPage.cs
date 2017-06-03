@@ -47,6 +47,7 @@ namespace RimWorldSaveManager.UserControls
             bioAgeField.Value = (decimal)(pawn.AgeBiologicalTicks / 3600000f);
             chronoAgeField.Value = -(decimal)(pawn.AgeChronoligicalTicks / 3600000f);
 
+            labelDefinition.Text = _pawn.Def;
             textBoxNickname.Text = _pawn.Nickname;
 
             checkBoxObedience.Checked = _pawn.Training.ObedienceTraining;

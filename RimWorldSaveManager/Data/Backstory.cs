@@ -17,7 +17,7 @@ namespace RimWorldSaveManager
         public string TitleShort;
         public string Description;
         public string DisplayTitle;
-        public string[] WorkDisables;
+        public List<string> WorkDisables;
         public Dictionary<string, int> SkillGains;
         public string Id;
 
@@ -103,17 +103,17 @@ namespace RimWorldSaveManager
             return sb.ToString();
         }
 
-        private static string[] ExtractWorkDisables(XElement xml)
+        private static List<string> ExtractWorkDisables(XElement xml)
         {
             if (xml == null) {
-                return new string[0];
+                return new List<string>();
             }
 
             var disables = new List<string>();
             foreach (var disable in xml.Elements("li")) {
                 disables.Add((string)disable);
             }
-            return disables.ToArray();
+            return disables;
         }
 
         private static Dictionary<string, int> ExtractSkillGains(XElement xml)

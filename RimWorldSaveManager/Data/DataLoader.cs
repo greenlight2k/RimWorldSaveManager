@@ -19,20 +19,20 @@ namespace RimWorldSaveManager
 
         public DataLoader()
         {
-            BackstoryDatabase.Load();
+            ResourceLoader.Load();
 
-            foreach (var directory in Directory.GetDirectories("Mods"))
+            var allXmlFiles = Directory.GetFiles("Mods", "*.xml", SearchOption.AllDirectories);
+
+            foreach (var xmlFile in allXmlFiles)
             {
-                Func<string, string, string> CreateFullPath = (s1, s2)
-                    => string.Join(Path.DirectorySeparatorChar.ToString(), directory, s1, s2);
-
-                if (Directory.Exists(CreateFullPath("Defs", "TraitDefs")))
+                if (xmlFile.ToLower().Contains("trait"))
                 {
-                    foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "TraitDefs"), "*.xml"))
+                    using (var fileStream = File.OpenRead(xmlFile))
                     {
-                        using (var fileStream = File.OpenRead(file))
+                        try
                         {
-                            foreach (var traitDef in XDocument.Load(fileStream).Root.Elements())
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            foreach (var traitDef in docRoot.Descendants("TraitDef"))
                             {
                                 var traits = (from trait in traitDef.XPathSelectElements("degreeDatas/li")
                                               select new TraitDef
@@ -48,14 +48,18 @@ namespace RimWorldSaveManager
                             }
                             fileStream.Close();
                         }
+                        catch (Exception e)
+                        {
+                            // Dont care
+                        }
+
                     }
                 }
-
-                if (Directory.Exists(CreateFullPath("Defs", "HediffDefs")))
+                if (xmlFile.ToLower().Contains("hediff"))
                 {
-                    foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "HediffDefs"), "*.xml"))
+                    using (var fileStream = File.OpenRead(xmlFile))
                     {
-                        using (var fileStream = File.OpenRead(file))
+                        try
                         {
                             var docRoot = XDocument.Load(fileStream).Root;
 
@@ -92,18 +96,78 @@ namespace RimWorldSaveManager
                                 foreach (var hediff in hediffs)
                                     coreHediff.SubDiffs[hediff.Def] = hediff;
                             }
-
-                            fileStream.Close();
-                            fileStream.Dispose();
                         }
+                        catch (Exception e)
+                        {
+                            // Dont care
+                        }
+                        fileStream.Close();
+                        fileStream.Dispose();
+
+                    }
+                }
+                if (xmlFile.ToLower().Contains("backstor")) //y, ies
+                {
+                    using (var fileStream = File.OpenRead(xmlFile))
+                    {
+                        try
+                        {
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            foreach (var def in docRoot.Descendants("AlienRace.BackstoryDef"))
+                            {
+                                Backstory backstory = new Backstory
+                                {
+                                    Id = (string)def.Element("defName"),
+                                    Title = (string)def.Element("title"),
+                                    DisplayTitle = "(AlienRace)" + (string)def.Element("title"),
+                                    TitleShort = (string)def.Element("titleShort"),
+                                    Description = (string)def.Element("baseDescription"),
+                                    Slot = (string)def.Element("slot"),
+                                    SkillGains = new Dictionary<string, int>(),
+                                    WorkDisables = new List<string>()
+                                };
+                                foreach (var skillGain in def.XPathSelectElements("skillGains/li"))
+                                {
+                                    string defName = (string)skillGain.Element("defName");
+                                    int amount = Convert.ToInt32(skillGain.Element("amount").GetValue());
+                                    backstory.SkillGains.Add(defName, amount);
+                                }
+                                foreach (var workDisables in def.XPathSelectElements("workDisables/li"))
+                                {
+                                    backstory.WorkDisables.Add(workDisables.GetValue());
+                                }
+                                ResourceLoader.Backstories[backstory.Id] = backstory;
+
+                                if (string.IsNullOrEmpty(backstory.Slot))
+                                {
+                                    ResourceLoader.ChildhoodStories.Add(backstory);
+                                    ResourceLoader.AdulthoodStories.Add(backstory);
+                                }
+                                else if (backstory.Slot == "Childhood")
+                                {
+                                    ResourceLoader.ChildhoodStories.Add(backstory);
+                                }
+                                else
+                                {
+                                    ResourceLoader.AdulthoodStories.Add(backstory);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Err(e.Message);
+                            // Dont care
+                        }
+                        fileStream.Close();
+                        fileStream.Dispose();
                     }
                 }
 
-                if (Directory.Exists(CreateFullPath("Defs", "WorkTypeDefs")))
+                if (xmlFile.ToLower().Contains("worktype"))
                 {
-                    foreach (var file in Directory.GetFiles(CreateFullPath("Defs", "WorkTypeDefs"), "*.xml"))
+                    using (var fileStream = File.OpenRead(xmlFile))
                     {
-                        using (var fileStream = File.OpenRead(file))
+                        try
                         {
                             var docRoot = XDocument.Load(fileStream).Root;
                             var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
@@ -126,18 +190,18 @@ namespace RimWorldSaveManager
                                                };
 
                             WorkTypes.AddRange(workTypeDefs);
-                            fileStream.Close();
-                            fileStream.Dispose();
                         }
+                        catch (Exception e)
+                        {
+                            // Dont care
+                        }
+                        fileStream.Close();
+                        fileStream.Dispose();
                     }
                 }
             }
-            /*
-            } catch (Exception e) {
-                MessageBox.Show("Failed loading defintion files\nReason: " + e.Message, @"RimWorld load error");
-                Application.Exit();
-            }
-            */
+            ResourceLoader.ChildhoodStories = ResourceLoader.ChildhoodStories.OrderBy(x => x.DisplayTitle).ToList();
+            ResourceLoader.AdulthoodStories = ResourceLoader.AdulthoodStories.OrderBy(x => x.DisplayTitle).ToList();
         }
 
         public bool LoadData(string path, TabControl tabControl)
@@ -182,12 +246,13 @@ namespace RimWorldSaveManager
 
                     Pawn p = new Pawn(pawn);
                     List<PawnData> pawnDataList;
-                    if(!pawnDataDir.TryGetValue(p.PawnId, out pawnDataList)){
+                    if (!pawnDataDir.TryGetValue(p.PawnId, out pawnDataList))
+                    {
                         pawnDataList = new List<PawnData>();
                     }
 
                     p.addPawnData(pawnDataList);
-                    if((string)pawn.Element("skills").Attribute("IsNull") == null)
+                    if ((string)pawn.Element("skills").Attribute("IsNull") == null)
                     {
                         Colonists.Add(p);
                     }

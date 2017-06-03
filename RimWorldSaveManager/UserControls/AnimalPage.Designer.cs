@@ -55,6 +55,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelDefinition = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.nameGroupBox.SuspendLayout();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
@@ -65,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHaul)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRelease)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownObedience)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox1
@@ -81,7 +85,7 @@
             // 
             this.nameGroupBox.Controls.Add(this.textBoxNickname);
             this.nameGroupBox.Controls.Add(this.label5);
-            this.nameGroupBox.Location = new System.Drawing.Point(246, 3);
+            this.nameGroupBox.Location = new System.Drawing.Point(246, 63);
             this.nameGroupBox.Name = "nameGroupBox";
             this.nameGroupBox.Size = new System.Drawing.Size(315, 59);
             this.nameGroupBox.TabIndex = 16;
@@ -111,7 +115,7 @@
             this.ageGroupBox.Controls.Add(this.bioAgeField);
             this.ageGroupBox.Controls.Add(this.label2);
             this.ageGroupBox.Controls.Add(this.label1);
-            this.ageGroupBox.Location = new System.Drawing.Point(246, 68);
+            this.ageGroupBox.Location = new System.Drawing.Point(246, 128);
             this.ageGroupBox.Name = "ageGroupBox";
             this.ageGroupBox.Size = new System.Drawing.Size(315, 79);
             this.ageGroupBox.TabIndex = 17;
@@ -221,7 +225,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(246, 153);
+            this.groupBox1.Location = new System.Drawing.Point(246, 213);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(315, 163);
             this.groupBox1.TabIndex = 19;
@@ -374,10 +378,40 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Obedience";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.labelDefinition);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Location = new System.Drawing.Point(248, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(313, 54);
+            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Infos";
+            // 
+            // labelDefinition
+            // 
+            this.labelDefinition.AutoSize = true;
+            this.labelDefinition.Location = new System.Drawing.Point(68, 21);
+            this.labelDefinition.Name = "labelDefinition";
+            this.labelDefinition.Size = new System.Drawing.Size(35, 13);
+            this.labelDefinition.TabIndex = 1;
+            this.labelDefinition.Text = "label8";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 21);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Definition:";
+            // 
             // AnimalPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.ageGroupBox);
@@ -398,6 +432,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHaul)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRelease)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownObedience)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -431,5 +467,8 @@
         private System.Windows.Forms.CheckBox checkBoxRescue;
         private System.Windows.Forms.CheckBox checkBoxRelease;
         private System.Windows.Forms.CheckBox checkBoxObedience;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label labelDefinition;
+        private System.Windows.Forms.Label label10;
     }
 }

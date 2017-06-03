@@ -50,6 +50,8 @@ namespace RimWorldSaveManager.UserControls
             bioAgeField.Value = (decimal)(pawn.AgeBiologicalTicks / 3600000f);
             chronoAgeField.Value = -(decimal)(pawn.AgeChronoligicalTicks / 3600000f);
 
+            labelDefinition.Text = _pawn.Def;
+
 
             traitComboBox.SelectedIndex = 0;
 
@@ -111,18 +113,18 @@ namespace RimWorldSaveManager.UserControls
                 listBoxTraits.Items.Add(trait);
             }
 
-            childhoodComboBox.Items.AddRange(BackstoryDatabase.ChildhoodStories);
-            adulthoodComboBox.Items.AddRange(BackstoryDatabase.AdulthoodStories);
+            childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
+            adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
 
             Action<ComboBox, string> setBackstory = (comboBox, storyKey) => {
                 if (string.IsNullOrEmpty(storyKey))
                 {
-                    comboBox.SelectedItem = BackstoryDatabase.Backstories["None"];
+                    comboBox.SelectedItem = ResourceLoader.Backstories["None"];
                     return;
                 }
 
                 Backstory backstory;
-                if (!BackstoryDatabase.Backstories.TryGetValue(storyKey, out backstory))
+                if (!ResourceLoader.Backstories.TryGetValue(storyKey, out backstory))
                 {
                     Logger.Err($"Failed to get backstory for key: {storyKey}");
                     return;
@@ -261,7 +263,7 @@ namespace RimWorldSaveManager.UserControls
                     detailedBackstory += $"{skillGain.Key}: {skillGain.Value}\n";
             }
 
-            if (backstory.WorkDisables != null && backstory.WorkDisables.Length > 0)
+            if (backstory.WorkDisables != null && backstory.WorkDisables.Count > 0)
             {
                 detailedBackstory += "\nIncapable of:\n";
 
@@ -322,5 +324,6 @@ namespace RimWorldSaveManager.UserControls
         {
             _pawn.AgeChronoligicalTicks = -Decimal.ToInt64(Decimal.Multiply(chronoAgeField.Value, 3600000));
         }
+
     }
 }

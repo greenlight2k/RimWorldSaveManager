@@ -10,11 +10,11 @@ using System.Xml.Linq;
 
 namespace RimWorldSaveManager
 {
-    public static class BackstoryDatabase
+    public static class ResourceLoader
     {
         public static readonly Dictionary<string, Backstory> Backstories = new Dictionary<string, Backstory>();
-        public static Backstory[] ChildhoodStories;
-        public static Backstory[] AdulthoodStories;
+        public static List<Backstory> ChildhoodStories;
+        public static List<Backstory> AdulthoodStories;
 
         private static bool Debug = true;
 
@@ -167,8 +167,8 @@ namespace RimWorldSaveManager
                 }
             }
 
-            ChildhoodStories = childhodStories.OrderBy(x => x.DisplayTitle).ToArray();
-            AdulthoodStories = adultStories.OrderBy(x => x.DisplayTitle).ToArray();
+            ChildhoodStories = childhodStories.OrderBy(x => x.DisplayTitle).ToList();
+            AdulthoodStories = adultStories.OrderBy(x => x.DisplayTitle).ToList();
 
             resources.Close();
             resources.Dispose();
