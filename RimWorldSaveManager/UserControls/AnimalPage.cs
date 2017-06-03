@@ -26,15 +26,18 @@ namespace RimWorldSaveManager.UserControls
             listBox1.DataSource = _pawnBindingList;
             listBox1.DisplayMember = "FullName";
 
-            setPawn(_pawnBindingList[0]);
-
+            if (_pawnBindingList.Count > 0)
+            {
+                setPawn(_pawnBindingList[0]);
+            }
         }
         private void listBox1_Click(object sender, EventArgs e)
         {
-
-            Pawn pawn = (Pawn)listBox1.SelectedItems[0];
-            setPawn(pawn);
-
+            if (listBox1.SelectedItems.Count > 0)
+            {
+                Pawn pawn = (Pawn)listBox1.SelectedItems[0];
+                setPawn(pawn);
+            }
         }
 
         private void setPawn(Pawn pawn)

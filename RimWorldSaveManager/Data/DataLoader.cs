@@ -181,8 +181,13 @@ namespace RimWorldSaveManager
 
 
                     Pawn p = new Pawn(pawn);
-                    p.addPawnData(pawnDataDir[p.PawnId]);
-                    if((string)pawn.Element("def") == "Human")
+                    List<PawnData> pawnDataList;
+                    if(!pawnDataDir.TryGetValue(p.PawnId, out pawnDataList)){
+                        pawnDataList = new List<PawnData>();
+                    }
+
+                    p.addPawnData(pawnDataList);
+                    if((string)pawn.Element("skills").Attribute("IsNull") == null)
                     {
                         Colonists.Add(p);
                     }
