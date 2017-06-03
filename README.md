@@ -1,9 +1,10 @@
 # RimWorld Save Manager #
 This is a SaveGame-Editor for RimWorld (rimworldgame.com).
-At the moment it supports editing the follwing stats:
-Colonists:  Name, Skills, Age, Traits, Backstory, Injuries
-Animals: Name, Age, Injuries, Training
-Supports races made with the Humanoid Alien Framework.
+
+At the moment it supports editing the follwing stats:  
+**Colonists**:  Name, Skills, Age, Traits, Backstory, Injuries  
+**Animals**: Name, Age, Injuries, Training  
+Supports races made with the Humanoid Alien Framework.  
 Copy the executable file (.exe) into your game directory and run it.
 
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
