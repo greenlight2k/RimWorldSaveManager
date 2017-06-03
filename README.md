@@ -1,7 +1,9 @@
 # RimWorld Save Manager #
-
-This is done for educational purposes, so don't expect it to be all so great (or good, for that matter).
-But, it does do the basic skill/trait editing, and hopefully without (m)any issues.
+This is a SaveGame-Editor for RimWorld (rimworldgame.com).
+At the moment it supports editing the follwing stats:
+Colonists:  Name, Skills, Age, Traits, Backstory, Injuries
+Animals: Name, Age, Injuries, Training
+Supports races made with the Humanoid Alien Framework.
 Copy the executable file (.exe) into your game directory and run it.
 
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
