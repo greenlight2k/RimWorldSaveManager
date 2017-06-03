@@ -35,6 +35,19 @@ namespace RimWorldSaveManager
             var resources = Properties.Resources.ResourceManager
                             .GetResourceSet(CultureInfo.InvariantCulture, true, true);
 
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject("Bodyparts"))))
+            {
+                var root = XDocument.Load(stream).Root;
+
+                foreach (var bodypart in root.Descendants("Bodypart"))
+                {
+                    DataLoader.HumanBodyPartDescription[(string)bodypart.Element("partIndex")] = (string)bodypart.Element("name");
+                }
+
+                stream.Close();
+                stream.Dispose();
+            }
+
 
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject("Backstories")))) {
                 var root = XDocument.Load(stream).Root;
@@ -157,6 +170,7 @@ namespace RimWorldSaveManager
             ChildhoodStories = childhodStories.OrderBy(x => x.DisplayTitle).ToArray();
             AdulthoodStories = adultStories.OrderBy(x => x.DisplayTitle).ToArray();
 
+            resources.Close();
             resources.Dispose();
         }
 

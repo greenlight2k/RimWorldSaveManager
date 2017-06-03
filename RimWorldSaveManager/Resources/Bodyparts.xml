@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Bodyparts>
+  <Bodypart>
+    <partIndex>0</partIndex>
+    <name>Torso</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>1</partIndex>
+    <name>Sternum</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>2</partIndex>
+    <name>First rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>3</partIndex>
+    <name>Second rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>4</partIndex>
+    <name>Third rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>5</partIndex>
+    <name>Fourth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>6</partIndex>
+    <name>Fifth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>7</partIndex>
+    <name>Sixth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>8</partIndex>
+    <name>Seventh rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>9</partIndex>
+    <name>Eighth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>10</partIndex>
+    <name>Ninth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>11</partIndex>
+    <name>Tenth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>12</partIndex>
+    <name>Eleventh rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>13</partIndex>
+    <name>Twelfth rib</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>14</partIndex>
+    <name>Pelvis</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>15</partIndex>
+    <name>Spine</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>16</partIndex>
+    <name>Stomach</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>17</partIndex>
+    <name>Heart</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>18</partIndex>
+    <name>Left lung</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>19</partIndex>
+    <name>Right lung</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>20</partIndex>
+    <name>Left kidney</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>21</partIndex>
+    <name>Right kidney</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>22</partIndex>
+    <name>Liver</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>23</partIndex>
+    <name>Neck</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>24</partIndex>
+    <name>Head</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>25</partIndex>
+    <name>Skull</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>26</partIndex>
+    <name>Brain</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>27</partIndex>
+    <name>Left eye</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>28</partIndex>
+    <name>Right eye</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>29</partIndex>
+    <name>Left ear</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>30</partIndex>
+    <name>Right ear</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>31</partIndex>
+    <name>Nose</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>32</partIndex>
+    <name>Jaw</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>33</partIndex>
+    <name>Left Shoulder</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>34</partIndex>
+    <name>Left Clavicle</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>35</partIndex>
+    <name>Left Arm</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>36</partIndex>
+    <name>Left Humerus</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>37</partIndex>
+    <name>Left Radius</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>38</partIndex>
+    <name>Left Hand</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>39</partIndex>
+    <name>Left Pinky</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>40</partIndex>
+    <name>Left Ring Finger</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>41</partIndex>
+    <name>Left Middle Finger</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>42</partIndex>
+    <name>Left Index Finger</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>43</partIndex>
+    <name>Left Thumb</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>44</partIndex>
+    <name>Right Shoulder</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>45</partIndex>
+    <name>Right Clavicle</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>46</partIndex>
+    <name>Right Arm</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>47</partIndex>
+    <name>Right Humerus</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>48</partIndex>
+    <name>Right Radius</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>49</partIndex>
+    <name>Right Hand</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>50</partIndex>
+    <name>Right Pinky</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>51</partIndex>
+    <name>Right Ring Finger</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>52</partIndex>
+    <name>Right Middle Finger</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>53</partIndex>
+    <name>Right Index Finger</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>54</partIndex>
+    <name>Right Thumb</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>55</partIndex>
+    <name>Waist</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>56</partIndex>
+    <name>Left Leg</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>57</partIndex>
+    <name>Left Femur</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>58</partIndex>
+    <name>Left Tibia</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>59</partIndex>
+    <name>Left Foot</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>60</partIndex>
+    <name>Left little Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>61</partIndex>
+    <name>Left fourth Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>62</partIndex>
+    <name>Left middle Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>63</partIndex>
+    <name>Left second Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>64</partIndex>
+    <name>Left big Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>65</partIndex>
+    <name>Right Leg</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>66</partIndex>
+    <name>Right Femur</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>67</partIndex>
+    <name>Right Tibia</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>68</partIndex>
+    <name>Right Foot</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>69</partIndex>
+    <name>Right little Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>70</partIndex>
+    <name>Right fourth Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>71</partIndex>
+    <name>Right middle Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>72</partIndex>
+    <name>Right second Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>73</partIndex>
+    <name>Right big Toe</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>74</partIndex>
+    <name>UNKNOWN</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>75</partIndex>
+    <name>UNKNOWN</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>76</partIndex>
+    <name>UNKNOWN</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>77</partIndex>
+    <name>UNKNOWN</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>78</partIndex>
+    <name>UNKNOWN</name>
+  </Bodypart>
+  <Bodypart>
+    <partIndex>79</partIndex>
+    <name>UNKNOWN</name>
+  </Bodypart>
+
+
+
+
+</Bodyparts>

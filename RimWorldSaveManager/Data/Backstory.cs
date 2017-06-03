@@ -128,7 +128,5 @@ namespace RimWorldSaveManager
             }
             return gains;
         }
-
-
     }
 }

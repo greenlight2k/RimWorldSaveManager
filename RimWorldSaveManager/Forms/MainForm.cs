@@ -15,7 +15,7 @@ namespace RimWorldSaveManager
 
 			var version = Assembly.GetExecutingAssembly().GetName();
 
-			Text = $"{version.Name} v{version.Version} (Alpha 16)";
+			Text = $"{version.Name} v{version.Version} (Alpha 17)";
 		}
 
 		private void toolStripLabel1_Click(object sender, EventArgs e)
@@ -81,5 +81,5 @@ namespace RimWorldSaveManager
 				_dataLoader.SaveData(sfn.FileName);
 			}
 		}
-	}
+    }
 }
