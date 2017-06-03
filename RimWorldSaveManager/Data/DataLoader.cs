@@ -39,7 +39,7 @@ namespace RimWorldSaveManager
                                               {
                                                   Def = traitDef.Element("defName").Value,
                                                   Label = textInfo.ToTitleCase(trait.Element("label").Value),
-                                                  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : null
+                                                  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : "0"
                                               });
 
                                 foreach (var trait in traits)
