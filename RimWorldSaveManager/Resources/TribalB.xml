@@ -202,9 +202,9 @@
     <TitleShort>Healer</TitleShort>
     <BaseDesc>After HIS tribe’s elder healer was killed in a raid, NAME took on the role. HECAP spent HIS days scrounging up herbs and mineral compounds from the nearby area to use in surprisingly effective remedies.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Caring</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Caring</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Medicine</key>
@@ -227,9 +227,9 @@
     <TitleShort>Scout</TitleShort>
     <BaseDesc>Since HIS tribe has made contact with local outlanders, NAME has contracted HIS services out as a guide to the local area. Frequent contact with ancient relics has made HIM fairly comfortable with the old technology.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Violent</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Violent</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Shooting</key>
@@ -258,9 +258,9 @@
     <TitleShort>Digger</TitleShort>
     <BaseDesc>NAME and HIS tribe carved their home deep into the side of a mountain. NAME feels most at home picking through rock and shoring up cave walls.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Mining</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Mining</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Mining</key>
@@ -305,9 +305,9 @@
     <TitleShort>Keeper</TitleShort>
     <BaseDesc>NAME was one of a long line of lore keepers in HIS tribe. Every night around the fire, HECAP would pass on ancient knowledge and helpful wisdom through stories.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Intellectual</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Intellectual</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Research</key>
@@ -334,9 +334,10 @@
     <TitleShort>Weaver</TitleShort>
     <BaseDesc>NAME was an expert at working muffalo wool, plant fibres and natural dyes into beautiful clothing for HIS kin. HISCAP beautiful handicrafts were traded frequently between local tribes.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Crafting</li>
-		</requiredWorkTags><SkillGains>
+    <requiredWorkTags>
+      <li>Crafting</li>
+    </requiredWorkTags>
+    <SkillGains>
       <li>
         <key>Crafting</key>
         <value>5</value>

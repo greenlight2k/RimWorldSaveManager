@@ -64,18 +64,22 @@ namespace RimWorldSaveManager.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
-        ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Colony settler&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;NAME was a settler on a new colony world.\n\nSuch a life requires a jack-of-all trades at basic hands-on tasks.&lt;/BaseDesc&gt;
-        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///		&lt;SkillGains&gt;
-        ///			&lt;li&gt;&lt;key&gt;Construction&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
-        ///			&lt;li&gt;&lt;key&gt;Growing&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
-        ///			&lt;li&gt;&lt;key&gt;Mining&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
-        ///		&lt;/SkillGains&gt;
-        ///		&lt;SpawnCategories&gt;
-        ///			&lt;li&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &lt;Backstory&gt;
+        ///    &lt;Title&gt;Colony settler&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;NAME was a settler on a new colony world.\n\nSuch a life requires a jack-of-all trades at basic hands-on tasks.&lt;/BaseDesc&gt;
+        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///    &lt;SkillGains&gt;
+        ///      &lt;li&gt;
+        ///        &lt;key&gt;Construction&lt;/key&gt;
+        ///        &lt;value&gt;4&lt;/value&gt;
+        ///      &lt;/li&gt;
+        ///      &lt;li&gt;
+        ///        &lt;key&gt;Growing&lt;/key&gt;
+        ///        &lt;value&gt;4&lt;/value&gt;
+        ///      &lt;/li&gt;
+        ///      &lt;li&gt;
+        ///        [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string AdulthoodsCivil {
             get {
@@ -84,20 +88,22 @@ namespace RimWorldSaveManager.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt; 
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///
         ///&lt;Backstories&gt;
         ///
-        ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Space pirate&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Pirate&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;Piracy appears everywhere that governments are weak and society spread thin. NAME was part of this age-old part of human existence, extorting and smashing peaceful trade ships for profit.&lt;/BaseDesc&gt;
-        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///		&lt;SkillGains&gt;
-        ///			&lt;li&gt;&lt;key&gt;Melee&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
-        ///			&lt;li&gt;&lt;key&gt;Shooting&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
-        ///		&lt;/SkillGains&gt;
-        ///		&lt;Sp [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &lt;Backstory&gt;
+        ///    &lt;Title&gt;Space pirate&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Pirate&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;Piracy appears everywhere that governments are weak and society spread thin. NAME was part of this age-old part of human existence, extorting and smashing peaceful trade ships for profit.&lt;/BaseDesc&gt;
+        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///    &lt;SkillGains&gt;
+        ///      &lt;li&gt;
+        ///        &lt;key&gt;Melee&lt;/key&gt;
+        ///        &lt;value&gt;4&lt;/value&gt;
+        ///      &lt;/li&gt;
+        ///      &lt;li&gt;
+        ///        &lt;key&gt;Shoot [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string AdulthoodsRaider {
             get {
@@ -108,17 +114,20 @@ namespace RimWorldSaveManager.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;BackstoryTranslations&gt;
-        ///	&lt;ColonySettler43&gt;
-        ///		&lt;Title&gt;Colony settler&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;NAME was a settler on a new colony world.
+        ///  &lt;ColonySettler43&gt;
+        ///    &lt;Title&gt;Colony settler&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;
+        ///      NAME was a settler on a new colony world.
         ///
-        ///Such a life requires a jack-of-all trades at basic hands-on tasks.&lt;/BaseDesc&gt;
-        ///	&lt;/ColonySettler43&gt;
-        ///	&lt;MedievalFarmOaf58&gt;
-        ///		&lt;Title&gt;Medieval farm oaf&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Oaf&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;Tilling, hoeing, guiding ox carts, pushing wheelbarrows. Digging ditches, planting seeds, predictin [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///      Such a life requires a jack-of-all trades at basic hands-on tasks.
+        ///    &lt;/BaseDesc&gt;
+        ///  &lt;/ColonySettler43&gt;
+        ///  &lt;MedievalFarmOaf58&gt;
+        ///    &lt;Title&gt;Medieval farm oaf&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Oaf&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;
+        ///      Tilling, hoeing, guiding ox carts, pushing wheelbarrows. [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string Backstories {
             get {
@@ -129,29 +138,28 @@ namespace RimWorldSaveManager.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Bodyparts&gt;
-        ///
         ///  &lt;Bodypart&gt;
         ///    &lt;partIndex&gt;0&lt;/partIndex&gt;
-        ///    &lt;name&gt;UNKNOWN&lt;/name&gt;
+        ///    &lt;name&gt;Torso&lt;/name&gt;
         ///  &lt;/Bodypart&gt;
         ///  &lt;Bodypart&gt;
         ///    &lt;partIndex&gt;1&lt;/partIndex&gt;
-        ///    &lt;name&gt;UNKNOWN&lt;/name&gt;
+        ///    &lt;name&gt;Sternum&lt;/name&gt;
         ///  &lt;/Bodypart&gt;
         ///  &lt;Bodypart&gt;
         ///    &lt;partIndex&gt;2&lt;/partIndex&gt;
-        ///    &lt;name&gt;UNKNOWN&lt;/name&gt;
+        ///    &lt;name&gt;First rib&lt;/name&gt;
         ///  &lt;/Bodypart&gt;
         ///  &lt;Bodypart&gt;
         ///    &lt;partIndex&gt;3&lt;/partIndex&gt;
-        ///    &lt;name&gt;UNKNOWN&lt;/name&gt;
+        ///    &lt;name&gt;Second rib&lt;/name&gt;
         ///  &lt;/Bodypart&gt;
         ///  &lt;Bodypart&gt;
         ///    &lt;partIndex&gt;4&lt;/partIndex&gt;
-        ///    &lt;name&gt;UNKNOWN&lt;/name&gt;
+        ///    &lt;name&gt;Third rib&lt;/name&gt;
         ///  &lt;/Bodypart&gt;
         ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex&gt;5&lt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///    &lt;partIndex [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string Bodyparts {
             get {
@@ -165,8 +173,8 @@ namespace RimWorldSaveManager.Properties {
         ///
         ///  &lt;Backstory&gt;
         ///    &lt;Title&gt;Medieval slave&lt;/Title&gt;
-        ///		&lt;titleShort&gt;Slave&lt;/titleShort&gt;
-        ///		&lt;BaseDesc&gt;NAME grew up pulling carts and digging holes on a medieval world. Simple manual labor is HIS oldest companion - along with the master&apos;s lash.\n\nHECAP didn&apos;t learn to read until age nine.&lt;/BaseDesc&gt;
+        ///    &lt;titleShort&gt;Slave&lt;/titleShort&gt;
+        ///    &lt;BaseDesc&gt;NAME grew up pulling carts and digging holes on a medieval world. Simple manual labor is HIS oldest companion - along with the master&apos;s lash.\n\nHECAP didn&apos;t learn to read until age nine.&lt;/BaseDesc&gt;
         ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
         ///    &lt;SkillGains&gt;
         ///      &lt;li&gt;
@@ -174,7 +182,7 @@ namespace RimWorldSaveManager.Properties {
         ///        &lt;value&gt;2&lt;/value&gt;
         ///      &lt;/li&gt;
         ///      &lt;li&gt;
-        ///        &lt;key&gt;Construc [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///        &lt;key&gt;Cons [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string Childhoods {
             get {
@@ -186,17 +194,16 @@ namespace RimWorldSaveManager.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
-        ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Hermit&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Hermit&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;Worn out by the pressures of social interaction, NAME left HIS crowded midworld city to live a simple life in the wilderness. There, HE spent HIS days alone, tending HIS garden and crafting the simple tools HE needed to survive.&lt;/BaseDesc&gt;
-        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///		&lt;WorkDisables&gt;
-        ///			&lt;li&gt;Social&lt;/li&gt;
-        ///		&lt;/WorkDisables&gt;
-        ///		&lt;SkillGains&gt;
-        ///			&lt;li&gt;
-        ///				&lt;key&gt;Growing&lt;/k [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &lt;Backstory&gt;
+        ///    &lt;Title&gt;Hermit&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Hermit&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;Worn out by the pressures of social interaction, NAME left HIS crowded midworld city to live a simple life in the wilderness. There, HE spent HIS days alone, tending HIS garden and crafting the simple tools HE needed to survive.&lt;/BaseDesc&gt;
+        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///    &lt;WorkDisables&gt;
+        ///      &lt;li&gt;Social&lt;/li&gt;
+        ///    &lt;/WorkDisables&gt;
+        ///    &lt;SkillGains&gt;
+        ///      &lt;li&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string ExtraA {
             get {
@@ -208,16 +215,15 @@ namespace RimWorldSaveManager.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
-        ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Hiveworld drone&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Drone&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;NAME worked as a mindless construction drone in a massive hiveworld civilization. Though HE is now freed from the brutal social experiments to which HE was subjected, HE remains incapable of creative thought and leadership.&lt;/BaseDesc&gt;
-        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///		&lt;WorkDisables&gt;
-        ///			&lt;li&gt;Artistic&lt;/li&gt;
-        ///			&lt;li&gt;Intellectual&lt;/li&gt;
-        ///		&lt;/WorkDisables&gt;
-        ///		&lt;requiredWo [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &lt;Backstory&gt;
+        ///    &lt;Title&gt;Hiveworld drone&lt;/Title&gt;
+        ///    &lt;TitleShort&gt;Drone&lt;/TitleShort&gt;
+        ///    &lt;BaseDesc&gt;NAME worked as a mindless construction drone in a massive hiveworld civilization. Though HE is now freed from the brutal social experiments to which HE was subjected, HE remains incapable of creative thought and leadership.&lt;/BaseDesc&gt;
+        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///    &lt;WorkDisables&gt;
+        ///      &lt;li&gt;Artistic&lt;/li&gt;
+        ///      &lt;li&gt;Intellectual&lt;/li&gt;
+        ///    &lt;/WorkDisab [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string ExtraB {
             get {
@@ -248,17 +254,18 @@ namespace RimWorldSaveManager.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
-        ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Convent child&lt;/Title&gt;
-        ///		&lt;titleShort&gt;Illicit&lt;/titleShort&gt;
-        ///		&lt;BaseDesc&gt;The child of an illicit affair, NAME was bought up by nuns in a medieval convent. HECAP learned the value of hard work and submission, but was taught that technology is heretical.&lt;/BaseDesc&gt;
-        ///		&lt;Slot&gt;Childhood&lt;/Slot&gt;
-        ///		&lt;WorkDisables&gt;
-        ///			&lt;li&gt;Intellectual&lt;/li&gt;
-        ///			&lt;li&gt;Violent&lt;/li&gt;
-        ///		&lt;/WorkDisables&gt;
-        ///		&lt;SkillGains&gt;
-        ///			&lt;li&gt;&lt;key&gt;Construction&lt;/key&gt;&lt;value&gt;3&lt;/va [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &lt;Backstory&gt;
+        ///    &lt;Title&gt;Convent child&lt;/Title&gt;
+        ///    &lt;titleShort&gt;Illicit&lt;/titleShort&gt;
+        ///    &lt;BaseDesc&gt;The child of an illicit affair, NAME was bought up by nuns in a medieval convent. HECAP learned the value of hard work and submission, but was taught that technology is heretical.&lt;/BaseDesc&gt;
+        ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
+        ///    &lt;WorkDisables&gt;
+        ///      &lt;li&gt;Intellectual&lt;/li&gt;
+        ///      &lt;li&gt;Violent&lt;/li&gt;
+        ///    &lt;/WorkDisables&gt;
+        ///    &lt;SkillGains&gt;
+        ///      &lt;li&gt;
+        ///        &lt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string ExtraD {
             get {

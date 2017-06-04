@@ -30,15 +30,15 @@
       <li>Trader</li>
       <li>Traveler</li>
     </SpawnCategories>
-		<forcedTraits>
-			<Pyromaniac />
-		</forcedTraits>
+    <forcedTraits>
+      <Pyromaniac />
+    </forcedTraits>
   </Backstory>
 
   <Backstory>
     <Title>Mute</Title>
-		<titleShort>Mute</titleShort>
-		<BaseDesc>NAME was greatly affected by a traumatic event early in HIS life. For many years HE refused to speak to people, preferring instead to play with HIS household's numerous pets.</BaseDesc>
+    <titleShort>Mute</titleShort>
+    <BaseDesc>NAME was greatly affected by a traumatic event early in HIS life. For many years HE refused to speak to people, preferring instead to play with HIS household's numerous pets.</BaseDesc>
     <Slot>Childhood</Slot>
     <WorkDisables>
       <li>Social</li>
@@ -62,8 +62,8 @@
 
   <Backstory>
     <Title>Refugee</Title>
-		<titleShort>Refugee</titleShort>
-		<BaseDesc>War broke out in NAME's home when HE was a baby. HISCAP parents fled with HIM, seeking safety wherever they could find it. NAME's earliest memories are of being taught how to defend HIMself.\n\nThe violence and destruction HE witnessed left HIM scarred for life.</BaseDesc>
+    <titleShort>Refugee</titleShort>
+    <BaseDesc>War broke out in NAME's home when HE was a baby. HISCAP parents fled with HIM, seeking safety wherever they could find it. NAME's earliest memories are of being taught how to defend HIMself.\n\nThe violence and destruction HE witnessed left HIM scarred for life.</BaseDesc>
     <Slot>Childhood</Slot>
     <WorkDisables>
       <li>Scary</li>
@@ -89,8 +89,8 @@
 
   <Backstory>
     <Title>Music lover</Title>
-		<titleShort>Musician</titleShort>
-		<BaseDesc>As a child, NAME had a talent for playing musical instruments and singing. HECAP was given expert training and loved to perform in recitals and concerts, though the lavish praise HE received made HIM a little self-obsessed.</BaseDesc>
+    <titleShort>Musician</titleShort>
+    <BaseDesc>As a child, NAME had a talent for playing musical instruments and singing. HECAP was given expert training and loved to perform in recitals and concerts, though the lavish praise HE received made HIM a little self-obsessed.</BaseDesc>
     <Slot>Childhood</Slot>
     <WorkDisables>
     </WorkDisables>
@@ -115,8 +115,8 @@
 
   <Backstory>
     <Title>Child star</Title>
-		<titleShort>Star</titleShort>
-		<BaseDesc>NAME was well-known throughout HIS homeworld as a child actor in films and TV shows. HISCAP fame put HIM in contact with many different kinds of people, but also tended to get in the way of HIS education.</BaseDesc>
+    <titleShort>Star</titleShort>
+    <BaseDesc>NAME was well-known throughout HIS homeworld as a child actor in films and TV shows. HISCAP fame put HIM in contact with many different kinds of people, but also tended to get in the way of HIS education.</BaseDesc>
     <Slot>Childhood</Slot>
     <WorkDisables>
       <li>ManualDumb</li>
@@ -145,7 +145,7 @@
 
   <Backstory>
     <Title>Child spy</Title>
-		<titleShort>Spy</titleShort>
+    <titleShort>Spy</titleShort>
     <BaseDesc>Children are often presumed innocent, and can be ideal as spies. NAME was trained in the art of infiltration and information-gathering when HE was just nine years old.\n\nHISCAP years behind enemy lines and the war-torn nature of HIS homeworld meant HE had limited opportunity for education.</BaseDesc>
     <Slot>Childhood</Slot>
     <WorkDisables>
@@ -171,8 +171,8 @@
 
   <Backstory>
     <Title>Shopkeeper</Title>
-		<titleShort>Shopkeep</titleShort>
-		<BaseDesc>NAME's mother was often ill, and it fell to HIM to run the store which was their only source of income. HECAP learned a little about the exotic artifacts which HE sold, and a lot about the art of the deal.</BaseDesc>
+    <titleShort>Shopkeep</titleShort>
+    <BaseDesc>NAME's mother was often ill, and it fell to HIM to run the store which was their only source of income. HECAP learned a little about the exotic artifacts which HE sold, and a lot about the art of the deal.</BaseDesc>
     <Slot>Childhood</Slot>
     <WorkDisables>
     </WorkDisables>
@@ -203,9 +203,9 @@
     <WorkDisables>
       <li>Violent</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Caring</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Caring</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Social</key>
@@ -232,10 +232,10 @@
     <WorkDisables>
       <li>Intellectual</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>ManualDumb</li>
-			<li>Cleaning</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualDumb</li>
+      <li>Cleaning</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Cooking</key>
@@ -267,10 +267,10 @@
     <WorkDisables>
       <li>Social</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Violent</li>
-			<li>Scary</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Violent</li>
+      <li>Scary</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Shooting</key>
@@ -304,9 +304,9 @@
       <li>ManualDumb</li>
       <li>Social</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Intellectual</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Intellectual</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Construction</key>
@@ -336,9 +336,9 @@
     <WorkDisables>
       <li>ManualDumb</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Intellectual</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Intellectual</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Shooting</key>
@@ -362,10 +362,10 @@
     <TitleShort>Paramedic</TitleShort>
     <BaseDesc>NAME's job was to respond rapidly to medical emergencies. HECAP is used to dealing with severe injuries with only limited medical supplies.\n\nHECAP treated so many gunshot wounds over the years that even seeing a gun made HIM uncomfortable.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Caring</li>
-			<li>Scary</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Caring</li>
+      <li>Scary</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Shooting</key>
@@ -394,10 +394,10 @@
       <li>Social</li>
       <li>Artistic</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>ManualDumb</li>
-			<li>PlantWork</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualDumb</li>
+      <li>PlantWork</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Melee</key>
@@ -435,10 +435,10 @@
       <li>Intellectual</li>
       <li>Crafting</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>ManualDumb</li>
-			<li>PlantWork</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualDumb</li>
+      <li>PlantWork</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Growing</key>
@@ -466,9 +466,9 @@
       <li>Caring</li>
       <li>Cooking</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Social</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Social</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Shooting</key>
@@ -501,10 +501,10 @@
       <li>Social</li>
       <li>Caring</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Violent</li>
-			<li>Scary</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Violent</li>
+      <li>Scary</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Melee</key>
@@ -532,9 +532,9 @@
       <li>Intellectual</li>
       <li>Cooking</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>ManualSkilled</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualSkilled</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Construction</key>
@@ -564,10 +564,10 @@
     <WorkDisables>
       <li>Intellectual</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>ManualDumb</li>
-			<li>ManualSkilled</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualDumb</li>
+      <li>ManualSkilled</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Shooting</key>
@@ -601,10 +601,10 @@
     <WorkDisables>
       <li>Violent</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Caring</li>
-			<li>Social</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Caring</li>
+      <li>Social</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Social</key>
@@ -669,11 +669,11 @@
       <li>Artistic</li>
       <li>Cooking</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>ManualDumb</li>
-			<li>ManualSkilled</li>
-			<li>Animals</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualDumb</li>
+      <li>ManualSkilled</li>
+      <li>Animals</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Animals</key>
@@ -706,9 +706,9 @@
     <WorkDisables>
       <li>ManualDumb</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Animals</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Animals</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Animals</key>
@@ -739,10 +739,10 @@
     <TitleShort>Grunt</TitleShort>
     <BaseDesc>NAME worked a variety of casual jobs to support HIS family, gaining a set of basic hands-on skills.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>ManualDumb</li>
-			<li>Cleaning</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>ManualDumb</li>
+      <li>Cleaning</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Cooking</key>
@@ -777,10 +777,10 @@
       <li>ManualSkilled</li>
       <li>Caring</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Social</li>
-			<li>Artistic</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Social</li>
+      <li>Artistic</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Social</key>
@@ -809,9 +809,9 @@
     <WorkDisables>
       <li>Violent</li>
     </WorkDisables>
-		<requiredWorkTags>
-			<li>Intellectual</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Intellectual</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Animals</key>
@@ -837,9 +837,9 @@
     <TitleShort>Geologist</TitleShort>
     <BaseDesc>NAME worked with miners and cave-diggers, identifying rock types and natural formations.\n\nDuring HIS years underground HE also gained experience repairing drilling machines and other technical equipment.</BaseDesc>
     <Slot>Adulthood</Slot>
-		<requiredWorkTags>
-			<li>Intellectual</li>
-		</requiredWorkTags>
+    <requiredWorkTags>
+      <li>Intellectual</li>
+    </requiredWorkTags>
     <SkillGains>
       <li>
         <key>Mining</key>

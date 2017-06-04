@@ -12,16 +12,31 @@ namespace RimWorldSaveManager.Data.DataStructure
         private readonly XElement _xElement;
 
         private Name _name;
+        private XElement _Gender;
 
         public PawnData(XElement xElement)
         {
             _xElement = xElement;
             _name = new Name(_xElement.Element("name"));
+            _Gender = _xElement.Element("gender");
+
         }
 
         public Name Name
         {
-            get { return _name;  }
+            get { return _name; }
+        }
+
+        public string Gender
+        {
+            get
+            {
+                return _Gender.GetValue();
+            }
+            set
+            {
+                _Gender.SetValue(value);
+            }
         }
 
     }

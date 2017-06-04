@@ -3,8 +3,8 @@
 
   <Backstory>
     <Title>Medieval slave</Title>
-		<titleShort>Slave</titleShort>
-		<BaseDesc>NAME grew up pulling carts and digging holes on a medieval world. Simple manual labor is HIS oldest companion - along with the master's lash.\n\nHECAP didn't learn to read until age nine.</BaseDesc>
+    <titleShort>Slave</titleShort>
+    <BaseDesc>NAME grew up pulling carts and digging holes on a medieval world. Simple manual labor is HIS oldest companion - along with the master's lash.\n\nHECAP didn't learn to read until age nine.</BaseDesc>
     <Slot>Childhood</Slot>
     <SkillGains>
       <li>
@@ -33,8 +33,8 @@
 
   <Backstory>
     <Title>Medieval lordling</Title>
-		<titleShort>Lordling</titleShort>
-		<BaseDesc>NAME was a minor noble in an old kingdom on a medieval world. HECAP grew up in a manor made of stone, served by bowing lowerclassmen.\n\nSuch a life teaches no technical skills and instils a lifelong aversion to manual labor - but NAME learned early the ways of social manipulation.</BaseDesc>
+    <titleShort>Lordling</titleShort>
+    <BaseDesc>NAME was a minor noble in an old kingdom on a medieval world. HECAP grew up in a manor made of stone, served by bowing lowerclassmen.\n\nSuch a life teaches no technical skills and instils a lifelong aversion to manual labor - but NAME learned early the ways of social manipulation.</BaseDesc>
     <Slot>Childhood</Slot>
     <SkillGains>
       <li>
@@ -61,8 +61,8 @@
 
   <Backstory>
     <Title>Urbworld urchin</Title>
-		<titleShort>Urchin</titleShort>
-		<BaseDesc>The urbworlds - ancient and deep industrial cityscapes bursting with humanity and poison. NAME grew up in the dark, unwanted reaches of such a place. HECAP had to fight for every scrap of food.</BaseDesc>
+    <titleShort>Urchin</titleShort>
+    <BaseDesc>The urbworlds - ancient and deep industrial cityscapes bursting with humanity and poison. NAME grew up in the dark, unwanted reaches of such a place. HECAP had to fight for every scrap of food.</BaseDesc>
     <Slot>Childhood</Slot>
     <SkillGains>
       <li>
@@ -83,8 +83,8 @@
 
   <Backstory>
     <Title>Vatgrown soldier</Title>
-		<titleShort>Vatgrown</titleShort>
-		<BaseDesc>NAME wasn't made as a person, but as an instrument of destruction. Grown in a bioweapons facility and taught combat during HIS accelerated growth, NAME still has a proclivity for combat of all kinds and an aversion to human contact.</BaseDesc>
+    <titleShort>Vatgrown</titleShort>
+    <BaseDesc>NAME wasn't made as a person, but as an instrument of destruction. Grown in a bioweapons facility and taught combat during HIS accelerated growth, NAME still has a proclivity for combat of all kinds and an aversion to human contact.</BaseDesc>
     <Slot>Childhood</Slot>
     <SkillGains>
       <li>

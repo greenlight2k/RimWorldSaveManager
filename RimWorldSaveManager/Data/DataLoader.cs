@@ -16,18 +16,311 @@ namespace RimWorldSaveManager
     public class DataLoader
     {
 
+        private XDocument SaveDocument;
+        private List<Pawn> Colonists = new List<Pawn>();
+        private List<Pawn> Animals = new List<Pawn>();
+        private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
+
+        public static Dictionary<string, TraitDef> Traits = new Dictionary<string, TraitDef>();
+        public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
+        public static Dictionary<string, string> HumanBodyPartDescription = new Dictionary<string, string>();
+        public static List<WorkType> WorkTypes = new List<WorkType>();
+        public static List<string> Genders = new List<string>();
+
+        public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
+
+        private Dictionary<string, List<string>> pathsForLaodingData = new Dictionary<string, List<string>>();
+
 
         public DataLoader()
         {
+            Race human = new Race();
+            human.DefName = "Human";
+            human.Label = "Human";
+            Genders.Add("Female");
+            Genders.Add("Male");
+            human.BodyType.Add("Male");
+            human.BodyType.Add("Female");
+            human.BodyType.Add("Average");
+            human.BodyType.Add("Thin");
+            human.BodyType.Add("Hulk");
+            human.BodyType.Add("Fat");
+            human.HairsByGender["Female"] = new List<Hair>();
+            human.HairsByGender["Male"] = new List<Hair>();
+            foreach (var firstType in new string[] { "Average", "Narrow" })
+            {
+                foreach (var secondType in new string[] { "Normal", "Pointy", "Wide" })
+                {
+                    human.HeadType.Add(new CrownType
+                    {
+                        CrownFirstType = firstType,
+                        CrownSubType = secondType
+                    });
+                }
+            }
+            RaceDictionary[human.DefName] = human;
+
             ResourceLoader.Load();
 
             var allXmlFiles = Directory.GetFiles("Mods", "*.xml", SearchOption.AllDirectories);
 
             foreach (var xmlFile in allXmlFiles)
             {
-                if (xmlFile.ToLower().Contains("trait"))
+                string[] pathComponents = xmlFile.Split('\\');
+                if (!pathComponents[2].Equals("Defs"))
                 {
-                    using (var fileStream = File.OpenRead(xmlFile))
+                    continue;
+                }
+                string fileName = pathComponents[pathComponents.Length - 1];
+
+                if (fileName.ToLower().Contains("race"))
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("race", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["race"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
+                if (fileName.ToLower().Contains("trait"))
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("trait", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["trait"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
+                if (fileName.ToLower().Contains("hediff"))
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("hediff", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["hediff"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
+                if (fileName.ToLower().Contains("backstor")) //y, ies
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("backstory", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["backstory"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
+
+                if (fileName.ToLower().Contains("worktype"))
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("worktype", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["worktype"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
+                if (fileName.ToLower().Contains("hair") || fileName.ToLower().Contains("antennae"))
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("hair", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["hair"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
+            }
+
+            List<string> filePaths;
+            if (pathsForLaodingData.TryGetValue("worktype", out filePaths))
+            {
+                foreach (var filePath in filePaths)
+                {
+                    using (var fileStream = File.OpenRead(filePath))
+                    {
+                        try
+                        {
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
+
+                            if (workTypeDefsRoot.Count() == 0)
+                            {
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                continue;
+                            }
+
+                            var workTypeDefs = from workTypeDef in workTypeDefsRoot
+                                               select new WorkType
+                                               {
+                                                   DefName = workTypeDef.Element("defName").GetValue(),
+                                                   FullName = workTypeDef.Element("gerundLabel").GetValue(),
+                                                   WorkTags = workTypeDef.Element("workTags")
+                                                       .Elements("li")
+                                                       .Select(element => element.GetValue()).ToArray()
+                                               };
+
+                            WorkTypes.AddRange(workTypeDefs);
+                        }
+                        catch (Exception e)
+                        {
+                            // Dont care
+                        }
+                        fileStream.Close();
+                        fileStream.Dispose();
+                    }
+                }
+            }
+
+
+            if (pathsForLaodingData.TryGetValue("race", out filePaths))
+            {
+                foreach (var filePath in filePaths)
+                {
+                    using (var fileStream = File.OpenRead(filePath))
+                    {
+                        try
+                        {
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            foreach (var raceVars in docRoot.Descendants("AlienRace.ThingDef_AlienRace"))
+                            {
+                                Race race = new Race();
+                                race.DefName = raceVars.Element("defName").GetValue();
+                                race.Label = raceVars.Element("label").GetValue();
+                                var alienraceElement = raceVars.Element("alienrace");
+                                if (alienraceElement == null)
+                                {
+                                    alienraceElement = raceVars.Element("alienRace");
+                                }
+                                race.HairsByGender["Female"] = new List<Hair>();
+                                race.HairsByGender["Male"] = new List<Hair>();
+                                foreach (var bodyType in alienraceElement.XPathSelectElements("generalSettings/alienPartGenerator/alienbodytypes/li"))
+                                {
+                                    race.BodyType.Add(bodyType.GetValue());
+                                }
+                                foreach (var crownType in alienraceElement.XPathSelectElements("generalSettings/alienPartGenerator/aliencrowntypes/li"))
+                                {
+                                    string[] crownStrings = crownType.GetValue().Split('_');
+                                    race.HeadType.Add(new CrownType
+                                    {
+                                        CrownFirstType = crownStrings[0],
+                                        CrownSubType = crownStrings[1]
+                                    });
+                                }
+                                if(race.HeadType.Count == 0)
+                                {
+                                    race.HeadType.Add(new CrownType
+                                    {
+                                        CrownFirstType = "Average",
+                                        CrownSubType = "Normal"
+                                    });
+                                }
+                                var useGenderedHeads = alienraceElement.XPathSelectElement("generalSettings/alienPartGenerator/UseGenderedHeads");
+                                if (useGenderedHeads != null)
+                                {
+                                    race.UseGenderedHeads = Convert.ToBoolean(useGenderedHeads.GetValue());
+                                }
+                                foreach (var path in alienraceElement.XPathSelectElement("graphicPaths/li").Elements())
+                                {
+                                    race.GraphicPaths[path.Name.ToString().ToLower()] = path.GetValue();
+                                }
+                                RaceDictionary[race.DefName] = race;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Err(e.Message);
+                            // Dont care
+                        }
+                        fileStream.Close();
+                    }
+                }
+            }
+
+
+
+            if (pathsForLaodingData.TryGetValue("hair", out filePaths))
+            {
+                Dictionary<string, Race> tempRaceDic = RaceDictionary.Values.ToDictionary(x => x.Label.ToLower(), x => x);
+                foreach (var filePath in filePaths)
+                {
+                    using (var fileStream = File.OpenRead(filePath))
+                    {
+                        try
+                        {
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            foreach (var hairVars in docRoot.Descendants("HairDef"))
+                            {
+
+                                Hair hair = new Hair(hairVars.Element("hairGender").GetValue(), hairVars.Element("label").GetValue(), hairVars.Element("defName").GetValue());
+
+                                List<Race> races = new List<Race>();
+                                foreach (var hairTags in hairVars.XPathSelectElements("hairTags/li"))
+                                {
+                                    Race race;
+                                    if (tempRaceDic.TryGetValue(hairTags.GetValue().ToLower(), out race))
+                                    {
+                                        races.Add(race);
+                                    }
+                                }
+                                if (races.Count == 0)
+                                {
+                                    races.Add(RaceDictionary["Human"]);
+                                }
+
+                                foreach (var race in races)
+                                {
+                                    if (hair.Gender.Equals("Any") || hair.Gender.Contains("Usually"))
+                                    {
+                                        foreach (var list in race.HairsByGender.Values.ToList())
+                                        {
+                                            list.Add(hair);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        List<Hair> hairListForGender;
+                                        if (race.HairsByGender.TryGetValue(hair.Gender, out hairListForGender))
+                                        {
+                                            hairListForGender.Add(hair);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Err(e.Message);
+                        }
+                        fileStream.Close();
+                    }
+                }
+                foreach (var race in RaceDictionary.Values.ToList())
+                {
+                    foreach (var list in race.HairsByGender.Values.ToList())
+                    {
+                        list.Sort(delegate(Hair x, Hair y)
+                        {
+                            return x.Def.CompareTo(y.Def);
+                        });
+                    }
+                }
+            }
+
+
+
+
+            if (pathsForLaodingData.TryGetValue("trait", out filePaths))
+            {
+                foreach (var filePath in filePaths)
+                {
+                    using (var fileStream = File.OpenRead(filePath))
                     {
                         try
                         {
@@ -46,18 +339,23 @@ namespace RimWorldSaveManager
                                     if (!Traits.ContainsKey(trait.Def + trait.Degree))
                                         Traits.Add(trait.Def + trait.Degree, trait);
                             }
-                            fileStream.Close();
                         }
                         catch (Exception e)
                         {
                             // Dont care
                         }
+                        fileStream.Close();
 
                     }
                 }
-                if (xmlFile.ToLower().Contains("hediff"))
+            }
+
+
+            if (pathsForLaodingData.TryGetValue("hediff", out filePaths))
+            {
+                foreach (var filePath in filePaths)
                 {
-                    using (var fileStream = File.OpenRead(xmlFile))
+                    using (var fileStream = File.OpenRead(filePath))
                     {
                         try
                         {
@@ -106,9 +404,13 @@ namespace RimWorldSaveManager
 
                     }
                 }
-                if (xmlFile.ToLower().Contains("backstor")) //y, ies
+            }
+
+            if (pathsForLaodingData.TryGetValue("backstory", out filePaths))
+            {
+                foreach (var filePath in filePaths)
                 {
-                    using (var fileStream = File.OpenRead(xmlFile))
+                    using (var fileStream = File.OpenRead(filePath))
                     {
                         try
                         {
@@ -162,46 +464,15 @@ namespace RimWorldSaveManager
                         fileStream.Dispose();
                     }
                 }
-
-                if (xmlFile.ToLower().Contains("worktype"))
-                {
-                    using (var fileStream = File.OpenRead(xmlFile))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
-
-                            if (workTypeDefsRoot.Count() == 0)
-                            {
-                                fileStream.Close();
-                                fileStream.Dispose();
-                                continue;
-                            }
-
-                            var workTypeDefs = from workTypeDef in workTypeDefsRoot
-                                               select new WorkType
-                                               {
-                                                   DefName = workTypeDef.Element("defName").GetValue(),
-                                                   FullName = workTypeDef.Element("gerundLabel").GetValue(),
-                                                   WorkTags = workTypeDef.Element("workTags")
-                                                       .Elements("li")
-                                                       .Select(element => element.GetValue()).ToArray()
-                                               };
-
-                            WorkTypes.AddRange(workTypeDefs);
-                        }
-                        catch (Exception e)
-                        {
-                            // Dont care
-                        }
-                        fileStream.Close();
-                        fileStream.Dispose();
-                    }
-                }
             }
+
+
+
+
+
             ResourceLoader.ChildhoodStories = ResourceLoader.ChildhoodStories.OrderBy(x => x.DisplayTitle).ToList();
             ResourceLoader.AdulthoodStories = ResourceLoader.AdulthoodStories.OrderBy(x => x.DisplayTitle).ToList();
+
         }
 
         public bool LoadData(string path, TabControl tabControl)
@@ -252,6 +523,7 @@ namespace RimWorldSaveManager
                     }
 
                     p.addPawnData(pawnDataList);
+                    // ToDo: test for race
                     if ((string)pawn.Element("skills").Attribute("IsNull") == null)
                     {
                         Colonists.Add(p);
@@ -324,14 +596,6 @@ namespace RimWorldSaveManager
             return (T)node.XPathEvaluate(eval);
         }
 
-        private XDocument SaveDocument;
-        private List<Pawn> Colonists = new List<Pawn>();
-        private List<Pawn> Animals = new List<Pawn>();
-        private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
 
-        public static Dictionary<string, TraitDef> Traits = new Dictionary<string, TraitDef>();
-        public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
-        public static Dictionary<string, string> HumanBodyPartDescription = new Dictionary<string, string>();
-        public static List<WorkType> WorkTypes = new List<WorkType>();
     }
 }

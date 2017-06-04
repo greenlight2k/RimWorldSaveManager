@@ -58,8 +58,22 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.labelDefinition = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownMelanin = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.panelHairColor = new System.Windows.Forms.Panel();
+            this.buttonHairColor = new System.Windows.Forms.Button();
+            this.comboBoxHairDef = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.comboBoxHeadType = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.comboBoxBodyType = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.comboBoxGender = new System.Windows.Forms.ComboBox();
+            this.colorDialogHair = new System.Windows.Forms.ColorDialog();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bioAgeField)).BeginInit();
@@ -69,6 +83,8 @@
             this.groupBox5.SuspendLayout();
             this.nameGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMelanin)).BeginInit();
             this.SuspendLayout();
             // 
             // skillsGroupBox
@@ -86,9 +102,9 @@
             this.ageGroupBox.Controls.Add(this.bioAgeField);
             this.ageGroupBox.Controls.Add(this.label2);
             this.ageGroupBox.Controls.Add(this.label1);
-            this.ageGroupBox.Location = new System.Drawing.Point(509, 112);
+            this.ageGroupBox.Location = new System.Drawing.Point(731, 6);
             this.ageGroupBox.Name = "ageGroupBox";
-            this.ageGroupBox.Size = new System.Drawing.Size(386, 76);
+            this.ageGroupBox.Size = new System.Drawing.Size(164, 100);
             this.ageGroupBox.TabIndex = 2;
             this.ageGroupBox.TabStop = false;
             this.ageGroupBox.Text = "Age";
@@ -150,9 +166,9 @@
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.adulthoodComboBox);
             this.groupBox4.Controls.Add(this.childhoodComboBox);
-            this.groupBox4.Location = new System.Drawing.Point(509, 194);
+            this.groupBox4.Location = new System.Drawing.Point(506, 263);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(385, 91);
+            this.groupBox4.Size = new System.Drawing.Size(389, 91);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Backstory";
@@ -272,9 +288,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Location = new System.Drawing.Point(509, 291);
+            this.groupBox3.Location = new System.Drawing.Point(506, 360);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(386, 499);
+            this.groupBox3.Size = new System.Drawing.Size(389, 430);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Injuries";
@@ -282,7 +298,7 @@
             // btnRemoveInjury
             // 
             this.btnRemoveInjury.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveInjury.Location = new System.Drawing.Point(320, 468);
+            this.btnRemoveInjury.Location = new System.Drawing.Point(323, 399);
             this.btnRemoveInjury.Name = "btnRemoveInjury";
             this.btnRemoveInjury.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveInjury.TabIndex = 2;
@@ -297,7 +313,7 @@
             this.listBoxInjuries.FormattingEnabled = true;
             this.listBoxInjuries.Location = new System.Drawing.Point(7, 20);
             this.listBoxInjuries.Name = "listBoxInjuries";
-            this.listBoxInjuries.Size = new System.Drawing.Size(372, 446);
+            this.listBoxInjuries.Size = new System.Drawing.Size(372, 368);
             this.listBoxInjuries.TabIndex = 0;
             // 
             // groupBox5
@@ -347,16 +363,16 @@
             this.nameGroupBox.Controls.Add(this.label5);
             this.nameGroupBox.Controls.Add(this.label4);
             this.nameGroupBox.Controls.Add(this.label3);
-            this.nameGroupBox.Location = new System.Drawing.Point(509, 3);
+            this.nameGroupBox.Location = new System.Drawing.Point(506, 6);
             this.nameGroupBox.Name = "nameGroupBox";
-            this.nameGroupBox.Size = new System.Drawing.Size(386, 100);
+            this.nameGroupBox.Size = new System.Drawing.Size(219, 100);
             this.nameGroupBox.TabIndex = 15;
             this.nameGroupBox.TabStop = false;
             this.nameGroupBox.Text = "Name";
             // 
             // textBoxLastname
             // 
-            this.textBoxLastname.Location = new System.Drawing.Point(83, 70);
+            this.textBoxLastname.Location = new System.Drawing.Point(65, 70);
             this.textBoxLastname.Name = "textBoxLastname";
             this.textBoxLastname.Size = new System.Drawing.Size(141, 20);
             this.textBoxLastname.TabIndex = 5;
@@ -364,7 +380,7 @@
             // 
             // textBoxNickname
             // 
-            this.textBoxNickname.Location = new System.Drawing.Point(83, 44);
+            this.textBoxNickname.Location = new System.Drawing.Point(65, 44);
             this.textBoxNickname.Name = "textBoxNickname";
             this.textBoxNickname.Size = new System.Drawing.Size(141, 20);
             this.textBoxNickname.TabIndex = 4;
@@ -372,7 +388,7 @@
             // 
             // textBoxFirstname
             // 
-            this.textBoxFirstname.Location = new System.Drawing.Point(83, 18);
+            this.textBoxFirstname.Location = new System.Drawing.Point(65, 18);
             this.textBoxFirstname.Name = "textBoxFirstname";
             this.textBoxFirstname.Size = new System.Drawing.Size(141, 20);
             this.textBoxFirstname.TabIndex = 3;
@@ -416,15 +432,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Infos";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 21);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(54, 13);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Definition:";
-            // 
             // labelDefinition
             // 
             this.labelDefinition.AutoSize = true;
@@ -434,10 +441,158 @@
             this.labelDefinition.TabIndex = 1;
             this.labelDefinition.Text = "label8";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 21);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Definition:";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.numericUpDownMelanin);
+            this.groupBox6.Controls.Add(this.label13);
+            this.groupBox6.Controls.Add(this.panelHairColor);
+            this.groupBox6.Controls.Add(this.buttonHairColor);
+            this.groupBox6.Controls.Add(this.comboBoxHairDef);
+            this.groupBox6.Controls.Add(this.label12);
+            this.groupBox6.Controls.Add(this.comboBoxHeadType);
+            this.groupBox6.Controls.Add(this.label11);
+            this.groupBox6.Controls.Add(this.comboBoxBodyType);
+            this.groupBox6.Controls.Add(this.label9);
+            this.groupBox6.Controls.Add(this.label8);
+            this.groupBox6.Controls.Add(this.comboBoxGender);
+            this.groupBox6.Location = new System.Drawing.Point(506, 110);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(389, 147);
+            this.groupBox6.TabIndex = 17;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Gender/Apperance";
+            // 
+            // numericUpDownMelanin
+            // 
+            this.numericUpDownMelanin.DecimalPlaces = 8;
+            this.numericUpDownMelanin.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMelanin.Location = new System.Drawing.Point(248, 53);
+            this.numericUpDownMelanin.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMelanin.Name = "numericUpDownMelanin";
+            this.numericUpDownMelanin.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownMelanin.TabIndex = 13;
+            this.numericUpDownMelanin.ValueChanged += new System.EventHandler(this.numericUpDownMelanin_ValueChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(198, 55);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(44, 13);
+            this.label13.TabIndex = 12;
+            this.label13.Text = "Melanin";
+            // 
+            // panelHairColor
+            // 
+            this.panelHairColor.Location = new System.Drawing.Point(282, 114);
+            this.panelHairColor.Name = "panelHairColor";
+            this.panelHairColor.Size = new System.Drawing.Size(40, 23);
+            this.panelHairColor.TabIndex = 11;
+            // 
+            // buttonHairColor
+            // 
+            this.buttonHairColor.Location = new System.Drawing.Point(201, 114);
+            this.buttonHairColor.Name = "buttonHairColor";
+            this.buttonHairColor.Size = new System.Drawing.Size(75, 23);
+            this.buttonHairColor.TabIndex = 9;
+            this.buttonHairColor.Text = "Hair-Color";
+            this.buttonHairColor.UseVisualStyleBackColor = true;
+            this.buttonHairColor.Click += new System.EventHandler(this.buttonHairColor_Click);
+            // 
+            // comboBoxHairDef
+            // 
+            this.comboBoxHairDef.FormattingEnabled = true;
+            this.comboBoxHairDef.Location = new System.Drawing.Point(65, 114);
+            this.comboBoxHairDef.Name = "comboBoxHairDef";
+            this.comboBoxHairDef.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxHairDef.TabIndex = 8;
+            this.comboBoxHairDef.SelectedIndexChanged += new System.EventHandler(this.comboBoxHairDef_SelectedIndexChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 117);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(50, 13);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "HairType";
+            // 
+            // comboBoxHeadType
+            // 
+            this.comboBoxHeadType.FormattingEnabled = true;
+            this.comboBoxHeadType.Location = new System.Drawing.Point(65, 84);
+            this.comboBoxHeadType.Name = "comboBoxHeadType";
+            this.comboBoxHeadType.Size = new System.Drawing.Size(303, 21);
+            this.comboBoxHeadType.TabIndex = 5;
+            this.comboBoxHeadType.SelectedIndexChanged += new System.EventHandler(this.comboBoxHeadType_SelectedIndexChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 84);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(57, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "HeadType";
+            // 
+            // comboBoxBodyType
+            // 
+            this.comboBoxBodyType.FormattingEnabled = true;
+            this.comboBoxBodyType.Location = new System.Drawing.Point(65, 51);
+            this.comboBoxBodyType.Name = "comboBoxBodyType";
+            this.comboBoxBodyType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxBodyType.TabIndex = 3;
+            this.comboBoxBodyType.SelectedIndexChanged += new System.EventHandler(this.comboBoxBodyType_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(7, 55);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(55, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "BodyType";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 23);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(42, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Gender";
+            // 
+            // comboBoxGender
+            // 
+            this.comboBoxGender.FormattingEnabled = true;
+            this.comboBoxGender.Location = new System.Drawing.Point(65, 20);
+            this.comboBoxGender.Name = "comboBoxGender";
+            this.comboBoxGender.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxGender.TabIndex = 0;
+            this.comboBoxGender.SelectedIndexChanged += new System.EventHandler(this.comboBoxGender_SelectedIndexChanged);
+            // 
             // ColonistPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.nameGroupBox);
             this.Controls.Add(this.listBox1);
@@ -463,6 +618,9 @@
             this.nameGroupBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMelanin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -500,5 +658,19 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label labelDefinition;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.ComboBox comboBoxHairDef;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox comboBoxHeadType;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox comboBoxBodyType;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox comboBoxGender;
+        private System.Windows.Forms.ColorDialog colorDialogHair;
+        private System.Windows.Forms.Button buttonHairColor;
+        private System.Windows.Forms.Panel panelHairColor;
+        private System.Windows.Forms.NumericUpDown numericUpDownMelanin;
+        private System.Windows.Forms.Label label13;
     }
 }

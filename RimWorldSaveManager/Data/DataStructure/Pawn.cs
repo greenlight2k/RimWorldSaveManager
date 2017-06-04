@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +42,23 @@ namespace RimWorldSaveManager.Data.DataStructure
             set { _xml.Element("kindDef").SetValue(value); }
         }
 
+        public string Gender
+        {
+            get
+            {
+                return _xml.Element("gender").GetValue();
+            }
+            set
+            {
+                _xml.Element("gender").SetValue(value);
+                foreach (var pawnData in _pawnDatas)
+                {
+                    pawnData.Gender = value;
+                }
+                setHeadGraphicPath();
+            }
+        }
+
         public String PawnId
         {
             get
@@ -52,8 +71,10 @@ namespace RimWorldSaveManager.Data.DataStructure
         public String Firstname
         {
             get { return _name.First; }
-            set { _name.First = value;
-                foreach(var pawnData in _pawnDatas)
+            set
+            {
+                _name.First = value;
+                foreach (var pawnData in _pawnDatas)
                 {
                     pawnData.Name.First = value;
                 }
@@ -202,6 +223,90 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
+        public string BodyType
+        {
+            get { return _story.Element("bodyType").GetValue(); }
+            set { _story.Element("bodyType").SetValue(value); }
+        }
+
+        public CrownType CrownType
+        {
+            get { return new CrownType
+            {
+                CrownFirstType = _crownFirstType,
+                CrownSubType = _crownSubType
+            };
+            }
+            set
+            {
+                _story.Element("crownType").SetValue(value.CrownFirstType);
+                _crownFirstType = value.CrownFirstType;
+                _crownSubType = value.CrownSubType;
+                setHeadGraphicPath();
+            }
+        }
+
+        public string HeadGraphicPath
+        {
+            get { return _story.Element("headGraphicPath").GetValue(); }
+            set { _story.Element("headGraphicPath").SetValue(value); }
+        }
+        public string HairDef
+        {
+            get { return _story.Element("hairDef").GetValue(); }
+            set { _story.Element("hairDef").SetValue(value); }
+        }
+
+        public decimal Melanin
+        {
+            get {
+                XElement melanin = _story.Element("melanin");
+                if(melanin == null)
+                {
+                    return 0;
+                }
+                return decimal.Parse(_story.Element("melanin").GetValue(), CultureInfo.InvariantCulture);
+            }
+            set {
+                decimal m = Math.Truncate(value * 100000000) / 100000000;
+                XElement melanin = _story.Element("melanin");
+                if(melanin == null)
+                {
+                    _story.Element("hairColor").AddAfterSelf(new XElement("melanin", 0));
+                }
+                _story.Element("melanin").SetValue(m.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        public Color HairColor
+        {
+            get
+            {
+                string colorString = _story.Element("hairColor").GetValue().Replace("RGBA(", "").Replace(")", "");
+                string[] RGBA = colorString.Split(',');
+                int R = (int)(double.Parse(RGBA[0], CultureInfo.InvariantCulture) * 255);
+                int G = (int)(double.Parse(RGBA[1], CultureInfo.InvariantCulture) * 255);
+                int B = (int)(double.Parse(RGBA[2], CultureInfo.InvariantCulture) * 255);
+                int A = (int)(double.Parse(RGBA[3], CultureInfo.InvariantCulture) * 255);
+                return Color.FromArgb(A, R, G, B);
+            }
+            set
+            {
+                string R = getRGBAString(value.R);
+                string G = getRGBAString(value.G);
+                string B = getRGBAString(value.B);
+                string A = getRGBAString(value.A);
+                _story.Element("hairColor").SetValue("RGBA(" + R + ", " + G + ", " + B + ", " + A + ")");
+            }
+        }
+
+        private string getRGBAString(byte colorBytes)
+        {
+            decimal m = (decimal)colorBytes / 255;
+            m = Math.Truncate(m * 1000) / 1000;
+            return m.ToString("0.000", CultureInfo.InvariantCulture);
+        }
+
         public long AgeBiologicalTicks
         {
             get { return (long)_age.Element("ageBiologicalTicks"); }
@@ -238,6 +343,8 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
+        public Race Race { get => _race; set => _race = value; }
+
         public List<PawnSkill> Skills;
         public List<PawnTrait> Traits;
         public List<PawnHealth> Hediffs;
@@ -251,6 +358,11 @@ namespace RimWorldSaveManager.Data.DataStructure
         private readonly XElement _age;
         private readonly XElement _traits;
 
+        private string _crownSubType;
+        private string _crownFirstType;
+        private Race _race;
+
+
         private readonly List<PawnData> _pawnDatas;
 
         public Pawn(XElement xml)
@@ -261,6 +373,25 @@ namespace RimWorldSaveManager.Data.DataStructure
             _pawnDef = _xml.Element("def");
             _story = _xml.Element("story");
             _age = _xml.Element("ageTracker");
+            if(!DataLoader.RaceDictionary.TryGetValue(PawnDef, out _race))
+            {
+                _race = null;
+            }
+
+            if (_xml.Element("gender") == null)
+            {
+                XElement xElement = new XElement("gender", "Male");
+                _xml.Element("name").AddBeforeSelf(xElement);
+            }
+
+            if (_story.Attribute("IsNull") == null)
+            {
+                string headGraphicPath = HeadGraphicPath;
+                string[] crownTypeStringArray = headGraphicPath.Split('/');
+                string[] splitted = crownTypeStringArray[crownTypeStringArray.Length -1].Split('_');
+                _crownSubType = splitted[splitted.Length - 1];
+                _crownFirstType = splitted[splitted.Length - 2];
+            }
 
             IEnumerable<XElement> skills = _xml.XPathSelectElements("skills/skills/li");
             if (skills != null)
@@ -275,13 +406,13 @@ namespace RimWorldSaveManager.Data.DataStructure
                 Traits = (from trait in _traits.Elements("li")
                           select new PawnTrait(trait)).ToList();
             }
-          
+
             IEnumerable<XElement> hediffs = _xml.XPathSelectElements("healthTracker/hediffSet/hediffs/li");
             Hediffs = (from hediff in hediffs
                        select new PawnHealth(hediff, PawnDef)).ToList();
 
             XElement trainingElemnt = _xml.Element("training");
-            if(trainingElemnt != null)
+            if (trainingElemnt != null)
             {
                 training = new Training(trainingElemnt, PawnDef);
             }
@@ -296,6 +427,25 @@ namespace RimWorldSaveManager.Data.DataStructure
         public void addPawnData(List<PawnData> pawnData)
         {
             _pawnDatas.AddRange(pawnData);
+        }
+
+        private void setHeadGraphicPath()
+        {
+            if (Race.DefName.Equals("Human"))
+            {
+                HeadGraphicPath = "Things/Pawn/Humanlike/Heads/" + Gender + "/" + Gender + "_" + _crownFirstType + "_" + _crownSubType;
+            }
+            else
+            {
+                if (Race.UseGenderedHeads)
+                {
+                    HeadGraphicPath = Race.GraphicPaths["head"] + Gender + "_" + _crownFirstType + "_" + _crownSubType;
+                }
+                else
+                {
+                    HeadGraphicPath = Race.GraphicPaths["head"] + _crownFirstType + "_" + _crownSubType;
+                }
+            }
         }
 
         public PawnTrait AddTrait(TraitDef def)
@@ -313,7 +463,7 @@ namespace RimWorldSaveManager.Data.DataStructure
             trait.Element.Remove();
         }
 
- 
+
         public override string ToString()
         {
             return _name.ToString();

@@ -29,6 +29,12 @@ namespace RimWorldSaveManager.UserControls
             listBox1.DataSource = _pawnBindingList;
             listBox1.DisplayMember = "FullName";
 
+            comboBoxGender.Items.AddRange(DataLoader.Genders.ToArray());
+            foreach (var trait in DataLoader.Traits)
+            {
+                traitComboBox.Items.Add(trait.Value);
+            }
+
             setPawn(_pawnBindingList[0]);
         }
 
@@ -39,16 +45,13 @@ namespace RimWorldSaveManager.UserControls
             setPawn(pawn);
 
         }
-        private void setPawn(Pawn pawn) { 
+        private void setPawn(Pawn pawn)
+        {
             _pawn = pawn;
-
-            foreach (var trait in DataLoader.Traits)
-            {
-                traitComboBox.Items.Add(trait.Value);
-            }
 
             bioAgeField.Value = (decimal)(pawn.AgeBiologicalTicks / 3600000f);
             chronoAgeField.Value = -(decimal)(pawn.AgeChronoligicalTicks / 3600000f);
+            numericUpDownMelanin.Value = _pawn.Melanin;
 
             labelDefinition.Text = _pawn.Def;
 
@@ -61,11 +64,35 @@ namespace RimWorldSaveManager.UserControls
             skillsGroupBox.Controls.Clear();
             listBoxTraits.Items.Clear();
             listBoxInjuries.Items.Clear();
+            comboBoxBodyType.Items.Clear();
+            comboBoxHeadType.Items.Clear();
 
-
+            colorDialogHair.Color = _pawn.HairColor;
+            panelHairColor.BackColor = colorDialogHair.Color;
+            colorDialogHair.CustomColors = new int[]
+            {
+                ColorTranslator.ToOle(colorDialogHair.Color)
+            };
+            fillHairComboBox();
             textBoxFirstname.Text = _pawn.Firstname;
             textBoxNickname.Text = _pawn.Nickname;
             textBoxLastname.Text = _pawn.Lastname;
+
+
+            comboBoxBodyType.Items.AddRange(_pawn.Race.BodyType.ToArray());
+            comboBoxHeadType.Items.AddRange(_pawn.Race.HeadType.ToArray());
+
+            comboBoxGender.SelectedItem = _pawn.Gender;
+            comboBoxBodyType.SelectedItem = _pawn.BodyType;
+
+            CrownType pawnCrownType = _pawn.CrownType;
+            foreach(var crownType in _pawn.Race.HeadType)
+            {
+                if (pawnCrownType.CombinedCrownDef.Equals(crownType.CombinedCrownDef)){
+                    comboBoxHeadType.SelectedItem = crownType;
+                    break;
+                }
+            }
 
             var skillPos = new Size(skillsGroupBox.Margin.Left + skillsGroupBox.Padding.Left, skillsGroupBox.Margin.Top + skillsGroupBox.Padding.Top + 10);
             skillsGroupBox.Height = pawn.Skills.Count * 25 + skillsGroupBox.Margin.Bottom + skillsGroupBox.Padding.Bottom + 15;
@@ -82,7 +109,8 @@ namespace RimWorldSaveManager.UserControls
                 var textBox = new TextBox();
                 textBox.Text = skill.Level == null ? "-" : skill.Level.ToString();
                 textBox.SetBounds(skillPos.Width + 100, skillPos.Height, 20, 20);
-                textBox.TextChanged += (obj, a) => {
+                textBox.TextChanged += (obj, a) =>
+                {
                     skill.Level = int.Parse(textBox.Text);
                 };
 
@@ -94,7 +122,8 @@ namespace RimWorldSaveManager.UserControls
                 comboBox.SelectedItem = string.IsNullOrEmpty(skill.Passion) ? "None" : skill.Passion;
                 comboBox.Left = textBox.Right + 5;
                 comboBox.Top = skillPos.Height;
-                comboBox.SelectionChangeCommitted += (obj, a) => {
+                comboBox.SelectionChangeCommitted += (obj, a) =>
+                {
                     skill.Passion = comboBox.SelectedItem.ToString();
                 };
 
@@ -116,7 +145,8 @@ namespace RimWorldSaveManager.UserControls
             childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
             adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
 
-            Action<ComboBox, string> setBackstory = (comboBox, storyKey) => {
+            Action<ComboBox, string> setBackstory = (comboBox, storyKey) =>
+            {
                 if (string.IsNullOrEmpty(storyKey))
                 {
                     comboBox.SelectedItem = ResourceLoader.Backstories["None"];
@@ -156,6 +186,39 @@ namespace RimWorldSaveManager.UserControls
 
                 listBoxInjuries.Items.Add(pawnHediff);
             }
+        }
+
+        private void fillHairComboBox()
+        {
+            List<Hair> hairList;
+            if (!_pawn.Race.HairsByGender.TryGetValue(_pawn.Gender, out hairList))
+            {
+                hairList = new List<Hair>();
+            }
+            comboBoxHairDef.Items.Clear();
+            comboBoxHairDef.Items.AddRange(hairList.ToArray());
+            string pawnHairDef = _pawn.HairDef;
+            Hair pawnHair = null;
+            foreach (var hair in hairList)
+            {
+                if (hair.Def.Equals(pawnHairDef))
+                {
+                    pawnHair = hair;
+                    break;
+                }
+            }
+            if (pawnHair != null)
+            {
+                comboBoxHairDef.SelectedItem = pawnHair;
+            }
+            else
+            {
+                if (comboBoxHairDef.Items.Count > 0)
+                {
+                    comboBoxHairDef.SelectedIndex = 0;
+                }
+            }
+
         }
 
         private void btnAddTrait_Click(object sender, EventArgs e)
@@ -317,7 +380,7 @@ namespace RimWorldSaveManager.UserControls
 
         private void bioAgeField_ValueChanged(object sender, EventArgs e)
         {
-            _pawn.AgeBiologicalTicks = Decimal.ToInt64(Decimal.Multiply(bioAgeField.Value , 3600000));
+            _pawn.AgeBiologicalTicks = Decimal.ToInt64(Decimal.Multiply(bioAgeField.Value, 3600000));
         }
 
         private void chronoAgeField_ValueChanged(object sender, EventArgs e)
@@ -325,5 +388,40 @@ namespace RimWorldSaveManager.UserControls
             _pawn.AgeChronoligicalTicks = -Decimal.ToInt64(Decimal.Multiply(chronoAgeField.Value, 3600000));
         }
 
+        private void comboBoxGender_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _pawn.Gender = (string)comboBoxGender.SelectedItem;
+            fillHairComboBox();
+        }
+
+        private void comboBoxBodyType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _pawn.BodyType = (string)comboBoxBodyType.SelectedItem;
+        }
+
+        private void comboBoxHeadType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _pawn.CrownType = (CrownType)comboBoxHeadType.SelectedItem;
+        }
+
+        private void comboBoxHairDef_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _pawn.HairDef = ((Hair)comboBoxHairDef.SelectedItem).Def;
+
+        }
+
+        private void buttonHairColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialogHair.ShowDialog() == DialogResult.OK)
+            {
+                panelHairColor.BackColor = colorDialogHair.Color;
+                _pawn.HairColor = colorDialogHair.Color;
+            }
+        }
+
+        private void numericUpDownMelanin_ValueChanged(object sender, EventArgs e)
+        {
+            _pawn.Melanin = numericUpDownMelanin.Value;
+        }
     }
 }
