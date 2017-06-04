@@ -10,6 +10,9 @@ Copy the executable file (.exe) into your game directory and run it.
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.6.2.0 ####
+* Add editing Gender, Bodytype, Skincolor, Headtype, Hair and Haircolor
+* Fix adding some singular traits (kind, greedy, ...)
 #### v0.6.1.0 ####
 * Add support for "Humanoid Alien Framework"-backstories
 #### v0.6.0.1 ####
