@@ -5,7 +5,9 @@ At the moment it supports editing the follwing stats:
 **Colonists**:  Name, Skills, Age, Traits, Backstory, Injuries, Gender, Bodytype, Skincolor, Headtype, Hair, Haircolor  
 **Animals**: Name, Age, Injuries, Training  
 Supports races made with the Humanoid Alien Framework.  
-Copy the executable file (.exe) into your game directory and run it.
+
+Copy the executable file (.exe) into your game directory and run it.  
+
 
 **Thanks @ DragonLord and arkatufus for their work on this project!**
 
