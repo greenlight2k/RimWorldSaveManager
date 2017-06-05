@@ -7,7 +7,7 @@ At the moment it supports editing the follwing stats:
 Supports races made with the Humanoid Alien Framework.  
 Copy the executable file (.exe) into your game directory and run it.
 
-**Thanks @ DragonLord and arkatufus for theire work on this project!**
+**Thanks @ DragonLord and arkatufus for their work on this project!**
 
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
