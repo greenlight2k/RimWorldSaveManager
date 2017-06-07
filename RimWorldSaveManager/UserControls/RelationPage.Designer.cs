@@ -61,7 +61,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 26);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(181, 745);
+            this.listBox1.Size = new System.Drawing.Size(181, 602);
             this.listBox1.TabIndex = 15;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             // 
@@ -242,15 +242,14 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.DescriptionText);
-            this.groupBox5.Location = new System.Drawing.Point(849, 26);
+            this.groupBox5.Location = new System.Drawing.Point(848, 26);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox5.Size = new System.Drawing.Size(420, 152);
+            this.groupBox5.Size = new System.Drawing.Size(270, 147);
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Description";
@@ -264,11 +263,12 @@
             this.DescriptionText.Location = new System.Drawing.Point(5, 18);
             this.DescriptionText.Multiline = true;
             this.DescriptionText.Name = "DescriptionText";
-            this.DescriptionText.Size = new System.Drawing.Size(407, 126);
+            this.DescriptionText.ReadOnly = true;
+            this.DescriptionText.Size = new System.Drawing.Size(257, 121);
             this.DescriptionText.TabIndex = 0;
             this.DescriptionText.Text = resources.GetString("DescriptionText.Text");
             // 
-            // RelationShips
+            // RelationPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -277,8 +277,9 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox1);
-            this.Name = "RelationShips";
-            this.Size = new System.Drawing.Size(1542, 787);
+            this.Name = "RelationPage";
+            this.Size = new System.Drawing.Size(1118, 644);
+            this.Load += new System.EventHandler(this.RelationPage_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBoxRelation.ResumeLayout(false);
             this.groupBoxRelation.PerformLayout();

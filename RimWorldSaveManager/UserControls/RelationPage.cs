@@ -196,5 +196,10 @@ namespace RimWorldSaveManager.UserControls
                 _relation.StartTicks = (long)numericUpDownStartTime.Value;
             }
         }
+
+        private void RelationPage_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
