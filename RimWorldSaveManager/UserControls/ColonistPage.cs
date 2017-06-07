@@ -34,6 +34,8 @@ namespace RimWorldSaveManager.UserControls
             {
                 traitComboBox.Items.Add(trait.Value);
             }
+            childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
+            adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
 
             setPawn(_pawnBindingList[0]);
         }
@@ -141,9 +143,6 @@ namespace RimWorldSaveManager.UserControls
             {
                 listBoxTraits.Items.Add(trait);
             }
-
-            childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
-            adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
 
             Action<ComboBox, string> setBackstory = (comboBox, storyKey) =>
             {
@@ -260,6 +259,7 @@ namespace RimWorldSaveManager.UserControls
 
             var item = (PawnHealth)listBoxInjuries.SelectedItem;
             item.Element.Remove();
+            _pawn.Hediffs.Remove(item);
 
             listBoxInjuries.Items.RemoveAt(listBoxInjuries.SelectedIndex);
         }

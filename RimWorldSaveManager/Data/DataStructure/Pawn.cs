@@ -231,11 +231,13 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         public CrownType CrownType
         {
-            get { return new CrownType
+            get
             {
-                CrownFirstType = _crownFirstType,
-                CrownSubType = _crownSubType
-            };
+                return new CrownType
+                {
+                    CrownFirstType = _crownFirstType,
+                    CrownSubType = _crownSubType
+                };
             }
             set
             {
@@ -259,18 +261,20 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         public decimal Melanin
         {
-            get {
+            get
+            {
                 XElement melanin = _story.Element("melanin");
-                if(melanin == null)
+                if (melanin == null)
                 {
                     return 0;
                 }
                 return decimal.Parse(_story.Element("melanin").GetValue(), CultureInfo.InvariantCulture);
             }
-            set {
+            set
+            {
                 decimal m = Math.Truncate(value * 100000000) / 100000000;
                 XElement melanin = _story.Element("melanin");
-                if(melanin == null)
+                if (melanin == null)
                 {
                     _story.Element("hairColor").AddAfterSelf(new XElement("melanin", 0));
                 }
@@ -335,6 +339,14 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
+        public String FullNameAndDef
+        {
+            get
+            {
+                return _name.FullName()+ " " + PawnDef;
+            }
+        }
+
         public String PawnDef
         {
             get
@@ -348,6 +360,7 @@ namespace RimWorldSaveManager.Data.DataStructure
         public List<PawnSkill> Skills;
         public List<PawnTrait> Traits;
         public List<PawnHealth> Hediffs;
+        public List<Relation> Relations;
         private Training training;
 
         private readonly XElement _xml;
@@ -357,6 +370,7 @@ namespace RimWorldSaveManager.Data.DataStructure
         private readonly XElement _story;
         private readonly XElement _age;
         private readonly XElement _traits;
+        private readonly XElement _relations;
 
         private string _crownSubType;
         private string _crownFirstType;
@@ -373,7 +387,8 @@ namespace RimWorldSaveManager.Data.DataStructure
             _pawnDef = _xml.Element("def");
             _story = _xml.Element("story");
             _age = _xml.Element("ageTracker");
-            if(!DataLoader.RaceDictionary.TryGetValue(PawnDef, out _race))
+            _relations = _xml.XPathSelectElement("social/directRelations");
+            if (!DataLoader.RaceDictionary.TryGetValue(PawnDef, out _race))
             {
                 _race = null;
             }
@@ -387,11 +402,24 @@ namespace RimWorldSaveManager.Data.DataStructure
             if (_story.Attribute("IsNull") == null)
             {
                 string headGraphicPath = HeadGraphicPath;
-                string[] crownTypeStringArray = headGraphicPath.Split('/');
-                string[] splitted = crownTypeStringArray[crownTypeStringArray.Length -1].Split('_');
-                _crownSubType = splitted[splitted.Length - 1];
-                _crownFirstType = splitted[splitted.Length - 2];
+                if (headGraphicPath != null && headGraphicPath.Length > 0)
+                {
+                    string[] crownTypeStringArray = headGraphicPath.Split('/');
+                    string[] splitted = crownTypeStringArray[crownTypeStringArray.Length - 1].Split('_');
+                    _crownSubType = splitted[splitted.Length - 1];
+                    _crownFirstType = splitted[splitted.Length - 2];
+                }
             }
+
+            Relations = new List<Relation>();
+            if (_relations != null)
+            {
+                foreach (var relation in _relations.Elements("li"))
+                {
+                    Relations.Add(new Relation(relation));
+                }
+            }
+
 
             IEnumerable<XElement> skills = _xml.XPathSelectElements("skills/skills/li");
             if (skills != null)
@@ -447,6 +475,21 @@ namespace RimWorldSaveManager.Data.DataStructure
                 }
             }
         }
+
+
+        public Relation AddRelation(PawnRelationDef pawnRelationDef)
+        {
+            Relation relation = Relation.create(_relations, pawnRelationDef);
+            Relations.Add(relation);
+            return relation;
+        }
+
+        public void RemoveRelation(Relation relation)
+        {
+            Relations.Remove(relation);
+            relation.XElement.Remove();
+        }
+
 
         public PawnTrait AddTrait(TraitDef def)
         {

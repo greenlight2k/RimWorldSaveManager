@@ -118,5 +118,9 @@ namespace RimWorldSaveManager.Data.DataStructure
             return "undefined";
         }
 
+        public override string ToString()
+        {
+            return FullName();
+        }
     }
 }

@@ -92,6 +92,7 @@ namespace RimWorldSaveManager.UserControls
 
             var item = (PawnHealth)listBoxInjuries.SelectedItem;
             item.Element.Remove();
+            _pawn.Hediffs.Remove(item);
 
             listBoxInjuries.Items.RemoveAt(listBoxInjuries.SelectedIndex);
         }

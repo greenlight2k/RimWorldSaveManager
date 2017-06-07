@@ -17,7 +17,6 @@ namespace RimWorldSaveManager
     {
 
         private XDocument SaveDocument;
-        private List<Pawn> Colonists = new List<Pawn>();
         private List<Pawn> Animals = new List<Pawn>();
         private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
 
@@ -26,8 +25,14 @@ namespace RimWorldSaveManager
         public static Dictionary<string, string> HumanBodyPartDescription = new Dictionary<string, string>();
         public static List<WorkType> WorkTypes = new List<WorkType>();
         public static List<string> Genders = new List<string>();
+        public static Dictionary<string, Faction> Factions = new Dictionary<string, Faction>();
+        public static Faction PlayerFaction;
+        public static Dictionary<Faction, List<Pawn>> PawnsByFactions = new Dictionary<Faction, List<Pawn>>();
+        public static Dictionary<string, Pawn> PawnsById = new Dictionary<string, Pawn>();
 
         public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
+        public static List<PawnRelationDef> PawnRelationDefs = new List<PawnRelationDef>();
+        public static long CurrentGameTick;
 
         private Dictionary<string, List<string>> pathsForLaodingData = new Dictionary<string, List<string>>();
 
@@ -134,6 +139,17 @@ namespace RimWorldSaveManager
                     }
                     pathList.Add(xmlFile);
                 }
+
+                if (fileName.ToLower().Contains("pawnrelations"))
+                {
+                    List<string> pathList;
+                    if (!pathsForLaodingData.TryGetValue("pawnrelations", out pathList))
+                    {
+                        pathList = new List<string>();
+                        pathsForLaodingData["pawnrelations"] = pathList;
+                    }
+                    pathList.Add(xmlFile);
+                }
             }
 
             List<string> filePaths;
@@ -212,7 +228,7 @@ namespace RimWorldSaveManager
                                         CrownSubType = crownStrings[1]
                                     });
                                 }
-                                if(race.HeadType.Count == 0)
+                                if (race.HeadType.Count == 0)
                                 {
                                     race.HeadType.Add(new CrownType
                                     {
@@ -305,7 +321,7 @@ namespace RimWorldSaveManager
                 {
                     foreach (var list in race.HairsByGender.Values.ToList())
                     {
-                        list.Sort(delegate(Hair x, Hair y)
+                        list.Sort(delegate (Hair x, Hair y)
                         {
                             return x.Def.CompareTo(y.Def);
                         });
@@ -466,10 +482,33 @@ namespace RimWorldSaveManager
                 }
             }
 
+            if (pathsForLaodingData.TryGetValue("pawnrelations", out filePaths))
+            {
+                foreach (var filePath in filePaths)
+                {
+                    using (var fileStream = File.OpenRead(filePath))
+                    {
+                        try
+                        {
+                            var docRoot = XDocument.Load(fileStream).Root;
+                            foreach (var relationDef in docRoot.XPathSelectElements("PawnRelationDef"))
+                            {
+                                PawnRelationDefs.Add(new PawnRelationDef(relationDef));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Err(e.Message);
+                            // Dont care
+                        }
+                        fileStream.Close();
+                        fileStream.Dispose();
+                    }
+                }
+            }
 
 
-
-
+            PawnRelationDefs = PawnRelationDefs.OrderBy(x => x.DefName).ToList();
             ResourceLoader.ChildhoodStories = ResourceLoader.ChildhoodStories.OrderBy(x => x.DisplayTitle).ToList();
             ResourceLoader.AdulthoodStories = ResourceLoader.AdulthoodStories.OrderBy(x => x.DisplayTitle).ToList();
 
@@ -478,18 +517,25 @@ namespace RimWorldSaveManager
         public bool LoadData(string path, TabControl tabControl)
         {
             tabControl.TabPages.Clear();
-            Colonists.Clear();
             Animals.Clear();
 
             //try {
             SaveDocument = XDocument.Load(path);
 
-            var playerFaction = EvaluateSingle<XElement>("scenario/playerFaction/factionDef").Value;
+            CurrentGameTick = long.Parse(SaveDocument.Root.XPathSelectElement("game/tickManager/ticksGame").GetValue());
 
-            var colonyFaction = "Faction_" +
-                EvaluateList<XElement>("world/factionManager/allFactions/li")
-                .Where(x => Evaluate<bool>(x, "def/text()='" + playerFaction + "'"))
-                .First().Element("loadID").Value;
+            var playerFactionDef = EvaluateSingle<XElement>("scenario/playerFaction/factionDef").Value;
+
+            foreach (var element in SaveDocument.Root.XPathSelectElements("game/world/factionManager/allFactions/li"))
+            {
+                Faction faction = new Faction(element);
+                if (faction.Def.Equals(playerFactionDef))
+                {
+                    PlayerFaction = faction;
+                }
+                Factions[faction.FactionIDString] = faction;
+                PawnsByFactions[faction] = new List<Pawn>();
+            }
 
             //Console.WriteLine($"playerFaction:{playerFaction}, colonyFaction:{colonyFaction}");
 
@@ -508,51 +554,70 @@ namespace RimWorldSaveManager
                 pawnDataList.Add(new PawnData(pawnData.Parent));
             }
 
-            foreach (var pawn in SaveDocument.Descendants("thing"))
+            foreach (var pawn in SaveDocument.Root.XPathSelectElements("game/world/worldPawns/pawnsAlive/li"))
             {
-                if ((string)pawn.Attribute("Class") == "Pawn"
-                    && (string)pawn.Element("faction") == colonyFaction)
+                Pawn p = new Pawn(pawn);
+                if (p.Faction != null)
                 {
-
-
-                    Pawn p = new Pawn(pawn);
                     List<PawnData> pawnDataList;
                     if (!pawnDataDir.TryGetValue(p.PawnId, out pawnDataList))
                     {
                         pawnDataList = new List<PawnData>();
                     }
-
                     p.addPawnData(pawnDataList);
-                    // ToDo: test for race
-                    if ((string)pawn.Element("skills").Attribute("IsNull") == null)
+
+                    PawnsById[p.PawnId] = p;
+                    Faction faction = Factions[p.Faction];
+                    PawnsByFactions[faction].Add(p);
+                }
+
+            }
+
+            foreach (var pawn in SaveDocument.Descendants("thing"))
+            {
+                if ((string)pawn.Attribute("Class") == "Pawn")
+                {
+
+
+                    Pawn p = new Pawn(pawn);
+                    if(p.Faction != null)
                     {
-                        Colonists.Add(p);
+                        List<PawnData> pawnDataList;
+                        if (!pawnDataDir.TryGetValue(p.PawnId, out pawnDataList))
+                        {
+                            pawnDataList = new List<PawnData>();
+                        }
+                        p.addPawnData(pawnDataList);
+
+                        PawnsById[p.PawnId] = p;
+                        Faction faction = Factions[p.Faction];
+                        PawnsByFactions[faction].Add(p);
                     }
-                    else
-                    {
-                        Animals.Add(p);
-                    }
+                    
                 }
             }
 
-            if (Colonists.Count == 0)
+            if (PawnsByFactions[PlayerFaction].Count == 0)
             {
                 throw new Exception("No characters found!\nTry playing the game a little more.");
             }
 
-            var colonistPage = new ColonistPage(Colonists);
+            var colonistPage = new ColonistPage(PawnsByFactions[PlayerFaction].Where(p => p.Race != null).ToList());
             colonistPage.Dock = DockStyle.Fill;
-            var animalPage = new AnimalPage(Animals);
+            var animalPage = new AnimalPage(PawnsByFactions[PlayerFaction].Where(p => p.Race == null).ToList());
             animalPage.Dock = DockStyle.Fill;
 
             TabPage colonisTabPage = new TabPage("Colonists");
             TabPage animalsTabPage = new TabPage("Animals");
+            TabPage relationsTabPage = new TabPage("Relations");
             colonisTabPage.Controls.Add(colonistPage);
             animalsTabPage.Controls.Add(animalPage);
+            relationsTabPage.Controls.Add(new RelationPage());
 
 
             tabControl.TabPages.Add(colonisTabPage);
             tabControl.TabPages.Add(animalsTabPage);
+            tabControl.TabPages.Add(relationsTabPage);
 
 
             return true;

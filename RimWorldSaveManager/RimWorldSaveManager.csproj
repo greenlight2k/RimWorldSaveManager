@@ -70,8 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataStructure\CrownType.cs" />
+    <Compile Include="Data\DataStructure\Faction.cs" />
     <Compile Include="Data\DataStructure\Hair.cs" />
+    <Compile Include="Data\DataStructure\PawnRelationDef.cs" />
     <Compile Include="Data\DataStructure\Race.cs" />
+    <Compile Include="Data\DataStructure\Relation.cs" />
     <Compile Include="Data\ResourceLoader.cs" />
     <Compile Include="Data\DataLoader.cs" />
     <Compile Include="Data\DataStructure\Hediff.cs" />
@@ -118,6 +121,12 @@
     <Compile Include="UserControls\AnimalPage.Designer.cs">
       <DependentUpon>AnimalPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\RelationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\RelationPage.Designer.cs">
+      <DependentUpon>RelationPage.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -131,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AnimalPage.resx">
       <DependentUpon>AnimalPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\RelationPage.resx">
+      <DependentUpon>RelationPage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
