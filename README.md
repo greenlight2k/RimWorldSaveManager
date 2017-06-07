@@ -2,8 +2,8 @@
 This is a SaveGame-Editor for RimWorld (rimworldgame.com).
 
 At the moment it supports editing the follwing stats:  
-**Colonists**:  Name, Skills, Age, Traits, Backstory, Injuries, Gender, Bodytype, Skincolor, Headtype, Hair, Haircolor  
-**Animals**: Name, Age, Injuries, Training  
+**Colonists**:  Name, Skills, Age, Traits, Backstory, Injuries, Gender, Bodytype, Skincolor, Headtype, Hair, Haircolor, Relations  
+**Animals**: Name, Age, Injuries, Training, Relations  
 Supports races made with the Humanoid Alien Framework.  
 
 Copy the executable file (.exe) into your game directory and run it.  
@@ -14,6 +14,9 @@ Copy the executable file (.exe) into your game directory and run it.
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.6.2.1 ####
+* Add editing of relations
+* Bugfixes
 #### v0.6.2.0 ####
 * Add editing Gender, Bodytype, Skincolor, Headtype, Hair and Haircolor
 * Fix adding some singular traits (kind, greedy, ...)
