@@ -422,6 +422,7 @@ namespace RimWorldSaveManager.Data.DataStructure
 
 
             IEnumerable<XElement> skills = _xml.XPathSelectElements("skills/skills/li");
+            Skills = new List<PawnSkill>();
             if (skills != null)
             {
                 Skills = (from skill in skills
@@ -429,6 +430,7 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
 
             _traits = _xml.XPathSelectElement("story/traits/allTraits");
+            Traits = new List<PawnTrait>();
             if (_traits != null && _traits.HasElements)
             {
                 Traits = (from trait in _traits.Elements("li")
