@@ -14,6 +14,9 @@ Copy the executable file (.exe) into your game directory and run it.
 #### Disclaimer: Use at your own risk, I am not responsible for your loss of progress. ####
 
 ### ChangeLog ###
+#### v0.7.0.0 ####
+* Bugfixes
+* Add Support for Version 1.0
 #### v0.6.2.2 ####
 * Bugfixes
 #### v0.6.2.1 ####
