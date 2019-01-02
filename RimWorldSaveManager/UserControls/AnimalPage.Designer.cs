@@ -41,6 +41,9 @@
             this.btnRemoveInjury = new System.Windows.Forms.Button();
             this.listBoxInjuries = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownTameness = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxTameness = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.numericUpDownRescue = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownHaul = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownRelease = new System.Windows.Forms.NumericUpDown();
@@ -64,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bioAgeField)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTameness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRescue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHaul)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRelease)).BeginInit();
@@ -77,7 +81,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 0);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(240, 518);
+            this.listBox1.Size = new System.Drawing.Size(240, 547);
             this.listBox1.TabIndex = 15;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             // 
@@ -87,7 +91,7 @@
             this.nameGroupBox.Controls.Add(this.label5);
             this.nameGroupBox.Location = new System.Drawing.Point(246, 63);
             this.nameGroupBox.Name = "nameGroupBox";
-            this.nameGroupBox.Size = new System.Drawing.Size(315, 59);
+            this.nameGroupBox.Size = new System.Drawing.Size(327, 59);
             this.nameGroupBox.TabIndex = 16;
             this.nameGroupBox.TabStop = false;
             this.nameGroupBox.Text = "Name";
@@ -117,7 +121,7 @@
             this.ageGroupBox.Controls.Add(this.label1);
             this.ageGroupBox.Location = new System.Drawing.Point(246, 128);
             this.ageGroupBox.Name = "ageGroupBox";
-            this.ageGroupBox.Size = new System.Drawing.Size(315, 79);
+            this.ageGroupBox.Size = new System.Drawing.Size(327, 79);
             this.ageGroupBox.TabIndex = 17;
             this.ageGroupBox.TabStop = false;
             this.ageGroupBox.Text = "Age";
@@ -175,14 +179,12 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Location = new System.Drawing.Point(567, 3);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox3.Location = new System.Drawing.Point(573, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(275, 512);
+            this.groupBox3.Size = new System.Drawing.Size(275, 547);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Injuries";
@@ -190,7 +192,7 @@
             // btnRemoveInjury
             // 
             this.btnRemoveInjury.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveInjury.Location = new System.Drawing.Point(209, 481);
+            this.btnRemoveInjury.Location = new System.Drawing.Point(209, 516);
             this.btnRemoveInjury.Name = "btnRemoveInjury";
             this.btnRemoveInjury.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveInjury.TabIndex = 2;
@@ -206,11 +208,14 @@
             this.listBoxInjuries.FormattingEnabled = true;
             this.listBoxInjuries.Location = new System.Drawing.Point(6, 20);
             this.listBoxInjuries.Name = "listBoxInjuries";
-            this.listBoxInjuries.Size = new System.Drawing.Size(263, 420);
+            this.listBoxInjuries.Size = new System.Drawing.Size(263, 485);
             this.listBoxInjuries.TabIndex = 0;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.numericUpDownTameness);
+            this.groupBox1.Controls.Add(this.checkBoxTameness);
+            this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.numericUpDownRescue);
             this.groupBox1.Controls.Add(this.numericUpDownHaul);
             this.groupBox1.Controls.Add(this.numericUpDownRelease);
@@ -227,14 +232,45 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(246, 213);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(315, 163);
+            this.groupBox1.Size = new System.Drawing.Size(321, 178);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Training";
             // 
+            // numericUpDownTameness
+            // 
+            this.numericUpDownTameness.Location = new System.Drawing.Point(124, 48);
+            this.numericUpDownTameness.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownTameness.Name = "numericUpDownTameness";
+            this.numericUpDownTameness.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownTameness.TabIndex = 16;
+            this.numericUpDownTameness.ValueChanged += new System.EventHandler(this.numericUpDownTameness_ValueChanged);
+            // 
+            // checkBoxTameness
+            // 
+            this.checkBoxTameness.AutoSize = true;
+            this.checkBoxTameness.Location = new System.Drawing.Point(83, 50);
+            this.checkBoxTameness.Name = "checkBoxTameness";
+            this.checkBoxTameness.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxTameness.TabIndex = 15;
+            this.checkBoxTameness.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 50);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 13);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "Tameness";
+            // 
             // numericUpDownRescue
             // 
-            this.numericUpDownRescue.Location = new System.Drawing.Point(124, 99);
+            this.numericUpDownRescue.Location = new System.Drawing.Point(124, 127);
             this.numericUpDownRescue.Maximum = new decimal(new int[] {
             2,
             0,
@@ -247,7 +283,7 @@
             // 
             // numericUpDownHaul
             // 
-            this.numericUpDownHaul.Location = new System.Drawing.Point(124, 125);
+            this.numericUpDownHaul.Location = new System.Drawing.Point(124, 153);
             this.numericUpDownHaul.Maximum = new decimal(new int[] {
             7,
             0,
@@ -260,7 +296,7 @@
             // 
             // numericUpDownRelease
             // 
-            this.numericUpDownRelease.Location = new System.Drawing.Point(124, 73);
+            this.numericUpDownRelease.Location = new System.Drawing.Point(124, 101);
             this.numericUpDownRelease.Maximum = new decimal(new int[] {
             2,
             0,
@@ -273,9 +309,9 @@
             // 
             // numericUpDownObedience
             // 
-            this.numericUpDownObedience.Location = new System.Drawing.Point(124, 47);
+            this.numericUpDownObedience.Location = new System.Drawing.Point(124, 75);
             this.numericUpDownObedience.Maximum = new decimal(new int[] {
-            1,
+            3,
             0,
             0,
             0});
@@ -305,7 +341,7 @@
             // checkBoxHaul
             // 
             this.checkBoxHaul.AutoSize = true;
-            this.checkBoxHaul.Location = new System.Drawing.Point(83, 127);
+            this.checkBoxHaul.Location = new System.Drawing.Point(83, 155);
             this.checkBoxHaul.Name = "checkBoxHaul";
             this.checkBoxHaul.Size = new System.Drawing.Size(15, 14);
             this.checkBoxHaul.TabIndex = 7;
@@ -315,7 +351,7 @@
             // checkBoxRescue
             // 
             this.checkBoxRescue.AutoSize = true;
-            this.checkBoxRescue.Location = new System.Drawing.Point(83, 101);
+            this.checkBoxRescue.Location = new System.Drawing.Point(83, 129);
             this.checkBoxRescue.Name = "checkBoxRescue";
             this.checkBoxRescue.Size = new System.Drawing.Size(15, 14);
             this.checkBoxRescue.TabIndex = 6;
@@ -325,7 +361,7 @@
             // checkBoxRelease
             // 
             this.checkBoxRelease.AutoSize = true;
-            this.checkBoxRelease.Location = new System.Drawing.Point(83, 75);
+            this.checkBoxRelease.Location = new System.Drawing.Point(83, 103);
             this.checkBoxRelease.Name = "checkBoxRelease";
             this.checkBoxRelease.Size = new System.Drawing.Size(15, 14);
             this.checkBoxRelease.TabIndex = 5;
@@ -335,7 +371,7 @@
             // checkBoxObedience
             // 
             this.checkBoxObedience.AutoSize = true;
-            this.checkBoxObedience.Location = new System.Drawing.Point(83, 49);
+            this.checkBoxObedience.Location = new System.Drawing.Point(83, 77);
             this.checkBoxObedience.Name = "checkBoxObedience";
             this.checkBoxObedience.Size = new System.Drawing.Size(15, 14);
             this.checkBoxObedience.TabIndex = 4;
@@ -345,7 +381,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 127);
+            this.label7.Location = new System.Drawing.Point(7, 155);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 13);
             this.label7.TabIndex = 3;
@@ -354,7 +390,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 101);
+            this.label6.Location = new System.Drawing.Point(6, 129);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 13);
             this.label6.TabIndex = 2;
@@ -363,7 +399,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 75);
+            this.label4.Location = new System.Drawing.Point(7, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 13);
             this.label4.TabIndex = 1;
@@ -372,7 +408,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 49);
+            this.label3.Location = new System.Drawing.Point(7, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 0;
@@ -384,7 +420,7 @@
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Location = new System.Drawing.Point(248, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(313, 54);
+            this.groupBox2.Size = new System.Drawing.Size(319, 54);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Infos";
@@ -418,7 +454,7 @@
             this.Controls.Add(this.nameGroupBox);
             this.Controls.Add(this.listBox1);
             this.Name = "AnimalPage";
-            this.Size = new System.Drawing.Size(845, 518);
+            this.Size = new System.Drawing.Size(848, 547);
             this.nameGroupBox.ResumeLayout(false);
             this.nameGroupBox.PerformLayout();
             this.ageGroupBox.ResumeLayout(false);
@@ -428,6 +464,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTameness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRescue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHaul)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRelease)).EndInit();
@@ -470,5 +507,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label labelDefinition;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown numericUpDownTameness;
+        private System.Windows.Forms.CheckBox checkBoxTameness;
+        private System.Windows.Forms.Label label11;
     }
 }

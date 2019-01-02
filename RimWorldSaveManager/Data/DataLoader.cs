@@ -20,7 +20,7 @@ namespace RimWorldSaveManager
         private List<Pawn> Animals = new List<Pawn>();
         private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
 
-        public static Dictionary<string, TraitDef> Traits = new Dictionary<string, TraitDef>();
+        public static SortedDictionary<string, TraitDef> Traits = new SortedDictionary<string, TraitDef>();
         public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
         public static Dictionary<string, string> HumanBodyPartDescription = new Dictionary<string, string>();
         public static List<WorkType> WorkTypes = new List<WorkType>();
@@ -32,7 +32,7 @@ namespace RimWorldSaveManager
 
         public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
         public static List<PawnRelationDef> PawnRelationDefs = new List<PawnRelationDef>();
-        public static long CurrentGameTick;
+        public static GameData GameData;
 
         private Dictionary<string, List<string>> pathsForLaodingData = new Dictionary<string, List<string>>();
 
@@ -348,7 +348,8 @@ namespace RimWorldSaveManager
                                               {
                                                   Def = traitDef.Element("defName").Value,
                                                   Label = textInfo.ToTitleCase(trait.Element("label").Value),
-                                                  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : "0"
+                                                  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : "0",
+                                                  Description = trait.Element("description").Value
                                               });
 
                                 foreach (var trait in traits)
@@ -511,7 +512,6 @@ namespace RimWorldSaveManager
             PawnRelationDefs = PawnRelationDefs.OrderBy(x => x.DefName).ToList();
             ResourceLoader.ChildhoodStories = ResourceLoader.ChildhoodStories.OrderBy(x => x.DisplayTitle).ToList();
             ResourceLoader.AdulthoodStories = ResourceLoader.AdulthoodStories.OrderBy(x => x.DisplayTitle).ToList();
-
         }
 
         public bool LoadData(string path, TabControl tabControl)
@@ -522,7 +522,7 @@ namespace RimWorldSaveManager
             //try {
             SaveDocument = XDocument.Load(path);
 
-            CurrentGameTick = long.Parse(SaveDocument.Root.XPathSelectElement("game/tickManager/ticksGame").GetValue());
+            GameData = new GameData(SaveDocument.Root.XPathSelectElement("game/tickManager"));
 
             var playerFactionDef = EvaluateSingle<XElement>("scenario/playerFaction/factionDef").Value;
 
@@ -602,19 +602,22 @@ namespace RimWorldSaveManager
                 throw new Exception("No characters found!\nTry playing the game a little more.");
             }
 
-            var colonistPage = new ColonistPage(PawnsByFactions[PlayerFaction].Where(p => p.Race != null).ToList());
+            var colonistPage = new ColonistPage(PawnsByFactions[PlayerFaction].Where(p => p.Skills.Count != 0).ToList());
             colonistPage.Dock = DockStyle.Fill;
-            var animalPage = new AnimalPage(PawnsByFactions[PlayerFaction].Where(p => p.Race == null).ToList());
+            var animalPage = new AnimalPage(PawnsByFactions[PlayerFaction].Where(p => p.Skills.Count == 0).ToList());
             animalPage.Dock = DockStyle.Fill;
 
             TabPage colonisTabPage = new TabPage("Colonists");
             TabPage animalsTabPage = new TabPage("Animals");
             TabPage relationsTabPage = new TabPage("Relations");
+            TabPage gameDataTabPage = new TabPage("Game Info");
             colonisTabPage.Controls.Add(colonistPage);
             animalsTabPage.Controls.Add(animalPage);
             relationsTabPage.Controls.Add(new RelationPage());
+            gameDataTabPage.Controls.Add(new GameDataPage());
 
 
+            tabControl.TabPages.Add(gameDataTabPage);
             tabControl.TabPages.Add(colonisTabPage);
             tabControl.TabPages.Add(animalsTabPage);
             tabControl.TabPages.Add(relationsTabPage);

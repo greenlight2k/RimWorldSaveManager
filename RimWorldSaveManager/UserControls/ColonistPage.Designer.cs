@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.skillsGroupBox = new System.Windows.Forms.GroupBox();
+            this.skillsGroupBoxOuter = new System.Windows.Forms.GroupBox();
             this.ageGroupBox = new System.Windows.Forms.GroupBox();
             this.chronoAgeField = new System.Windows.Forms.NumericUpDown();
             this.bioAgeField = new System.Windows.Forms.NumericUpDown();
@@ -61,6 +61,7 @@
             this.labelDefinition = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.labelRaceSupport = new System.Windows.Forms.Label();
             this.numericUpDownMelanin = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.panelHairColor = new System.Windows.Forms.Panel();
@@ -74,6 +75,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.comboBoxGender = new System.Windows.Forms.ComboBox();
             this.colorDialogHair = new System.Windows.Forms.ColorDialog();
+            this.buttonMaxSkills = new System.Windows.Forms.Button();
+            this.buttonMinSkills = new System.Windows.Forms.Button();
+            this.skillsGroupBox = new System.Windows.Forms.GroupBox();
+            this.skillsGroupBox.SuspendLayout();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bioAgeField)).BeginInit();
@@ -87,14 +92,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMelanin)).BeginInit();
             this.SuspendLayout();
             // 
-            // skillsGroupBox
+            // skillsGroupBoxOuter
             // 
-            this.skillsGroupBox.Location = new System.Drawing.Point(187, 66);
-            this.skillsGroupBox.Name = "skillsGroupBox";
-            this.skillsGroupBox.Size = new System.Drawing.Size(313, 549);
-            this.skillsGroupBox.TabIndex = 1;
-            this.skillsGroupBox.TabStop = false;
-            this.skillsGroupBox.Text = "Skills";
+            this.skillsGroupBoxOuter.Controls.Add(this.skillsGroupBox);
+            this.skillsGroupBoxOuter.Controls.Add(this.buttonMinSkills);
+            this.skillsGroupBoxOuter.Controls.Add(this.buttonMaxSkills);
+            this.skillsGroupBoxOuter.Location = new System.Drawing.Point(187, 79);
+            this.skillsGroupBoxOuter.Name = "skillsGroupBoxOuter";
+            this.skillsGroupBoxOuter.Size = new System.Drawing.Size(313, 534);
+            this.skillsGroupBoxOuter.TabIndex = 1;
+            this.skillsGroupBoxOuter.TabStop = false;
+            this.skillsGroupBoxOuter.Text = "Skills";
             // 
             // ageGroupBox
             // 
@@ -225,15 +233,13 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.traitComboBox);
             this.groupBox2.Controls.Add(this.btnRemoveTrait);
             this.groupBox2.Controls.Add(this.btnAddTrait);
             this.groupBox2.Controls.Add(this.listBoxTraits);
-            this.groupBox2.Location = new System.Drawing.Point(902, 3);
+            this.groupBox2.Location = new System.Drawing.Point(506, 360);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(353, 188);
+            this.groupBox2.Size = new System.Drawing.Size(389, 188);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Traits";
@@ -242,17 +248,20 @@
             // 
             this.traitComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.traitComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.traitComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.traitComboBox.FormattingEnabled = true;
             this.traitComboBox.Location = new System.Drawing.Point(7, 158);
             this.traitComboBox.Name = "traitComboBox";
-            this.traitComboBox.Size = new System.Drawing.Size(208, 21);
+            this.traitComboBox.Size = new System.Drawing.Size(244, 21);
             this.traitComboBox.TabIndex = 3;
+            this.traitComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Traits_DrawItem);
+            this.traitComboBox.DropDownClosed += new System.EventHandler(this.DropDownClosed);
             // 
             // btnRemoveTrait
             // 
             this.btnRemoveTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveTrait.Location = new System.Drawing.Point(287, 157);
+            this.btnRemoveTrait.Location = new System.Drawing.Point(323, 157);
             this.btnRemoveTrait.Name = "btnRemoveTrait";
             this.btnRemoveTrait.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveTrait.TabIndex = 2;
@@ -263,7 +272,7 @@
             // btnAddTrait
             // 
             this.btnAddTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTrait.Location = new System.Drawing.Point(221, 157);
+            this.btnAddTrait.Location = new System.Drawing.Point(257, 157);
             this.btnAddTrait.Name = "btnAddTrait";
             this.btnAddTrait.Size = new System.Drawing.Size(60, 23);
             this.btnAddTrait.TabIndex = 1;
@@ -279,18 +288,16 @@
             this.listBoxTraits.FormattingEnabled = true;
             this.listBoxTraits.Location = new System.Drawing.Point(6, 14);
             this.listBoxTraits.Name = "listBoxTraits";
-            this.listBoxTraits.Size = new System.Drawing.Size(347, 134);
+            this.listBoxTraits.Size = new System.Drawing.Size(383, 134);
             this.listBoxTraits.TabIndex = 0;
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Location = new System.Drawing.Point(506, 360);
+            this.groupBox3.Location = new System.Drawing.Point(901, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(389, 430);
+            this.groupBox3.Size = new System.Drawing.Size(389, 255);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Injuries";
@@ -298,7 +305,7 @@
             // btnRemoveInjury
             // 
             this.btnRemoveInjury.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveInjury.Location = new System.Drawing.Point(323, 399);
+            this.btnRemoveInjury.Location = new System.Drawing.Point(323, 224);
             this.btnRemoveInjury.Name = "btnRemoveInjury";
             this.btnRemoveInjury.Size = new System.Drawing.Size(60, 23);
             this.btnRemoveInjury.TabIndex = 2;
@@ -313,20 +320,17 @@
             this.listBoxInjuries.FormattingEnabled = true;
             this.listBoxInjuries.Location = new System.Drawing.Point(7, 20);
             this.listBoxInjuries.Name = "listBoxInjuries";
-            this.listBoxInjuries.Size = new System.Drawing.Size(372, 368);
+            this.listBoxInjuries.Size = new System.Drawing.Size(372, 186);
             this.listBoxInjuries.TabIndex = 0;
             // 
             // groupBox5
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.DescriptionText);
-            this.groupBox5.Location = new System.Drawing.Point(902, 194);
+            this.groupBox5.Location = new System.Drawing.Point(908, 264);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox5.Size = new System.Drawing.Size(361, 596);
+            this.groupBox5.Size = new System.Drawing.Size(382, 351);
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Description";
@@ -341,17 +345,15 @@
             this.DescriptionText.Multiline = true;
             this.DescriptionText.Name = "DescriptionText";
             this.DescriptionText.ReadOnly = true;
-            this.DescriptionText.Size = new System.Drawing.Size(351, 570);
+            this.DescriptionText.Size = new System.Drawing.Size(372, 325);
             this.DescriptionText.TabIndex = 0;
             // 
             // listBox1
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 0);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(181, 784);
+            this.listBox1.Size = new System.Drawing.Size(181, 615);
             this.listBox1.TabIndex = 14;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             // 
@@ -423,11 +425,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelRaceSupport);
             this.groupBox1.Controls.Add(this.labelDefinition);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(187, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(313, 54);
+            this.groupBox1.Size = new System.Drawing.Size(313, 72);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Infos";
@@ -470,6 +473,16 @@
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Gender/Apperance";
+            // 
+            // labelRaceSupport
+            // 
+            this.labelRaceSupport.AutoSize = true;
+            this.labelRaceSupport.Location = new System.Drawing.Point(7, 38);
+            this.labelRaceSupport.Name = "labelRaceSupport";
+            this.labelRaceSupport.Size = new System.Drawing.Size(201, 26);
+            this.labelRaceSupport.TabIndex = 14;
+            this.labelRaceSupport.Text = "This race is not fully supported.\r\nTry to put the Mod into the \"Mod\"-Folder.\r\n";
+            this.labelRaceSupport.Visible = false;
             // 
             // numericUpDownMelanin
             // 
@@ -588,6 +601,34 @@
             this.comboBoxGender.TabIndex = 0;
             this.comboBoxGender.SelectedIndexChanged += new System.EventHandler(this.comboBoxGender_SelectedIndexChanged);
             // 
+            // buttonMaxSkills
+            // 
+            this.buttonMaxSkills.Location = new System.Drawing.Point(10, 19);
+            this.buttonMaxSkills.Name = "buttonMaxSkills";
+            this.buttonMaxSkills.Size = new System.Drawing.Size(75, 23);
+            this.buttonMaxSkills.TabIndex = 0;
+            this.buttonMaxSkills.Text = "Max All";
+            this.buttonMaxSkills.UseVisualStyleBackColor = true;
+            this.buttonMaxSkills.Click += new System.EventHandler(this.buttonMaxSkills_Click);
+            // 
+            // buttonMinSkills
+            // 
+            this.buttonMinSkills.Location = new System.Drawing.Point(91, 19);
+            this.buttonMinSkills.Name = "buttonMinSkills";
+            this.buttonMinSkills.Size = new System.Drawing.Size(75, 23);
+            this.buttonMinSkills.TabIndex = 1;
+            this.buttonMinSkills.Text = "Min All";
+            this.buttonMinSkills.UseVisualStyleBackColor = true;
+            this.buttonMinSkills.Click += new System.EventHandler(this.buttonMinSkills_Click);
+            // 
+            // skillsGroupBox
+            // 
+            this.skillsGroupBox.Location = new System.Drawing.Point(7, 48);
+            this.skillsGroupBox.Name = "skillsGroupBox";
+            this.skillsGroupBox.Size = new System.Drawing.Size(300, 480);
+            this.skillsGroupBox.TabIndex = 2;
+            this.skillsGroupBox.TabStop = false;
+            // 
             // ColonistPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -601,9 +642,10 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.ageGroupBox);
-            this.Controls.Add(this.skillsGroupBox);
+            this.Controls.Add(this.skillsGroupBoxOuter);
             this.Name = "ColonistPage";
-            this.Size = new System.Drawing.Size(1266, 793);
+            this.Size = new System.Drawing.Size(1300, 627);
+            this.skillsGroupBox.ResumeLayout(false);
             this.ageGroupBox.ResumeLayout(false);
             this.ageGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).EndInit();
@@ -626,7 +668,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox skillsGroupBox;
+        private System.Windows.Forms.GroupBox skillsGroupBoxOuter;
         private System.Windows.Forms.GroupBox ageGroupBox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ComboBox adulthoodComboBox;
@@ -672,5 +714,9 @@
         private System.Windows.Forms.Panel panelHairColor;
         private System.Windows.Forms.NumericUpDown numericUpDownMelanin;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label labelRaceSupport;
+        private System.Windows.Forms.Button buttonMinSkills;
+        private System.Windows.Forms.Button buttonMaxSkills;
+        private System.Windows.Forms.GroupBox skillsGroupBox;
     }
 }

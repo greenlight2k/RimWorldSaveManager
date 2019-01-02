@@ -108,7 +108,7 @@ namespace RimWorldSaveManager.Data.DataStructure
         }
 
 
-        public string He
+        public string Pronoun
         {
             get
             {
@@ -120,7 +120,7 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
-        public string His
+        public string Possessive
         {
             get
             {
@@ -132,15 +132,15 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
-        public string HeCap
+        public string Objective
         {
             get
             {
                 if ((string)_xml.Element("gender") == "Female")
                 {
-                    return "She";
+                    return "her";
                 }
-                return "He";
+                return "him";
             }
         }
 
@@ -287,6 +287,10 @@ namespace RimWorldSaveManager.Data.DataStructure
             get
             {
                 string colorString = _story.Element("hairColor").GetValue().Replace("RGBA(", "").Replace(")", "");
+                if (colorString == null || colorString.Length == 0)
+                {
+                    return Color.White;
+                }
                 string[] RGBA = colorString.Split(',');
                 int R = (int)(double.Parse(RGBA[0], CultureInfo.InvariantCulture) * 255);
                 int G = (int)(double.Parse(RGBA[1], CultureInfo.InvariantCulture) * 255);
@@ -296,11 +300,15 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
             set
             {
-                string R = getRGBAString(value.R);
-                string G = getRGBAString(value.G);
-                string B = getRGBAString(value.B);
-                string A = getRGBAString(value.A);
-                _story.Element("hairColor").SetValue("RGBA(" + R + ", " + G + ", " + B + ", " + A + ")");
+                if (_story.Element("hairColor") != null)
+                {
+                    string R = getRGBAString(value.R);
+                    string G = getRGBAString(value.G);
+                    string B = getRGBAString(value.B);
+                    string A = getRGBAString(value.A);
+                    _story.Element("hairColor").SetValue("RGBA(" + R + ", " + G + ", " + B + ", " + A + ")");
+                }
+
             }
         }
 
@@ -343,7 +351,7 @@ namespace RimWorldSaveManager.Data.DataStructure
         {
             get
             {
-                return _name.FullName()+ " " + PawnDef;
+                return _name.FullName() + " " + PawnDef;
             }
         }
 
@@ -382,6 +390,10 @@ namespace RimWorldSaveManager.Data.DataStructure
         public Pawn(XElement xml)
         {
             _xml = xml;
+            if (_xml.Element("name") == null)
+            {
+                _xml.Add(new XElement("name"));
+            }
             _name = new Name(_xml.Element("name"));
             _pawnId = _xml.Element("id");
             _pawnDef = _xml.Element("def");

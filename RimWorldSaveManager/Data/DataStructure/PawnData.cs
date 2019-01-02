@@ -17,7 +17,16 @@ namespace RimWorldSaveManager.Data.DataStructure
         public PawnData(XElement xElement)
         {
             _xElement = xElement;
+            if (_xElement.Element("name") == null)
+            {
+                _xElement.Add(new XElement("name"));
+            }
             _name = new Name(_xElement.Element("name"));
+
+            if (_xElement.Element("gender") == null)
+            {
+                _xElement.Add(new XElement("gender", "male"));
+            }
             _Gender = _xElement.Element("gender");
 
         }

@@ -81,20 +81,33 @@ namespace RimWorldSaveManager.UserControls
             textBoxLastname.Text = _pawn.Lastname;
 
 
-            comboBoxBodyType.Items.AddRange(_pawn.Race.BodyType.ToArray());
-            comboBoxHeadType.Items.AddRange(_pawn.Race.HeadType.ToArray());
+            if (_pawn.Race != null)
+            {
+                labelRaceSupport.Visible = false;
+                comboBoxBodyType.Enabled = true;
+                comboBoxHeadType.Enabled = true;
 
+                comboBoxBodyType.Items.AddRange(_pawn.Race.BodyType.ToArray());
+                comboBoxHeadType.Items.AddRange(_pawn.Race.HeadType.ToArray());
+                CrownType pawnCrownType = _pawn.CrownType;
+                foreach (var crownType in _pawn.Race.HeadType)
+                {
+                    if (pawnCrownType.CombinedCrownDef.Equals(crownType.CombinedCrownDef))
+                    {
+                        comboBoxHeadType.SelectedItem = crownType;
+                        break;
+                    }
+                }
+            }else
+            {
+                comboBoxBodyType.Enabled = false;
+                comboBoxHeadType.Enabled = false;
+                labelRaceSupport.Visible = true;
+            }
+            
             comboBoxGender.SelectedItem = _pawn.Gender;
             comboBoxBodyType.SelectedItem = _pawn.BodyType;
-
-            CrownType pawnCrownType = _pawn.CrownType;
-            foreach(var crownType in _pawn.Race.HeadType)
-            {
-                if (pawnCrownType.CombinedCrownDef.Equals(crownType.CombinedCrownDef)){
-                    comboBoxHeadType.SelectedItem = crownType;
-                    break;
-                }
-            }
+                       
 
             var skillPos = new Size(skillsGroupBox.Margin.Left + skillsGroupBox.Padding.Left, skillsGroupBox.Margin.Top + skillsGroupBox.Padding.Top + 10);
             skillsGroupBox.Height = pawn.Skills.Count * 25 + skillsGroupBox.Margin.Bottom + skillsGroupBox.Padding.Bottom + 15;
@@ -190,9 +203,13 @@ namespace RimWorldSaveManager.UserControls
         private void fillHairComboBox()
         {
             List<Hair> hairList;
-            if (!_pawn.Race.HairsByGender.TryGetValue(_pawn.Gender, out hairList))
+            if (_pawn.Race == null || !_pawn.Race.HairsByGender.TryGetValue(_pawn.Gender, out hairList))
             {
                 hairList = new List<Hair>();
+                comboBoxHairDef.Enabled = false;
+            }else
+            {
+                comboBoxHairDef.Enabled = true;
             }
             comboBoxHairDef.Items.Clear();
             comboBoxHairDef.Items.AddRange(hairList.ToArray());
@@ -301,7 +318,35 @@ namespace RimWorldSaveManager.UserControls
 
             if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown)
             {
-                DescriptionText.Lines = GenerateDetailedInformation(backstory).Split('\n');
+                DescriptionText.Lines = GenerateDetailedInformationBackstory(backstory).Split('\n');
+            }
+
+            e.DrawFocusRectangle();
+        }
+
+         private void Traits_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+                return;
+
+            var comboBox = (ComboBox)sender;
+            var trait = (TraitDef)comboBox.SelectedItem;
+
+            if (e.Bounds.Y < 0 || e.Bounds.Y > comboBox.DropDownHeight)
+            {
+                return;
+            }
+
+            e.DrawBackground();
+
+            using (SolidBrush br = new SolidBrush(e.ForeColor))
+            {
+                e.Graphics.DrawString(comboBox.GetItemText(comboBox.Items[e.Index]), e.Font, br, e.Bounds);
+            }
+
+            if (e.State.HasFlag(DrawItemState.Selected) && comboBox.DroppedDown)
+            {
+                DescriptionText.Lines = GenerateDetailedInformationTrait(trait).Split('\n');
             }
 
             e.DrawFocusRectangle();
@@ -314,7 +359,7 @@ namespace RimWorldSaveManager.UserControls
             return pt.X > bound.Left && pt.X < bound.Right;
         }
 
-        private string GenerateDetailedInformation(Backstory backstory)
+        private string GenerateDetailedInformationBackstory(Backstory backstory)
         {
             var detailedBackstory = $"{backstory.Title}\n\n{backstory.Description}\n";
 
@@ -348,11 +393,25 @@ namespace RimWorldSaveManager.UserControls
             }
 
             return
-                detailedBackstory.Replace("NAME", _pawn.Nickname)
-                    .Replace("HECAP", _pawn.HeCap)
-                    .Replace("HISCAP", _pawn.HisCap)
-                    .Replace("HE", _pawn.He)
-                    .Replace("HIS", _pawn.His);
+                detailedBackstory.Replace("[PAWN_nameDef]", _pawn.Nickname)
+                    .Replace("[PAWN_objective]", _pawn.Objective)
+                    .Replace("[PAWN_pronoun]", _pawn.Pronoun)
+                    .Replace("[PAWN_possessive]", _pawn.Possessive);
+        }
+
+        private string GenerateDetailedInformationTrait(TraitDef trait)
+        {
+            var detailedBackstory = $"{trait.Label}\n\n{trait.Description}\n";
+
+            return
+                detailedBackstory.Replace("[PAWN_nameDef]", _pawn.Nickname)
+                    .Replace("[PAWN_objective]", _pawn.Objective)
+                    .Replace("[PAWN_pronoun]", _pawn.Pronoun)
+                    .Replace("[PAWN_possessive]", _pawn.Possessive)
+                    .Replace("{PAWN_nameDef}", _pawn.Nickname)
+                    .Replace("{PAWN_objective}", _pawn.Objective)
+                    .Replace("{PAWN_pronoun}", _pawn.Pronoun)
+                    .Replace("{PAWN_possessive}", _pawn.Possessive);
         }
 
         private void DropDownClosed(object sender, EventArgs e)
@@ -422,6 +481,24 @@ namespace RimWorldSaveManager.UserControls
         private void numericUpDownMelanin_ValueChanged(object sender, EventArgs e)
         {
             _pawn.Melanin = numericUpDownMelanin.Value;
+        }
+
+        private void buttonMaxSkills_Click(object sender, EventArgs e)
+        {
+            foreach(var textBox in Skills.Values)
+            {
+                textBox.Text = "20";
+                textBox.Update();
+            }
+        }
+
+        private void buttonMinSkills_Click(object sender, EventArgs e)
+        {
+            foreach (var textBox in Skills.Values)
+            {
+                textBox.Text = "0";
+                textBox.Update();
+            }
         }
     }
 }

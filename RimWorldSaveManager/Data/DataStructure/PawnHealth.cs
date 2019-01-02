@@ -14,7 +14,14 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         public string PartIndex
         {
-            get { return (string)_xml.Element("partIndex"); }
+            get {
+                XElement part = _xml.Element("part");
+                if(part != null)
+                {
+                    return (string)part.Element("index");
+                }
+                return null;
+            }
         }
         public XElement Element => _xml;
 

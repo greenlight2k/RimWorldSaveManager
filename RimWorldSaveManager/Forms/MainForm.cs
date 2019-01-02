@@ -15,7 +15,7 @@ namespace RimWorldSaveManager
 
 			var version = Assembly.GetExecutingAssembly().GetName();
 
-			Text = $"{version.Name} v{version.Version} (Alpha 17)";
+			Text = $"{version.Name} v{version.Version} (1.0)";
 		}
 
 		private void toolStripLabel1_Click(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace RimWorldSaveManager
 					"RimWorld",
 					"Saves");
 
-			ofn.Filter = @"RimWorld Save File (.rws)|*.rws";
+			ofn.Filter = @"RimWorld Save File|*.rws";
 			ofn.FilterIndex = 1;
 
 			if (ofn.ShowDialog() == DialogResult.OK)

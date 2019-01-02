@@ -33,20 +33,36 @@ namespace RimWorldSaveManager
                 return null;
             }
 
-            if (string.IsNullOrEmpty((string)xml.Element("Title"))) {
+            if (string.IsNullOrEmpty((string)xml.Element("title")) && string.IsNullOrEmpty((string)xml.Element("Title"))) {
                 Logger.Err("Found backstory with empty Title.");
                 return null;
             }
 
-            var backstory = new Backstory {
-                Title = (string)xml.Element("Title"),
-                TitleShort = (string)xml.Element("TitleShort"),
-                Description = (string)xml.Element("BaseDesc"),
-                Slot = (string)xml.Element("Slot")
-            };
-            if (string.IsNullOrEmpty(backstory.Description)) {
-                backstory.Description = (string)xml.Element("baseDesc");
+            var backstory = new Backstory();
+            if (!string.IsNullOrEmpty((string)xml.Element("title")))
+            {
+                backstory = new Backstory
+                 {
+                     Title = (string)xml.Element("title"),
+                     TitleShort = (string)xml.Element("titleShort"),
+                     Description = (string)xml.Element("desc"),
+                 };
             }
+
+            if (!string.IsNullOrEmpty((string)xml.Element("Title")))
+            {
+                backstory = new Backstory
+                {
+                    Title = (string)xml.Element("Title"),
+                    TitleShort = (string)xml.Element("TitleShort"),
+                    Description = (string)xml.Element("BaseDesc"),
+                };
+                if(backstory.Description == null)
+                {
+                    backstory.Description = (string)xml.Element("baseDesc");
+                }
+            }
+
             backstory.Description = backstory.Description.Replace("\\n", "\n");
 
             backstory.DisplayTitle = backstory.Title;

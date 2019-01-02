@@ -65,6 +65,18 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
+        public bool TamenessTraining
+        {
+            get
+            {
+                return _WantedTrainables[4].GetValue() == "True";
+            }
+            set
+            {
+                _WantedTrainables[4].SetValue(value ? "True" : "False");
+            }
+        }
+
         public int ObedienceStep
         {
             get
@@ -113,19 +125,53 @@ namespace RimWorldSaveManager.Data.DataStructure
             }
         }
 
+        public int TamenessStep
+        {
+            get
+            {
+                return Convert.ToInt32(_Steps[4].GetValue());
+            }
+            set
+            {
+                _Steps[4].SetValue(value);
+            }
+        }
+
 
         public Training(XElement xElement, String pawnDef)
         {
             _XElement = xElement;
             _PawnDef = pawnDef;
 
+            XElement wantedTrainablesVals = _XElement.XPathSelectElement("wantedTrainables/vals");
             IEnumerable<XElement> wantedTrainables = _XElement.XPathSelectElements("wantedTrainables/vals/li");
             _WantedTrainables = (from wantedTrainable in wantedTrainables
                                  select wantedTrainable).ToList();
+            if(wantedTrainablesVals != null)
+            {
+                 for (int i = _WantedTrainables.Count; i< 5; ++i)
+                {
+                    XElement li = new XElement("li", "False");
+                    wantedTrainablesVals.Add(li);
+                    _WantedTrainables.Add(li);
+                }
+            }
+            
 
+            XElement stepsVals = _XElement.XPathSelectElement("steps/vals");
             IEnumerable<XElement> steps = _XElement.XPathSelectElements("steps/vals/li");
             _Steps = (from step in steps
                       select step).ToList();
+            if(stepsVals != null)
+            {
+                for (int i = _Steps.Count; i < 5; ++i)
+                {
+                    XElement li = new XElement("li", 0);
+                    stepsVals.Add(li);
+                    _Steps.Add(li);
+                }
+            }
+
         }
 
 

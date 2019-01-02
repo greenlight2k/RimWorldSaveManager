@@ -54,11 +54,13 @@ namespace RimWorldSaveManager.UserControls
             checkBoxRelease.Checked = _pawn.Training.ReleaseTraining;
             checkBoxRescue.Checked = _pawn.Training.RescueTraining;
             checkBoxHaul.Checked = _pawn.Training.HaulTraining;
+            checkBoxTameness.Checked = _pawn.Training.TamenessTraining;
 
             numericUpDownObedience.Value = _pawn.Training.ObedienceStep;
             numericUpDownRelease.Value = _pawn.Training.ReleaseStep;
             numericUpDownRescue.Value = _pawn.Training.RescueStep;
             numericUpDownHaul.Value = _pawn.Training.HaulStep;
+            numericUpDownTameness.Value = _pawn.Training.TamenessStep;
 
             listBoxInjuries.Items.Clear();
 
@@ -153,6 +155,11 @@ namespace RimWorldSaveManager.UserControls
         private void numericUpDownHaul_ValueChanged(object sender, EventArgs e)
         {
             _pawn.Training.HaulStep = (int)numericUpDownHaul.Value;
+        }
+
+        private void numericUpDownTameness_ValueChanged(object sender, EventArgs e)
+        {
+            _pawn.Training.TamenessStep = (int)numericUpDownTameness.Value;
         }
     }
 }

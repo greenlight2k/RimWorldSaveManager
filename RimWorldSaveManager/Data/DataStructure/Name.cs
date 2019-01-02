@@ -19,9 +19,10 @@ namespace RimWorldSaveManager.Data.DataStructure
         {
             _name = name;
             XAttribute isNull = name.Attribute("IsNull");
-            if (isNull == null)
+            XAttribute nameClass = name.Attribute("Class");
+            if (isNull == null && nameClass != null)
             {
-                switch (name.Attribute("Class").Value) { 
+                switch (nameClass.Value) { 
                 case "NameSingle":
                     _nameClass = NameClass.NameSingle;
                     break;

@@ -38,7 +38,7 @@ namespace RimWorldSaveManager.UserControls
             comboBoxRelationDefs.Items.AddRange(DataLoader.PawnRelationDefs.ToArray());
             comboBoxFaction.Items.AddRange(DataLoader.Factions.Values.ToArray());
 
-            numericUpDownStartTime.Maximum = DataLoader.CurrentGameTick;
+            numericUpDownStartTime.Maximum = DataLoader.GameData.GameTime;
 
             if(_pawnBindingList.Count > 0)
             {
