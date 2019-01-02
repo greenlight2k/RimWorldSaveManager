@@ -6,6 +6,8 @@ At the moment it supports editing the follwing stats:
 **Animals**: Name, Age, Injuries, Training, Relations  
 Supports races made with the Humanoid Alien Framework.  
 
+**Mods that are added by the Steam Workshop are not supported. Only the mods in the "Mod"-folder will be searched for Traits, Backstories and Races.**  
+
 Copy the executable file (.exe) into your game directory and run it.  
 
 
