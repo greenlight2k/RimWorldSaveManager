@@ -25,7 +25,7 @@ namespace RimWorldSaveManager.Data.DataStructure
 
             if (_xElement.Element("gender") == null)
             {
-                _xElement.Add(new XElement("gender", "male"));
+                _xElement.Add(new XElement("gender", "Male"));
             }
             _Gender = _xElement.Element("gender");
 

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RimWorldSaveManager.Data.DataStructure;
+using RimWorldSaveManager.Data.DataStructure.Defs;
+using RimWorldSaveManager.Data.DataStructure.PawnInfo;
 
 namespace RimWorldSaveManager.UserControls
 {
@@ -37,15 +39,15 @@ namespace RimWorldSaveManager.UserControls
             childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
             adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
 
+            comboBoxApparelQuality.DataSource = DataLoader.Quality;
+
             setPawn(_pawnBindingList[0]);
         }
 
         private void listBox1_Click(object sender, EventArgs e)
         {
-
             Pawn pawn = (Pawn)listBox1.SelectedItems[0];
             setPawn(pawn);
-
         }
         private void setPawn(Pawn pawn)
         {
@@ -65,6 +67,7 @@ namespace RimWorldSaveManager.UserControls
 
             skillsGroupBox.Controls.Clear();
             listBoxTraits.Items.Clear();
+            listBoxApparel.Items.Clear();
             listBoxInjuries.Items.Clear();
             comboBoxBodyType.Items.Clear();
             comboBoxHeadType.Items.Clear();
@@ -155,6 +158,10 @@ namespace RimWorldSaveManager.UserControls
             foreach (var trait in pawn.Traits)
             {
                 listBoxTraits.Items.Add(trait);
+            }
+            foreach (var apparel in pawn.Apparel)
+            {
+                listBoxApparel.Items.Add(apparel);
             }
 
             Action<ComboBox, string> setBackstory = (comboBox, storyKey) =>
@@ -498,6 +505,41 @@ namespace RimWorldSaveManager.UserControls
             {
                 textBox.Text = "0";
                 textBox.Update();
+            }
+        }
+
+        private void listBoxApparel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            PawnApparel pawnApparel = (PawnApparel)((ListBox)sender).SelectedItem;
+            comboBoxApparelQuality.SelectedItem = pawnApparel.Quality;
+            comboBoxApparelQuality.Update();
+
+            if(pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
+            {
+                numericUpDownApparelHealth.Maximum = (decimal)pawnApparel.MaxHealth;
+            }else
+            {
+                numericUpDownApparelHealth.Maximum = 1000;
+            }
+            numericUpDownApparelHealth.Value = (decimal)pawnApparel.Health;
+        }
+
+        private void comboBoxApparelQuality_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            if(pawnApparel != null)
+            {
+                pawnApparel.Quality = (string)comboBoxApparelQuality.SelectedItem;
+            }
+        }
+
+        private void numericUpDownApparelHealth_ValueChanged(object sender, EventArgs e)
+        {
+            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            if (pawnApparel != null)
+            {
+                pawnApparel.Health = (int)numericUpDownApparelHealth.Value;
             }
         }
     }

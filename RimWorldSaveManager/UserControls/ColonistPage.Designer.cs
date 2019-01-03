@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.skillsGroupBoxOuter = new System.Windows.Forms.GroupBox();
+            this.skillsGroupBox = new System.Windows.Forms.GroupBox();
+            this.buttonMinSkills = new System.Windows.Forms.Button();
+            this.buttonMaxSkills = new System.Windows.Forms.Button();
             this.ageGroupBox = new System.Windows.Forms.GroupBox();
             this.chronoAgeField = new System.Windows.Forms.NumericUpDown();
             this.bioAgeField = new System.Windows.Forms.NumericUpDown();
@@ -58,10 +61,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelRaceSupport = new System.Windows.Forms.Label();
             this.labelDefinition = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.labelRaceSupport = new System.Windows.Forms.Label();
             this.numericUpDownMelanin = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.panelHairColor = new System.Windows.Forms.Panel();
@@ -75,10 +78,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.comboBoxGender = new System.Windows.Forms.ComboBox();
             this.colorDialogHair = new System.Windows.Forms.ColorDialog();
-            this.buttonMaxSkills = new System.Windows.Forms.Button();
-            this.buttonMinSkills = new System.Windows.Forms.Button();
-            this.skillsGroupBox = new System.Windows.Forms.GroupBox();
-            this.skillsGroupBox.SuspendLayout();
+            this.groupBoxApparel = new System.Windows.Forms.GroupBox();
+            this.comboBoxApparelQuality = new System.Windows.Forms.ComboBox();
+            this.listBoxApparel = new System.Windows.Forms.ListBox();
+            this.numericUpDownApparelHealth = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.skillsGroupBoxOuter.SuspendLayout();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bioAgeField)).BeginInit();
@@ -90,6 +96,8 @@
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMelanin)).BeginInit();
+            this.groupBoxApparel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApparelHealth)).BeginInit();
             this.SuspendLayout();
             // 
             // skillsGroupBoxOuter
@@ -104,13 +112,41 @@
             this.skillsGroupBoxOuter.TabStop = false;
             this.skillsGroupBoxOuter.Text = "Skills";
             // 
+            // skillsGroupBox
+            // 
+            this.skillsGroupBox.Location = new System.Drawing.Point(7, 48);
+            this.skillsGroupBox.Name = "skillsGroupBox";
+            this.skillsGroupBox.Size = new System.Drawing.Size(300, 480);
+            this.skillsGroupBox.TabIndex = 2;
+            this.skillsGroupBox.TabStop = false;
+            // 
+            // buttonMinSkills
+            // 
+            this.buttonMinSkills.Location = new System.Drawing.Point(91, 19);
+            this.buttonMinSkills.Name = "buttonMinSkills";
+            this.buttonMinSkills.Size = new System.Drawing.Size(75, 23);
+            this.buttonMinSkills.TabIndex = 1;
+            this.buttonMinSkills.Text = "Min All";
+            this.buttonMinSkills.UseVisualStyleBackColor = true;
+            this.buttonMinSkills.Click += new System.EventHandler(this.buttonMinSkills_Click);
+            // 
+            // buttonMaxSkills
+            // 
+            this.buttonMaxSkills.Location = new System.Drawing.Point(10, 19);
+            this.buttonMaxSkills.Name = "buttonMaxSkills";
+            this.buttonMaxSkills.Size = new System.Drawing.Size(75, 23);
+            this.buttonMaxSkills.TabIndex = 0;
+            this.buttonMaxSkills.Text = "Max All";
+            this.buttonMaxSkills.UseVisualStyleBackColor = true;
+            this.buttonMaxSkills.Click += new System.EventHandler(this.buttonMaxSkills_Click);
+            // 
             // ageGroupBox
             // 
             this.ageGroupBox.Controls.Add(this.chronoAgeField);
             this.ageGroupBox.Controls.Add(this.bioAgeField);
             this.ageGroupBox.Controls.Add(this.label2);
             this.ageGroupBox.Controls.Add(this.label1);
-            this.ageGroupBox.Location = new System.Drawing.Point(731, 6);
+            this.ageGroupBox.Location = new System.Drawing.Point(725, 6);
             this.ageGroupBox.Name = "ageGroupBox";
             this.ageGroupBox.Size = new System.Drawing.Size(164, 100);
             this.ageGroupBox.TabIndex = 2;
@@ -176,7 +212,7 @@
             this.groupBox4.Controls.Add(this.childhoodComboBox);
             this.groupBox4.Location = new System.Drawing.Point(506, 263);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(389, 91);
+            this.groupBox4.Size = new System.Drawing.Size(385, 80);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Backstory";
@@ -209,7 +245,7 @@
             this.adulthoodComboBox.IntegralHeight = false;
             this.adulthoodComboBox.Location = new System.Drawing.Point(83, 46);
             this.adulthoodComboBox.Name = "adulthoodComboBox";
-            this.adulthoodComboBox.Size = new System.Drawing.Size(296, 21);
+            this.adulthoodComboBox.Size = new System.Drawing.Size(285, 21);
             this.adulthoodComboBox.TabIndex = 1;
             this.adulthoodComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Backstory_DrawItem);
             this.adulthoodComboBox.SelectedIndexChanged += new System.EventHandler(this.backstoryComboBox_SelectedIndexChanged);
@@ -225,7 +261,7 @@
             this.childhoodComboBox.IntegralHeight = false;
             this.childhoodComboBox.Location = new System.Drawing.Point(83, 19);
             this.childhoodComboBox.Name = "childhoodComboBox";
-            this.childhoodComboBox.Size = new System.Drawing.Size(296, 21);
+            this.childhoodComboBox.Size = new System.Drawing.Size(285, 21);
             this.childhoodComboBox.TabIndex = 0;
             this.childhoodComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Backstory_DrawItem);
             this.childhoodComboBox.SelectedIndexChanged += new System.EventHandler(this.backstoryComboBox_SelectedIndexChanged);
@@ -237,44 +273,40 @@
             this.groupBox2.Controls.Add(this.btnRemoveTrait);
             this.groupBox2.Controls.Add(this.btnAddTrait);
             this.groupBox2.Controls.Add(this.listBoxTraits);
-            this.groupBox2.Location = new System.Drawing.Point(506, 360);
+            this.groupBox2.Location = new System.Drawing.Point(506, 349);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(389, 188);
+            this.groupBox2.Size = new System.Drawing.Size(192, 234);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Traits";
             // 
             // traitComboBox
             // 
-            this.traitComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.traitComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.traitComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.traitComboBox.FormattingEnabled = true;
-            this.traitComboBox.Location = new System.Drawing.Point(7, 158);
+            this.traitComboBox.Location = new System.Drawing.Point(6, 161);
             this.traitComboBox.Name = "traitComboBox";
-            this.traitComboBox.Size = new System.Drawing.Size(244, 21);
+            this.traitComboBox.Size = new System.Drawing.Size(180, 21);
             this.traitComboBox.TabIndex = 3;
             this.traitComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.Traits_DrawItem);
             this.traitComboBox.DropDownClosed += new System.EventHandler(this.DropDownClosed);
             // 
             // btnRemoveTrait
             // 
-            this.btnRemoveTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveTrait.Location = new System.Drawing.Point(323, 157);
+            this.btnRemoveTrait.Location = new System.Drawing.Point(106, 188);
             this.btnRemoveTrait.Name = "btnRemoveTrait";
-            this.btnRemoveTrait.Size = new System.Drawing.Size(60, 23);
+            this.btnRemoveTrait.Size = new System.Drawing.Size(80, 25);
             this.btnRemoveTrait.TabIndex = 2;
-            this.btnRemoveTrait.Text = "Remove";
+            this.btnRemoveTrait.Text = "Del";
             this.btnRemoveTrait.UseVisualStyleBackColor = true;
             this.btnRemoveTrait.Click += new System.EventHandler(this.btnRemoveTrait_Click);
             // 
             // btnAddTrait
             // 
-            this.btnAddTrait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTrait.Location = new System.Drawing.Point(257, 157);
+            this.btnAddTrait.Location = new System.Drawing.Point(6, 188);
             this.btnAddTrait.Name = "btnAddTrait";
-            this.btnAddTrait.Size = new System.Drawing.Size(60, 23);
+            this.btnAddTrait.Size = new System.Drawing.Size(80, 25);
             this.btnAddTrait.TabIndex = 1;
             this.btnAddTrait.Text = "Add";
             this.btnAddTrait.UseVisualStyleBackColor = true;
@@ -282,13 +314,10 @@
             // 
             // listBoxTraits
             // 
-            this.listBoxTraits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxTraits.FormattingEnabled = true;
-            this.listBoxTraits.Location = new System.Drawing.Point(6, 14);
+            this.listBoxTraits.Location = new System.Drawing.Point(6, 22);
             this.listBoxTraits.Name = "listBoxTraits";
-            this.listBoxTraits.Size = new System.Drawing.Size(383, 134);
+            this.listBoxTraits.Size = new System.Drawing.Size(180, 134);
             this.listBoxTraits.TabIndex = 0;
             // 
             // groupBox3
@@ -367,7 +396,7 @@
             this.nameGroupBox.Controls.Add(this.label3);
             this.nameGroupBox.Location = new System.Drawing.Point(506, 6);
             this.nameGroupBox.Name = "nameGroupBox";
-            this.nameGroupBox.Size = new System.Drawing.Size(219, 100);
+            this.nameGroupBox.Size = new System.Drawing.Size(212, 100);
             this.nameGroupBox.TabIndex = 15;
             this.nameGroupBox.TabStop = false;
             this.nameGroupBox.Text = "Name";
@@ -435,6 +464,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Infos";
             // 
+            // labelRaceSupport
+            // 
+            this.labelRaceSupport.AutoSize = true;
+            this.labelRaceSupport.Location = new System.Drawing.Point(7, 38);
+            this.labelRaceSupport.Name = "labelRaceSupport";
+            this.labelRaceSupport.Size = new System.Drawing.Size(201, 26);
+            this.labelRaceSupport.TabIndex = 14;
+            this.labelRaceSupport.Text = "This race is not fully supported.\r\nTry to put the Mod into the \"Mod\"-Folder.\r\n";
+            this.labelRaceSupport.Visible = false;
+            // 
             // labelDefinition
             // 
             this.labelDefinition.AutoSize = true;
@@ -469,20 +508,10 @@
             this.groupBox6.Controls.Add(this.comboBoxGender);
             this.groupBox6.Location = new System.Drawing.Point(506, 110);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(389, 147);
+            this.groupBox6.Size = new System.Drawing.Size(385, 150);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Gender/Apperance";
-            // 
-            // labelRaceSupport
-            // 
-            this.labelRaceSupport.AutoSize = true;
-            this.labelRaceSupport.Location = new System.Drawing.Point(7, 38);
-            this.labelRaceSupport.Name = "labelRaceSupport";
-            this.labelRaceSupport.Size = new System.Drawing.Size(201, 26);
-            this.labelRaceSupport.TabIndex = 14;
-            this.labelRaceSupport.Text = "This race is not fully supported.\r\nTry to put the Mod into the \"Mod\"-Folder.\r\n";
-            this.labelRaceSupport.Visible = false;
             // 
             // numericUpDownMelanin
             // 
@@ -601,38 +630,69 @@
             this.comboBoxGender.TabIndex = 0;
             this.comboBoxGender.SelectedIndexChanged += new System.EventHandler(this.comboBoxGender_SelectedIndexChanged);
             // 
-            // buttonMaxSkills
+            // groupBoxApparel
             // 
-            this.buttonMaxSkills.Location = new System.Drawing.Point(10, 19);
-            this.buttonMaxSkills.Name = "buttonMaxSkills";
-            this.buttonMaxSkills.Size = new System.Drawing.Size(75, 23);
-            this.buttonMaxSkills.TabIndex = 0;
-            this.buttonMaxSkills.Text = "Max All";
-            this.buttonMaxSkills.UseVisualStyleBackColor = true;
-            this.buttonMaxSkills.Click += new System.EventHandler(this.buttonMaxSkills_Click);
+            this.groupBoxApparel.Controls.Add(this.label15);
+            this.groupBoxApparel.Controls.Add(this.label14);
+            this.groupBoxApparel.Controls.Add(this.numericUpDownApparelHealth);
+            this.groupBoxApparel.Controls.Add(this.comboBoxApparelQuality);
+            this.groupBoxApparel.Controls.Add(this.listBoxApparel);
+            this.groupBoxApparel.Location = new System.Drawing.Point(704, 349);
+            this.groupBoxApparel.Name = "groupBoxApparel";
+            this.groupBoxApparel.Size = new System.Drawing.Size(192, 234);
+            this.groupBoxApparel.TabIndex = 18;
+            this.groupBoxApparel.TabStop = false;
+            this.groupBoxApparel.Text = "Apparel/Equipment";
             // 
-            // buttonMinSkills
+            // comboBoxApparelQuality
             // 
-            this.buttonMinSkills.Location = new System.Drawing.Point(91, 19);
-            this.buttonMinSkills.Name = "buttonMinSkills";
-            this.buttonMinSkills.Size = new System.Drawing.Size(75, 23);
-            this.buttonMinSkills.TabIndex = 1;
-            this.buttonMinSkills.Text = "Min All";
-            this.buttonMinSkills.UseVisualStyleBackColor = true;
-            this.buttonMinSkills.Click += new System.EventHandler(this.buttonMinSkills_Click);
+            this.comboBoxApparelQuality.FormattingEnabled = true;
+            this.comboBoxApparelQuality.Location = new System.Drawing.Point(66, 161);
+            this.comboBoxApparelQuality.Name = "comboBoxApparelQuality";
+            this.comboBoxApparelQuality.Size = new System.Drawing.Size(119, 21);
+            this.comboBoxApparelQuality.TabIndex = 3;
+            this.comboBoxApparelQuality.SelectedIndexChanged += new System.EventHandler(this.comboBoxApparelQuality_SelectedIndexChanged);
             // 
-            // skillsGroupBox
+            // listBoxApparel
             // 
-            this.skillsGroupBox.Location = new System.Drawing.Point(7, 48);
-            this.skillsGroupBox.Name = "skillsGroupBox";
-            this.skillsGroupBox.Size = new System.Drawing.Size(300, 480);
-            this.skillsGroupBox.TabIndex = 2;
-            this.skillsGroupBox.TabStop = false;
+            this.listBoxApparel.FormattingEnabled = true;
+            this.listBoxApparel.Location = new System.Drawing.Point(6, 22);
+            this.listBoxApparel.Name = "listBoxApparel";
+            this.listBoxApparel.Size = new System.Drawing.Size(179, 134);
+            this.listBoxApparel.TabIndex = 0;
+            this.listBoxApparel.SelectedIndexChanged += new System.EventHandler(this.listBoxApparel_SelectedIndexChanged);
+            // 
+            // numericUpDownApparelHealth
+            // 
+            this.numericUpDownApparelHealth.Location = new System.Drawing.Point(66, 192);
+            this.numericUpDownApparelHealth.Name = "numericUpDownApparelHealth";
+            this.numericUpDownApparelHealth.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownApparelHealth.TabIndex = 4;
+            this.numericUpDownApparelHealth.ValueChanged += new System.EventHandler(this.numericUpDownApparelHealth_ValueChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 164);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(39, 13);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Quality";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 194);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(38, 13);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Health";
             // 
             // ColonistPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxApparel);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.nameGroupBox);
@@ -645,7 +705,7 @@
             this.Controls.Add(this.skillsGroupBoxOuter);
             this.Name = "ColonistPage";
             this.Size = new System.Drawing.Size(1300, 627);
-            this.skillsGroupBox.ResumeLayout(false);
+            this.skillsGroupBoxOuter.ResumeLayout(false);
             this.ageGroupBox.ResumeLayout(false);
             this.ageGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).EndInit();
@@ -663,6 +723,9 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMelanin)).EndInit();
+            this.groupBoxApparel.ResumeLayout(false);
+            this.groupBoxApparel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApparelHealth)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -718,5 +781,11 @@
         private System.Windows.Forms.Button buttonMinSkills;
         private System.Windows.Forms.Button buttonMaxSkills;
         private System.Windows.Forms.GroupBox skillsGroupBox;
+        private System.Windows.Forms.GroupBox groupBoxApparel;
+        private System.Windows.Forms.ComboBox comboBoxApparelQuality;
+        public System.Windows.Forms.ListBox listBoxApparel;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown numericUpDownApparelHealth;
     }
 }

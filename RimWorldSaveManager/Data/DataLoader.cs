@@ -10,6 +10,7 @@ using System.Globalization;
 using RimWorldSaveManager.Data.DataStructure;
 using System.Text;
 using RimWorldSaveManager.UserControls;
+using RimWorldSaveManager.Data.DataStructure.Defs;
 
 namespace RimWorldSaveManager
 {
@@ -29,6 +30,7 @@ namespace RimWorldSaveManager
         public static Faction PlayerFaction;
         public static Dictionary<Faction, List<Pawn>> PawnsByFactions = new Dictionary<Faction, List<Pawn>>();
         public static Dictionary<string, Pawn> PawnsById = new Dictionary<string, Pawn>();
+        public static List<string> Quality = new List<string>();
 
         public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
         public static List<PawnRelationDef> PawnRelationDefs = new List<PawnRelationDef>();
@@ -36,6 +38,8 @@ namespace RimWorldSaveManager
 
         private Dictionary<string, List<string>> pathsForLaodingData = new Dictionary<string, List<string>>();
 
+        private Dictionary<string, ThingDef> ThingDefs = new Dictionary<string, ThingDef>();
+        private Dictionary<string, ThingDef> ThingDefsByDefName = new Dictionary<string, ThingDef>();
 
         public DataLoader()
         {
@@ -63,11 +67,21 @@ namespace RimWorldSaveManager
                     });
                 }
             }
+            Quality.Add("Awful");
+            Quality.Add("Poor");
+            Quality.Add("Normal");
+            Quality.Add("Good");
+            Quality.Add("Excellent");
+            Quality.Add("Masterwork");
+            Quality.Add("Legendary");
+
             RaceDictionary[human.DefName] = human;
 
             ResourceLoader.Load();
 
             var allXmlFiles = Directory.GetFiles("Mods", "*.xml", SearchOption.AllDirectories);
+
+            List<Hair> allHairs = new List<Hair>();
 
             foreach (var xmlFile in allXmlFiles)
             {
@@ -76,438 +90,238 @@ namespace RimWorldSaveManager
                 {
                     continue;
                 }
-                string fileName = pathComponents[pathComponents.Length - 1];
 
-                if (fileName.ToLower().Contains("race"))
+                using (var fileStream = File.OpenRead(xmlFile))
                 {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("race", out pathList))
+                    var docRoot = XDocument.Load(fileStream).Root;
+                    var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
+
+                    if (workTypeDefsRoot.Count() != 0)
                     {
-                        pathList = new List<string>();
-                        pathsForLaodingData["race"] = pathList;
+                        var workTypeDefs = from workTypeDef in workTypeDefsRoot
+                                           select new WorkType
+                                           {
+                                               DefName = workTypeDef.Element("defName").GetValue(),
+                                               FullName = workTypeDef.Element("gerundLabel").GetValue(),
+                                               WorkTags = workTypeDef.Element("workTags")
+                                                   .Elements("li")
+                                                   .Select(element => element.GetValue()).ToArray()
+                                           };
+
+                        WorkTypes.AddRange(workTypeDefs);
                     }
-                    pathList.Add(xmlFile);
-                }
-                if (fileName.ToLower().Contains("trait"))
-                {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("trait", out pathList))
+
+                    foreach (var raceVars in docRoot.Descendants("AlienRace.ThingDef_AlienRace"))
                     {
-                        pathList = new List<string>();
-                        pathsForLaodingData["trait"] = pathList;
+                        Race race = new Race();
+                        race.DefName = raceVars.Element("defName").GetValue();
+                        race.Label = raceVars.Element("label").GetValue();
+                        var alienraceElement = raceVars.Element("alienrace");
+                        if (alienraceElement == null)
+                        {
+                            alienraceElement = raceVars.Element("alienRace");
+                        }
+                        race.HairsByGender["Female"] = new List<Hair>();
+                        race.HairsByGender["Male"] = new List<Hair>();
+                        foreach (var bodyType in alienraceElement.XPathSelectElements("generalSettings/alienPartGenerator/alienbodytypes/li"))
+                        {
+                            race.BodyType.Add(bodyType.GetValue());
+                        }
+                        foreach (var crownType in alienraceElement.XPathSelectElements("generalSettings/alienPartGenerator/aliencrowntypes/li"))
+                        {
+                            string[] crownStrings = crownType.GetValue().Split('_');
+                            race.HeadType.Add(new CrownType
+                            {
+                                CrownFirstType = crownStrings[0],
+                                CrownSubType = crownStrings[1]
+                            });
+                        }
+                        if (race.HeadType.Count == 0)
+                        {
+                            race.HeadType.Add(new CrownType
+                            {
+                                CrownFirstType = "Average",
+                                CrownSubType = "Normal"
+                            });
+                        }
+                        var useGenderedHeads = alienraceElement.XPathSelectElement("generalSettings/alienPartGenerator/UseGenderedHeads");
+                        if (useGenderedHeads != null)
+                        {
+                            race.UseGenderedHeads = Convert.ToBoolean(useGenderedHeads.GetValue());
+                        }
+                        foreach (var path in alienraceElement.XPathSelectElement("graphicPaths/li").Elements())
+                        {
+                            race.GraphicPaths[path.Name.ToString().ToLower()] = path.GetValue();
+                        }
+                        RaceDictionary[race.DefName] = race;
                     }
-                    pathList.Add(xmlFile);
-                }
-                if (fileName.ToLower().Contains("hediff"))
-                {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("hediff", out pathList))
+
+                    foreach (var hairVars in docRoot.Descendants("HairDef"))
                     {
-                        pathList = new List<string>();
-                        pathsForLaodingData["hediff"] = pathList;
+                        Hair hair = new Hair(
+                            hairVars.Element("hairGender").GetValue(),
+                            hairVars.Element("label").GetValue(),
+                            hairVars.Element("defName").GetValue(),
+                            hairVars.XPathSelectElements("hairTags/li"));
+                        allHairs.Add(hair);
                     }
-                    pathList.Add(xmlFile);
-                }
-                if (fileName.ToLower().Contains("backstor")) //y, ies
-                {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("backstory", out pathList))
+
+                    foreach (var traitDef in docRoot.Descendants("TraitDef"))
                     {
-                        pathList = new List<string>();
-                        pathsForLaodingData["backstory"] = pathList;
+                        var traits = (from trait in traitDef.XPathSelectElements("degreeDatas/li")
+                                      select new TraitDef
+                                      {
+                                          Def = traitDef.Element("defName").Value,
+                                          Label = textInfo.ToTitleCase(trait.Element("label").Value),
+                                          Degree = trait.Element("degree") != null ? trait.Element("degree").Value : "0",
+                                          Description = trait.Element("description").Value
+                                      });
+
+                        foreach (var trait in traits)
+                            if (!Traits.ContainsKey(trait.Def + trait.Degree))
+                                Traits.Add(trait.Def + trait.Degree, trait);
                     }
-                    pathList.Add(xmlFile);
+
+                    foreach (var hediffRoot in docRoot.XPathSelectElements("HediffDef/hediffClass/.."))
+                    {
+
+                        var parentClass = hediffRoot.Element("hediffClass").Value;
+                        var parentName = hediffRoot.Attribute("Name") != null ? hediffRoot.Attribute("Name").Value : "None";
+
+                        Hediff coreHediff;
+
+                        if (!Hediffs.TryGetValue(parentClass, out coreHediff))
+                            Hediffs.Add(parentClass, coreHediff = new Hediff(parentClass, parentName));
+
+                        var hediffs = (from hediff in docRoot.XPathSelectElements("//HediffDef[boolean(@ParentName) and not(@Abstract)]")
+                                       .Where(x => x.Attribute("ParentName").Value == parentName)
+                                       select new HediffDef
+                                       {
+                                           ParentClass = parentClass,
+                                           ParentName = hediff.Attribute("ParentName").Value,
+                                           Def = hediff.Element("defName").Value,
+                                           Label = textInfo.ToTitleCase(hediff.Element("label").Value),
+                                       });
+
+                        foreach (var hediff in hediffs)
+                            coreHediff.SubDiffs[hediff.Def] = hediff;
+                    }
+
+                    foreach (var def in docRoot.Descendants("AlienRace.BackstoryDef"))
+                    {
+                        Backstory backstory = new Backstory
+                        {
+                            Id = (string)def.Element("defName"),
+                            Title = (string)def.Element("title"),
+                            DisplayTitle = "(AlienRace)" + (string)def.Element("title"),
+                            TitleShort = (string)def.Element("titleShort"),
+                            Description = (string)def.Element("baseDescription"),
+                            Slot = (string)def.Element("slot"),
+                            SkillGains = new Dictionary<string, int>(),
+                            WorkDisables = new List<string>()
+                        };
+                        foreach (var skillGain in def.XPathSelectElements("skillGains/li"))
+                        {
+                            string defName = (string)skillGain.Element("defName");
+                            int amount = Convert.ToInt32(skillGain.Element("amount").GetValue());
+                            backstory.SkillGains.Add(defName, amount);
+                        }
+                        foreach (var workDisables in def.XPathSelectElements("workDisables/li"))
+                        {
+                            backstory.WorkDisables.Add(workDisables.GetValue());
+                        }
+                        ResourceLoader.Backstories[backstory.Id] = backstory;
+
+                        if (string.IsNullOrEmpty(backstory.Slot))
+                        {
+                            ResourceLoader.ChildhoodStories.Add(backstory);
+                            ResourceLoader.AdulthoodStories.Add(backstory);
+                        }
+                        else if (backstory.Slot == "Childhood")
+                        {
+                            ResourceLoader.ChildhoodStories.Add(backstory);
+                        }
+                        else
+                        {
+                            ResourceLoader.AdulthoodStories.Add(backstory);
+                        }
+                    }
+
+                    foreach (var relationDef in docRoot.XPathSelectElements("PawnRelationDef"))
+                    {
+                        PawnRelationDefs.Add(new PawnRelationDef(relationDef));
+                    }
+
+                    foreach (var thingDef in docRoot.XPathSelectElements("ThingDef"))
+                    {
+                        ThingDef def = new ThingDef(thingDef);
+                        if(ThingDefs.TryGetValue(def.Name, out ThingDef value))
+                        {
+                            value.updateDef(thingDef);
+                        }
+                        else
+                        {
+                            ThingDefs.Add(def.Name, def);
+                        }
+                    }
+
+                    fileStream.Close();
                 }
 
-                if (fileName.ToLower().Contains("worktype"))
-                {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("worktype", out pathList))
-                    {
-                        pathList = new List<string>();
-                        pathsForLaodingData["worktype"] = pathList;
-                    }
-                    pathList.Add(xmlFile);
-                }
-                if (fileName.ToLower().Contains("hair") || fileName.ToLower().Contains("antennae"))
-                {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("hair", out pathList))
-                    {
-                        pathList = new List<string>();
-                        pathsForLaodingData["hair"] = pathList;
-                    }
-                    pathList.Add(xmlFile);
-                }
-
-                if (fileName.ToLower().Contains("pawnrelations"))
-                {
-                    List<string> pathList;
-                    if (!pathsForLaodingData.TryGetValue("pawnrelations", out pathList))
-                    {
-                        pathList = new List<string>();
-                        pathsForLaodingData["pawnrelations"] = pathList;
-                    }
-                    pathList.Add(xmlFile);
-                }
             }
 
-            List<string> filePaths;
-            if (pathsForLaodingData.TryGetValue("worktype", out filePaths))
+            Dictionary<string, Race> tempRaceDic = RaceDictionary.Values.ToDictionary(x => x.Label.ToLower(), x => x);
+            foreach(Hair hair in allHairs)
             {
-                foreach (var filePath in filePaths)
+                List<Race> races = new List<Race>();
+                foreach (var hairTags in hair.HairTags)
                 {
-                    using (var fileStream = File.OpenRead(filePath))
+                    Race race;
+                    if (tempRaceDic.TryGetValue(hairTags, out race))
                     {
-                        try
+                        races.Add(race);
+                    }
+                }
+                if (races.Count == 0)
+                {
+                    races.Add(RaceDictionary["Human"]);
+                    if(RaceDictionary.TryGetValue("Alien_Orassan", out var race))
+                    {
+                        races.Add(race);
+                    }
+                }
+
+                foreach (var race in races)
+                {
+                    if (hair.Gender.Equals("Any") || hair.Gender.Contains("Usually"))
+                    {
+                        foreach (var list in race.HairsByGender.Values.ToList())
                         {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
-
-                            if (workTypeDefsRoot.Count() == 0)
-                            {
-                                fileStream.Close();
-                                fileStream.Dispose();
-                                continue;
-                            }
-
-                            var workTypeDefs = from workTypeDef in workTypeDefsRoot
-                                               select new WorkType
-                                               {
-                                                   DefName = workTypeDef.Element("defName").GetValue(),
-                                                   FullName = workTypeDef.Element("gerundLabel").GetValue(),
-                                                   WorkTags = workTypeDef.Element("workTags")
-                                                       .Elements("li")
-                                                       .Select(element => element.GetValue()).ToArray()
-                                               };
-
-                            WorkTypes.AddRange(workTypeDefs);
+                            list.Add(hair);
                         }
-                        catch (Exception e)
+                    }
+                    else
+                    {
+                        List<Hair> hairListForGender;
+                        if (race.HairsByGender.TryGetValue(hair.Gender, out hairListForGender))
                         {
-                            // Dont care
+                            hairListForGender.Add(hair);
                         }
-                        fileStream.Close();
-                        fileStream.Dispose();
                     }
                 }
             }
 
-
-            if (pathsForLaodingData.TryGetValue("race", out filePaths))
+            foreach(ThingDef thingDef in ThingDefs.Values)
             {
-                foreach (var filePath in filePaths)
+                if(thingDef.ParentName != null && ThingDefs.TryGetValue(thingDef.ParentName, out ThingDef value))
                 {
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            foreach (var raceVars in docRoot.Descendants("AlienRace.ThingDef_AlienRace"))
-                            {
-                                Race race = new Race();
-                                race.DefName = raceVars.Element("defName").GetValue();
-                                race.Label = raceVars.Element("label").GetValue();
-                                var alienraceElement = raceVars.Element("alienrace");
-                                if (alienraceElement == null)
-                                {
-                                    alienraceElement = raceVars.Element("alienRace");
-                                }
-                                race.HairsByGender["Female"] = new List<Hair>();
-                                race.HairsByGender["Male"] = new List<Hair>();
-                                foreach (var bodyType in alienraceElement.XPathSelectElements("generalSettings/alienPartGenerator/alienbodytypes/li"))
-                                {
-                                    race.BodyType.Add(bodyType.GetValue());
-                                }
-                                foreach (var crownType in alienraceElement.XPathSelectElements("generalSettings/alienPartGenerator/aliencrowntypes/li"))
-                                {
-                                    string[] crownStrings = crownType.GetValue().Split('_');
-                                    race.HeadType.Add(new CrownType
-                                    {
-                                        CrownFirstType = crownStrings[0],
-                                        CrownSubType = crownStrings[1]
-                                    });
-                                }
-                                if (race.HeadType.Count == 0)
-                                {
-                                    race.HeadType.Add(new CrownType
-                                    {
-                                        CrownFirstType = "Average",
-                                        CrownSubType = "Normal"
-                                    });
-                                }
-                                var useGenderedHeads = alienraceElement.XPathSelectElement("generalSettings/alienPartGenerator/UseGenderedHeads");
-                                if (useGenderedHeads != null)
-                                {
-                                    race.UseGenderedHeads = Convert.ToBoolean(useGenderedHeads.GetValue());
-                                }
-                                foreach (var path in alienraceElement.XPathSelectElement("graphicPaths/li").Elements())
-                                {
-                                    race.GraphicPaths[path.Name.ToString().ToLower()] = path.GetValue();
-                                }
-                                RaceDictionary[race.DefName] = race;
-                            }
-
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Err(e.Message);
-                            // Dont care
-                        }
-                        fileStream.Close();
-                    }
+                    thingDef.Parent = value;
+                }
+                if (thingDef.DefName != null && !ThingDefsByDefName.ContainsKey(thingDef.DefName))
+                {
+                    ThingDefsByDefName.Add(thingDef.DefName, thingDef);
                 }
             }
-
-
-
-            if (pathsForLaodingData.TryGetValue("hair", out filePaths))
-            {
-                Dictionary<string, Race> tempRaceDic = RaceDictionary.Values.ToDictionary(x => x.Label.ToLower(), x => x);
-                foreach (var filePath in filePaths)
-                {
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            foreach (var hairVars in docRoot.Descendants("HairDef"))
-                            {
-
-                                Hair hair = new Hair(hairVars.Element("hairGender").GetValue(), hairVars.Element("label").GetValue(), hairVars.Element("defName").GetValue());
-
-                                List<Race> races = new List<Race>();
-                                foreach (var hairTags in hairVars.XPathSelectElements("hairTags/li"))
-                                {
-                                    Race race;
-                                    if (tempRaceDic.TryGetValue(hairTags.GetValue().ToLower(), out race))
-                                    {
-                                        races.Add(race);
-                                    }
-                                }
-                                if (races.Count == 0)
-                                {
-                                    races.Add(RaceDictionary["Human"]);
-                                }
-
-                                foreach (var race in races)
-                                {
-                                    if (hair.Gender.Equals("Any") || hair.Gender.Contains("Usually"))
-                                    {
-                                        foreach (var list in race.HairsByGender.Values.ToList())
-                                        {
-                                            list.Add(hair);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        List<Hair> hairListForGender;
-                                        if (race.HairsByGender.TryGetValue(hair.Gender, out hairListForGender))
-                                        {
-                                            hairListForGender.Add(hair);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Err(e.Message);
-                        }
-                        fileStream.Close();
-                    }
-                }
-                foreach (var race in RaceDictionary.Values.ToList())
-                {
-                    foreach (var list in race.HairsByGender.Values.ToList())
-                    {
-                        list.Sort(delegate (Hair x, Hair y)
-                        {
-                            return x.Def.CompareTo(y.Def);
-                        });
-                    }
-                }
-            }
-
-
-
-
-            if (pathsForLaodingData.TryGetValue("trait", out filePaths))
-            {
-                foreach (var filePath in filePaths)
-                {
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            foreach (var traitDef in docRoot.Descendants("TraitDef"))
-                            {
-                                var traits = (from trait in traitDef.XPathSelectElements("degreeDatas/li")
-                                              select new TraitDef
-                                              {
-                                                  Def = traitDef.Element("defName").Value,
-                                                  Label = textInfo.ToTitleCase(trait.Element("label").Value),
-                                                  Degree = trait.Element("degree") != null ? trait.Element("degree").Value : "0",
-                                                  Description = trait.Element("description").Value
-                                              });
-
-                                foreach (var trait in traits)
-                                    if (!Traits.ContainsKey(trait.Def + trait.Degree))
-                                        Traits.Add(trait.Def + trait.Degree, trait);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            // Dont care
-                        }
-                        fileStream.Close();
-
-                    }
-                }
-            }
-
-
-            if (pathsForLaodingData.TryGetValue("hediff", out filePaths))
-            {
-                foreach (var filePath in filePaths)
-                {
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-
-                            var hediffRoots = docRoot.XPathSelectElements("HediffDef/hediffClass/..");
-
-                            if (hediffRoots.Count() == 0)
-                            {
-                                fileStream.Close();
-                                fileStream.Dispose();
-                                continue;
-                            }
-
-                            foreach (var hediffRoot in hediffRoots)
-                            {
-
-                                var parentClass = hediffRoot.Element("hediffClass").Value;
-                                var parentName = hediffRoot.Attribute("Name") != null ? hediffRoot.Attribute("Name").Value : "None";
-
-                                Hediff coreHediff;
-
-                                if (!Hediffs.TryGetValue(parentClass, out coreHediff))
-                                    Hediffs.Add(parentClass, coreHediff = new Hediff(parentClass, parentName));
-
-                                var hediffs = (from hediff in docRoot.XPathSelectElements("//HediffDef[boolean(@ParentName) and not(@Abstract)]")
-                                               .Where(x => x.Attribute("ParentName").Value == parentName)
-                                               select new HediffDef
-                                               {
-                                                   ParentClass = parentClass,
-                                                   ParentName = hediff.Attribute("ParentName").Value,
-                                                   Def = hediff.Element("defName").Value,
-                                                   Label = textInfo.ToTitleCase(hediff.Element("label").Value),
-                                               });
-
-                                foreach (var hediff in hediffs)
-                                    coreHediff.SubDiffs[hediff.Def] = hediff;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            // Dont care
-                        }
-                        fileStream.Close();
-                        fileStream.Dispose();
-
-                    }
-                }
-            }
-
-            if (pathsForLaodingData.TryGetValue("backstory", out filePaths))
-            {
-                foreach (var filePath in filePaths)
-                {
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            foreach (var def in docRoot.Descendants("AlienRace.BackstoryDef"))
-                            {
-                                Backstory backstory = new Backstory
-                                {
-                                    Id = (string)def.Element("defName"),
-                                    Title = (string)def.Element("title"),
-                                    DisplayTitle = "(AlienRace)" + (string)def.Element("title"),
-                                    TitleShort = (string)def.Element("titleShort"),
-                                    Description = (string)def.Element("baseDescription"),
-                                    Slot = (string)def.Element("slot"),
-                                    SkillGains = new Dictionary<string, int>(),
-                                    WorkDisables = new List<string>()
-                                };
-                                foreach (var skillGain in def.XPathSelectElements("skillGains/li"))
-                                {
-                                    string defName = (string)skillGain.Element("defName");
-                                    int amount = Convert.ToInt32(skillGain.Element("amount").GetValue());
-                                    backstory.SkillGains.Add(defName, amount);
-                                }
-                                foreach (var workDisables in def.XPathSelectElements("workDisables/li"))
-                                {
-                                    backstory.WorkDisables.Add(workDisables.GetValue());
-                                }
-                                ResourceLoader.Backstories[backstory.Id] = backstory;
-
-                                if (string.IsNullOrEmpty(backstory.Slot))
-                                {
-                                    ResourceLoader.ChildhoodStories.Add(backstory);
-                                    ResourceLoader.AdulthoodStories.Add(backstory);
-                                }
-                                else if (backstory.Slot == "Childhood")
-                                {
-                                    ResourceLoader.ChildhoodStories.Add(backstory);
-                                }
-                                else
-                                {
-                                    ResourceLoader.AdulthoodStories.Add(backstory);
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Err(e.Message);
-                            // Dont care
-                        }
-                        fileStream.Close();
-                        fileStream.Dispose();
-                    }
-                }
-            }
-
-            if (pathsForLaodingData.TryGetValue("pawnrelations", out filePaths))
-            {
-                foreach (var filePath in filePaths)
-                {
-                    using (var fileStream = File.OpenRead(filePath))
-                    {
-                        try
-                        {
-                            var docRoot = XDocument.Load(fileStream).Root;
-                            foreach (var relationDef in docRoot.XPathSelectElements("PawnRelationDef"))
-                            {
-                                PawnRelationDefs.Add(new PawnRelationDef(relationDef));
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Err(e.Message);
-                            // Dont care
-                        }
-                        fileStream.Close();
-                        fileStream.Dispose();
-                    }
-                }
-            }
-
 
             PawnRelationDefs = PawnRelationDefs.OrderBy(x => x.DefName).ToList();
             ResourceLoader.ChildhoodStories = ResourceLoader.ChildhoodStories.OrderBy(x => x.DisplayTitle).ToList();
@@ -556,7 +370,7 @@ namespace RimWorldSaveManager
 
             foreach (var pawn in SaveDocument.Root.XPathSelectElements("game/world/worldPawns/pawnsAlive/li"))
             {
-                Pawn p = new Pawn(pawn);
+                Pawn p = new Pawn(pawn, ThingDefsByDefName);
                 if (p.Faction != null)
                 {
                     List<PawnData> pawnDataList;
@@ -579,7 +393,7 @@ namespace RimWorldSaveManager
                 {
 
 
-                    Pawn p = new Pawn(pawn);
+                    Pawn p = new Pawn(pawn, ThingDefsByDefName);
                     if(p.Faction != null)
                     {
                         List<PawnData> pawnDataList;

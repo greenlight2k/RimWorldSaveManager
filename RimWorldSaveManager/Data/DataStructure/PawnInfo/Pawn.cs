@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RimWorldSaveManager.Data.DataStructure.Defs;
+using RimWorldSaveManager.Data.DataStructure.PawnInfo;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -369,6 +371,7 @@ namespace RimWorldSaveManager.Data.DataStructure
         public List<PawnTrait> Traits;
         public List<PawnHealth> Hediffs;
         public List<Relation> Relations;
+        public List<PawnApparel> Apparel;
         private Training training;
 
         private readonly XElement _xml;
@@ -387,7 +390,7 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         private readonly List<PawnData> _pawnDatas;
 
-        public Pawn(XElement xml)
+        public Pawn(XElement xml, Dictionary<string, ThingDef> ThingDefs)
         {
             _xml = xml;
             if (_xml.Element("name") == null)
@@ -462,6 +465,17 @@ namespace RimWorldSaveManager.Data.DataStructure
             {
                 training = null;
             }
+
+           
+            IEnumerable<XElement> apparels = _xml.XPathSelectElements("apparel/wornApparel/innerList/li");
+            Apparel = (from apparel in apparels
+                       select new PawnApparel(apparel, ThingDefs)).ToList();
+            IEnumerable<XElement> equipments = _xml.XPathSelectElements("equipment/equipment/innerList/li");
+            foreach(var equipment in equipments)
+            {
+                Apparel.Add(new PawnApparel(equipment, ThingDefs));
+            }
+
 
             _pawnDatas = new List<PawnData>();
         }
