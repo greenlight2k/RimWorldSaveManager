@@ -181,7 +181,6 @@
             // 
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox3.Location = new System.Drawing.Point(573, 0);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(275, 547);

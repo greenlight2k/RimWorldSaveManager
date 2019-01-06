@@ -61,73 +61,16 @@ namespace RimWorldSaveManager.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Backstories&gt;
-        ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Colony settler&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;NAME was a settler on a new colony world.\n\nSuch a life requires a jack-of-all trades at basic hands-on tasks.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///    &lt;SkillGains&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Construction&lt;/key&gt;
-        ///        &lt;value&gt;4&lt;/value&gt;
-        ///      &lt;/li&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Growing&lt;/key&gt;
-        ///        &lt;value&gt;4&lt;/value&gt;
-        ///      &lt;/li&gt;
-        ///      &lt;li&gt;
-        ///        [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        internal static string AdulthoodsCivil {
-            get {
-                return ResourceManager.GetString("AdulthoodsCivil", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///
-        ///&lt;Backstories&gt;
-        ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Space pirate&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Pirate&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;Piracy appears everywhere that governments are weak and society spread thin. NAME was part of this age-old part of human existence, extorting and smashing peaceful trade ships for profit.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///    &lt;SkillGains&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Melee&lt;/key&gt;
-        ///        &lt;value&gt;4&lt;/value&gt;
-        ///      &lt;/li&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Shoot [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        internal static string AdulthoodsRaider {
-            get {
-                return ResourceManager.GetString("AdulthoodsRaider", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;BackstoryTranslations&gt;
-        ///  &lt;ColonySettler43&gt;
-        ///    &lt;Title&gt;Colony settler&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Settler&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;
-        ///      NAME was a settler on a new colony world.
         ///
-        ///      Such a life requires a jack-of-all trades at basic hands-on tasks.
-        ///    &lt;/BaseDesc&gt;
-        ///  &lt;/ColonySettler43&gt;
-        ///  &lt;MedievalFarmOaf58&gt;
-        ///    &lt;Title&gt;Medieval farm oaf&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Oaf&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;
-        ///      Tilling, hoeing, guiding ox carts, pushing wheelbarrows. [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  &lt;AbandonedChild47&gt;
+        ///
+        ///    &lt;title&gt;abandoned child&lt;/title&gt;
+        ///
+        ///    &lt;titleShort&gt;abandoned&lt;/titleShort&gt;
+        ///
+        ///    &lt;desc&gt;[PAWN_nameDef] was a quick witted, funny child. One day, [PAWN_pronoun] wandered off on [PAWN_possessive] wealthy genetic parents, and was ultimately lost in a supposedly unused ore warehouse. Due to cloning technology, [PAWN_possessive] parents decided that the time looking for [PAWN_objective] was better spent on just cloning a [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string Backstories {
             get {
@@ -137,33 +80,23 @@ namespace RimWorldSaveManager.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Bodyparts&gt;
-        ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex&gt;0&lt;/partIndex&gt;
-        ///    &lt;name&gt;Torso&lt;/name&gt;
-        ///  &lt;/Bodypart&gt;
-        ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex&gt;1&lt;/partIndex&gt;
-        ///    &lt;name&gt;Sternum&lt;/name&gt;
-        ///  &lt;/Bodypart&gt;
-        ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex&gt;2&lt;/partIndex&gt;
-        ///    &lt;name&gt;First rib&lt;/name&gt;
-        ///  &lt;/Bodypart&gt;
-        ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex&gt;3&lt;/partIndex&gt;
-        ///    &lt;name&gt;Second rib&lt;/name&gt;
-        ///  &lt;/Bodypart&gt;
-        ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex&gt;4&lt;/partIndex&gt;
-        ///    &lt;name&gt;Third rib&lt;/name&gt;
-        ///  &lt;/Bodypart&gt;
-        ///  &lt;Bodypart&gt;
-        ///    &lt;partIndex [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///&lt;Backstories&gt;
+        ///
+        ///	&lt;Backstory&gt;
+        ///		&lt;Title&gt;colony settler&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;settler&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;[PAWN_nameDef] was a settler on a new colony world.\n\nSuch a life requires a jack-of-all trades at basic hands-on tasks.&lt;/BaseDesc&gt;
+        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///		&lt;SkillGains&gt;
+        ///			&lt;li&gt;&lt;key&gt;Construction&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
+        ///			&lt;li&gt;&lt;key&gt;Plants&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
+        ///			&lt;li&gt;&lt;key&gt;Mining&lt;/key&gt;&lt;value&gt;4&lt;/value&gt;&lt;/li&gt;
+        ///		&lt;/SkillGains&gt;
+        ///		&lt;SpawnCategories&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
-        internal static string Bodyparts {
+        internal static string CivilAdulthoods {
             get {
-                return ResourceManager.GetString("Bodyparts", resourceCulture);
+                return ResourceManager.GetString("CivilAdulthoods", resourceCulture);
             }
         }
         
@@ -172,21 +105,20 @@ namespace RimWorldSaveManager.Properties {
         ///&lt;Backstories&gt;
         ///
         ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Medieval slave&lt;/Title&gt;
-        ///    &lt;titleShort&gt;Slave&lt;/titleShort&gt;
-        ///    &lt;BaseDesc&gt;NAME grew up pulling carts and digging holes on a medieval world. Simple manual labor is HIS oldest companion - along with the master&apos;s lash.\n\nHECAP didn&apos;t learn to read until age nine.&lt;/BaseDesc&gt;
+        ///    &lt;Title&gt;medieval slave&lt;/Title&gt;
+        ///		&lt;titleShort&gt;slave&lt;/titleShort&gt;
+        ///		&lt;BaseDesc&gt;[PAWN_nameDef] grew up pulling carts and digging holes on a medieval world. Simple manual labor is [PAWN_possessive] oldest companion - along with the master&apos;s lash.\n\n[PAWN_pronoun] didn&apos;t learn to read until age nine.&lt;/BaseDesc&gt;
         ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
         ///    &lt;SkillGains&gt;
         ///      &lt;li&gt;
-        ///        &lt;key&gt;Growing&lt;/key&gt;
+        ///        &lt;key&gt;Plants&lt;/key&gt;
         ///        &lt;value&gt;2&lt;/value&gt;
         ///      &lt;/li&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Cons [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
-        internal static string Childhoods {
+        internal static string CivilChildhoods {
             get {
-                return ResourceManager.GetString("Childhoods", resourceCulture);
+                return ResourceManager.GetString("CivilChildhoods", resourceCulture);
             }
         }
         
@@ -194,20 +126,17 @@ namespace RimWorldSaveManager.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Hermit&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Hermit&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;Worn out by the pressures of social interaction, NAME left HIS crowded midworld city to live a simple life in the wilderness. There, HE spent HIS days alone, tending HIS garden and crafting the simple tools HE needed to survive.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///    &lt;WorkDisables&gt;
-        ///      &lt;li&gt;Social&lt;/li&gt;
-        ///    &lt;/WorkDisables&gt;
-        ///    &lt;SkillGains&gt;
-        ///      &lt;li&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///	&lt;Backstory&gt;
+        ///		&lt;Title&gt;hermit&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;hermit&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;Worn out by the pressures of social interaction, [PAWN_nameDef] left [PAWN_possessive] crowded midworld city to live a simple life in the wilderness. There, [PAWN_pronoun] spent [PAWN_possessive] days alone, tending [PAWN_possessive] garden and crafting the simple tools [PAWN_pronoun] needed to survive.&lt;/BaseDesc&gt;
+        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///		&lt;WorkDisables&gt;
+        ///			&lt;li&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
-        internal static string ExtraA {
+        internal static string OutsiderAdulthoods {
             get {
-                return ResourceManager.GetString("ExtraA", resourceCulture);
+                return ResourceManager.GetString("OutsiderAdulthoods", resourceCulture);
             }
         }
         
@@ -215,61 +144,23 @@ namespace RimWorldSaveManager.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
         ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Hiveworld drone&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Drone&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;NAME worked as a mindless construction drone in a massive hiveworld civilization. Though HE is now freed from the brutal social experiments to which HE was subjected, HE remains incapable of creative thought and leadership.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///    &lt;WorkDisables&gt;
-        ///      &lt;li&gt;Artistic&lt;/li&gt;
-        ///      &lt;li&gt;Intellectual&lt;/li&gt;
-        ///    &lt;/WorkDisab [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///	&lt;Backstory&gt;
+        ///		&lt;Title&gt;space pirate&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;pirate&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;Piracy appears everywhere that governments are weak and society spread thin. [PAWN_nameDef] was part of this age-old part of human existence, extorting and smashing peaceful trade ships for profit.&lt;/BaseDesc&gt;
+        ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
+        ///		&lt;SkillGains&gt;
+        ///			&lt;li&gt;
+        ///				&lt;key&gt;Melee&lt;/key&gt;
+        ///				&lt;value&gt;4&lt;/value&gt;
+        ///			&lt;/li&gt;
+        ///			&lt;li&gt;
+        ///				&lt;key&gt;Shooting&lt;/key&gt;
+        ///				&lt;value&gt;4&lt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
-        internal static string ExtraB {
+        internal static string RaiderAdulthoods {
             get {
-                return ResourceManager.GetString("ExtraB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Backstories&gt;
-        ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Pyromaniac&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Pyro&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;From an early age, NAME had an unhealthy fascination with fire. HECAP would set refuse heaps ablaze and become so entranced by the flames HE would absent-mindedly burn HIMself.\n\nOne day while playing with matches, HE carelessly burned down HIS home.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
-        ///    &lt;WorkDisables&gt;
-        ///      &lt;li&gt;Firefighting&lt;/li&gt;
-        ///    &lt;/WorkDisables [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        internal static string ExtraC {
-            get {
-                return ResourceManager.GetString("ExtraC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Backstories&gt;
-        ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Convent child&lt;/Title&gt;
-        ///    &lt;titleShort&gt;Illicit&lt;/titleShort&gt;
-        ///    &lt;BaseDesc&gt;The child of an illicit affair, NAME was bought up by nuns in a medieval convent. HECAP learned the value of hard work and submission, but was taught that technology is heretical.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
-        ///    &lt;WorkDisables&gt;
-        ///      &lt;li&gt;Intellectual&lt;/li&gt;
-        ///      &lt;li&gt;Violent&lt;/li&gt;
-        ///    &lt;/WorkDisables&gt;
-        ///    &lt;SkillGains&gt;
-        ///      &lt;li&gt;
-        ///        &lt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        internal static string ExtraD {
-            get {
-                return ResourceManager.GetString("ExtraD", resourceCulture);
+                return ResourceManager.GetString("RaiderAdulthoods", resourceCulture);
             }
         }
         
@@ -285,11 +176,11 @@ namespace RimWorldSaveManager.Properties {
         ///		&lt;Gender&gt;Male&lt;/Gender&gt;
         ///		&lt;PirateKing&gt;True&lt;/PirateKing&gt;
         ///		&lt;Childhood&gt;
-        ///			&lt;Title&gt;Fallen prodigy&lt;/Title&gt;
-        ///			&lt;TitleShort&gt;Prodigy&lt;/TitleShort&gt;
-        ///			&lt;BaseDesc&gt;NAME was born on a glitterworld falling into chaos. HISCAP father was killed in action.
+        ///			&lt;Title&gt;fallen prodigy&lt;/Title&gt;
+        ///			&lt;TitleShort&gt;prodigy&lt;/TitleShort&gt;
+        ///			&lt;BaseDesc&gt;[PAWN_nameDef] was born on a glitterworld falling into chaos. [PAWN_possessive] father was killed in action.
         ///
-        ///HECAP struggled for a scholarship at Utmaior Academy and had to prove his right to be there. A child  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///[PAWN_pronoun] struggled for a scholarship at Utmaior Academy and had to prove h [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string rimworld_creations {
             get {
@@ -300,80 +191,25 @@ namespace RimWorldSaveManager.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Backstories&gt;
-        ///
-        ///&lt;Backstory&gt;
-        ///	&lt;Title&gt;Con artist&lt;/Title&gt;
-        ///	&lt;TitleShort&gt;Con artist&lt;/TitleShort&gt;
-        ///	&lt;BaseDesc&gt;NAME never created anything in HIS life. HECAP did, however, prove to be a natural at getting others to give HIM what they had created.&lt;/BaseDesc&gt;
-        ///	&lt;Slot&gt;Adulthood&lt;/Slot&gt;
-        ///	&lt;SkillGains&gt;
-        ///		&lt;li&gt;
-        ///			&lt;key&gt;Social&lt;/key&gt;
-        ///			&lt;value&gt;10&lt;/value&gt;
-        ///		&lt;/li&gt;
-        ///	&lt;/SkillGains&gt;
-        ///	&lt;SpawnCategories&gt;
-        ///		&lt;li&gt;Trader&lt;/li&gt;
-        ///		&lt;li&gt;Slave&lt;/li&gt;
-        ///	&lt;/SpawnCategories&gt;
-        ///	&lt;BodyTypeMale&gt;Male&lt;/ [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        internal static string Travelers {
-            get {
-                return ResourceManager.GetString("Travelers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Backstories&gt;
         ///  
         ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Gatherer&lt;/Title&gt;
-        ///		&lt;TitleShort&gt;Gatherer&lt;/TitleShort&gt;
-        ///		&lt;BaseDesc&gt;NAME is a master gatherer. HECAP can find food in the most barren of places using HIS deep knowledge of plants, roots, and berries.&lt;/BaseDesc&gt;
+        ///		&lt;Title&gt;gatherer&lt;/Title&gt;
+        ///		&lt;TitleShort&gt;gatherer&lt;/TitleShort&gt;
+        ///		&lt;BaseDesc&gt;[PAWN_nameDef] is a master gatherer. [PAWN_pronoun] can find food in the most barren of places using [PAWN_possessive] deep knowledge of plants, roots, and berries.&lt;/BaseDesc&gt;
         ///		&lt;Slot&gt;Adulthood&lt;/Slot&gt;
         ///		&lt;requiredWorkTags&gt;
         ///			&lt;li&gt;PlantWork&lt;/li&gt;
         ///		&lt;/requiredWorkTags&gt;
         ///		&lt;SkillGains&gt;
         ///			&lt;li&gt;
-        ///				&lt;key&gt;Growing&lt;/key&gt;
+        ///				&lt;key&gt;Plants&lt;/key&gt;
         ///				&lt;value&gt;4&lt;/value&gt;
         ///			&lt;/li&gt;
-        ///		&lt;/SkillGains&gt;
-        ///		&lt;SpawnCategories&gt;
-        ///			&lt;l [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///		&lt;/SkillGa [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
-        internal static string TribalAdulthoodsA {
+        internal static string TribalAdulthoods {
             get {
-                return ResourceManager.GetString("TribalAdulthoodsA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Backstories&gt;
-        ///
-        ///  &lt;Backstory&gt;
-        ///    &lt;Title&gt;Abandoned child&lt;/Title&gt;
-        ///    &lt;TitleShort&gt;Abandoned&lt;/TitleShort&gt;
-        ///    &lt;BaseDesc&gt;NAME was born sickly. Thinking that HE would only burden the tribe, HIS parents left HIM out in the elements. Somehow, HE survived.&lt;/BaseDesc&gt;
-        ///    &lt;Slot&gt;Childhood&lt;/Slot&gt;
-        ///    &lt;WorkDisables&gt;
-        ///    &lt;/WorkDisables&gt;
-        ///    &lt;SkillGains&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Melee&lt;/key&gt;
-        ///        &lt;value&gt;3&lt;/value&gt;
-        ///      &lt;/li&gt;
-        ///      &lt;li&gt;
-        ///        &lt;key&gt;Crafting&lt;/key&gt;
-        /// [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        internal static string TribalB {
-            get {
-                return ResourceManager.GetString("TribalB", resourceCulture);
+                return ResourceManager.GetString("TribalAdulthoods", resourceCulture);
             }
         }
         
@@ -382,21 +218,19 @@ namespace RimWorldSaveManager.Properties {
         ///&lt;Backstories&gt;
         ///
         ///	&lt;Backstory&gt;
-        ///		&lt;Title&gt;Tribe child&lt;/Title&gt;
-        ///		&lt;titleShort&gt;Tribal&lt;/titleShort&gt;
-        ///		&lt;BaseDesc&gt;NAME grew up in the tribe, running around the village, moving with the muffalo herds, learning essential skills from HIS parents.\n\nHECAP never learned to read and never saw a machine that wasn&apos;t an ancient ruin.&lt;/BaseDesc&gt;
+        ///		&lt;Title&gt;tribe child&lt;/Title&gt;
+        ///		&lt;titleShort&gt;tribal&lt;/titleShort&gt;
+        ///		&lt;BaseDesc&gt;[PAWN_nameDef] grew up in the tribe, running around the village, moving with the muffalo herds, learning essential skills from [PAWN_possessive] parents.\n\n[PAWN_pronoun] never learned to read and never saw a machine that wasn&apos;t an ancient ruin.&lt;/BaseDesc&gt;
         ///		&lt;Slot&gt;Childhood&lt;/Slot&gt;
         ///		&lt;SkillGains&gt;
         ///			&lt;li&gt;
-        ///				&lt;key&gt;Growing&lt;/key&gt;
+        ///				&lt;key&gt;Plants&lt;/key&gt;
         ///				&lt;value&gt;2&lt;/value&gt;
-        ///			&lt;/li&gt;
-        ///			&lt;li&gt;
-        ///				&lt;key&gt;Melee&lt;/key&gt;        /// [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///			&lt;/li&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
-        internal static string TribalChildhoodsA {
+        internal static string TribalChildhoods {
             get {
-                return ResourceManager.GetString("TribalChildhoodsA", resourceCulture);
+                return ResourceManager.GetString("TribalChildhoods", resourceCulture);
             }
         }
         
@@ -412,15 +246,14 @@ namespace RimWorldSaveManager.Properties {
         ///		&lt;/Name&gt;
         ///		&lt;Gender&gt;Male&lt;/Gender&gt;
         ///		&lt;Childhood&gt;
-        ///			&lt;Title&gt;Punk&lt;/Title&gt;
-        ///			&lt;titleShort&gt;Punk&lt;/titleShort&gt;
-        ///			&lt;BaseDesc&gt;NAME spent his childhood selling knockoff cigarettes to 15-year-olds. The cigarettes were often full of grass clippings.&lt;/BaseDesc&gt;
+        ///			&lt;Title&gt;punk&lt;/Title&gt;
+        ///			&lt;titleShort&gt;punk&lt;/titleShort&gt;
+        ///			&lt;BaseDesc&gt;[PAWN_nameDef] spent his childhood selling knockoff cigarettes to 15-year-olds. The cigarettes were often full of grass clippings.&lt;/BaseDesc&gt;
         ///			&lt;SkillGains&gt;
         ///				&lt;li&gt;
-        ///					&lt;key&gt;Research&lt;/key&gt;
+        ///					&lt;key&gt;Intellectual&lt;/key&gt;
         ///					&lt;value&gt;-2&lt;/value&gt;
-        ///				&lt;/li&gt;
-        ///				&lt;li&gt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///				&lt; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string TynanCustom {
             get {

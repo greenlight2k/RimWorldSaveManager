@@ -36,30 +36,20 @@ namespace RimWorldSaveManager
             var resources = Properties.Resources.ResourceManager
                             .GetResourceSet(CultureInfo.InvariantCulture, true, true);
 
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject("Bodyparts"))))
+
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject("Backstories"))))
             {
                 var root = XDocument.Load(stream).Root;
 
-                foreach (var bodypart in root.Descendants("Bodypart"))
+                foreach (var story in root.Elements())
                 {
-                    DataLoader.HumanBodyPartDescription[(string)bodypart.Element("partIndex")] = (string)bodypart.Element("name");
-                }
-
-                stream.Close();
-                stream.Dispose();
-            }
-
-
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject("Backstories")))) {
-                var root = XDocument.Load(stream).Root;
-
-                foreach (var story in root.Elements()) {
                     var backstory = Backstory.Extract(story);
                     //backstory.Slot = "Both";
                     backstory.Id = story.Name.LocalName;
                     backstory.DisplayTitle = backstory.Title;
 
-                    if (Backstories.ContainsKey(backstory.Id)) {
+                    if (Backstories.ContainsKey(backstory.Id))
+                    {
                         Logger.Warn($"Backstory database already contains entry with key:{backstory.Id}");
                         continue;
                     }
@@ -69,12 +59,17 @@ namespace RimWorldSaveManager
 
                     //Logger.Debug($"[Builtin Backstory] {backstory.Id}: {backstory.DisplayTitle}");
 
-                    if (string.IsNullOrEmpty(backstory.Slot)) {
+                    if (string.IsNullOrEmpty(backstory.Slot))
+                    {
                         childhodStories.Add(backstory);
                         adultStories.Add(backstory);
-                    } else if (backstory.Slot == "Childhood") {
+                    }
+                    else if (backstory.Slot == "Childhood")
+                    {
                         childhodStories.Add(backstory);
-                    } else {
+                    }
+                    else
+                    {
                         adultStories.Add(backstory);
                     }
                 }
@@ -85,51 +80,62 @@ namespace RimWorldSaveManager
 
             var resourceList = new[]
             {
-                "AdulthoodsCivil", "AdulthoodsRaider", "Childhoods", "ExtraA", "ExtraB", "ExtraC", "ExtraD",
-                "rimworld_creations", "Travelers", "TribalAdulthoodsA", "TribalB", "TribalChildhoodsA", "TynanCustom"
+                "CivilAdulthoods", "CivilChildhoods", "OutsiderAdulthoods", "RaiderAdulthoods", "rimworld_creations", "TribalAdulthoods", "TribalChildhoods", "TynanCustom"
             };
 
-            foreach (var resourceName in resourceList) {
+            foreach (var resourceName in resourceList)
+            {
                 var stories = new List<Backstory>();
-                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject(resourceName)))) {
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes((string)resources.GetObject(resourceName))))
+                {
                     var root = XDocument.Load(stream).Root;
 
-                    foreach (var story in root.Descendants("Backstory")) {
+                    foreach (var story in root.Descendants("Backstory"))
+                    {
                         var backstory = Backstory.Extract(story);
-                        if (backstory != null) {
+                        if (backstory != null)
+                        {
                             stories.Add(backstory);
                         }
                     }
 
-                    foreach (var story in root.Descendants("Childhood")) {
+                    foreach (var story in root.Descendants("Childhood"))
+                    {
                         var backstory = Backstory.Extract(story);
-                        if (backstory != null) {
+                        if (backstory != null)
+                        {
                             backstory.Slot = "Childhood";
                             stories.Add(backstory);
                         }
                     }
 
-                    foreach (var story in root.Descendants("Adulthood")) {
+                    foreach (var story in root.Descendants("Adulthood"))
+                    {
                         var backstory = Backstory.Extract(story);
-                        if (backstory != null) {
+                        if (backstory != null)
+                        {
                             backstory.Slot = "Adulthood";
                             stories.Add(backstory);
                         }
                     }
 
-                    foreach (var backstory in stories) {
-                        if (backstory.Title == "") {
+                    foreach (var backstory in stories)
+                    {
+                        if (backstory.Title == "")
+                        {
                             Logger.Err($"Story with empty title:{backstory.Id}");
                             continue;
                         }
 
                         Backstory old;
-                        if (!Backstories.TryGetValue(backstory.Id, out old)) {
+                        if (!Backstories.TryGetValue(backstory.Id, out old))
+                        {
                             Logger.Debug($"Possible ID missmatch: {backstory.Id}: Attempting to fix.");
                             old = FixStoryId(backstory);
                         }
 
-                        if (old == null) {
+                        if (old == null)
+                        {
                             Logger.Err("[FIX] Fix FAILED. No matching title found.");
                             continue;
                         }
@@ -137,21 +143,29 @@ namespace RimWorldSaveManager
                         childhodStories.Remove(old);
                         adultStories.Remove(old);
 
-                        if (resourceName.StartsWith("Tribal")) {
+                        if (resourceName.StartsWith("Tribal"))
+                        {
                             backstory.DisplayTitle = "(Tribal) " + backstory.DisplayTitle;
-                        } else if (resourceName == "rimworld_creations" || resourceName == "TynanCustom") {
+                        }
+                        else if (resourceName == "rimworld_creations" || resourceName == "TynanCustom")
+                        {
                             backstory.DisplayTitle = "(Special) " + backstory.DisplayTitle;
                         }
 
                         //CheckStory(backstory);
                         Backstories[backstory.Id] = backstory;
 
-                        if (string.IsNullOrEmpty(backstory.Slot)) {
+                        if (string.IsNullOrEmpty(backstory.Slot))
+                        {
                             childhodStories.Add(backstory);
                             adultStories.Add(backstory);
-                        } else if (backstory.Slot == "Childhood") {
+                        }
+                        else if (backstory.Slot == "Childhood")
+                        {
                             childhodStories.Add(backstory);
-                        } else {
+                        }
+                        else
+                        {
                             adultStories.Add(backstory);
                         }
                     }
@@ -162,8 +176,10 @@ namespace RimWorldSaveManager
             }
 
             // Sanity checker
-            foreach (var story in Backstories.Values) {
-                if (string.IsNullOrEmpty(story.ToString())) {
+            foreach (var story in Backstories.Values)
+            {
+                if (string.IsNullOrEmpty(story.ToString()))
+                {
                     Logger.Err($"Empty/null story:{story.Title}");
                 }
             }
@@ -178,15 +194,19 @@ namespace RimWorldSaveManager
         private static Backstory FixStoryId(Backstory story)
         {
             var list = new List<Backstory>();
-            foreach (var s in Backstories.Values) {
-                if (s.Title == story.Title) {
+            foreach (var s in Backstories.Values)
+            {
+                if (s.Title == story.Title)
+                {
                     list.Add(s);
                 }
             }
-            if (list.Count == 0) {
+            if (list.Count == 0)
+            {
                 return null;
             }
-            if (list.Count == 1) {
+            if (list.Count == 1)
+            {
                 Logger.Debug($"  [FIX] Fix success. Found candidate story:{list[0].Id}");
                 story.Id = list[0].Id;
                 return list[0];
@@ -194,8 +214,10 @@ namespace RimWorldSaveManager
             Logger.Debug("  [FIX] Found multiple story candidates.");
 
             var storyDesc = story.Description.Substring(0, 50);
-            foreach (var s in list) {
-                if (s.Description.Substring(0, 50) == storyDesc) {
+            foreach (var s in list)
+            {
+                if (s.Description.Substring(0, 50) == storyDesc)
+                {
                     Logger.Debug($"    [FIX]Fix success. Found candidate story:{s.Id}");
                     return s;
                 }
@@ -206,11 +228,14 @@ namespace RimWorldSaveManager
 
         private static void CheckStory(Backstory story)
         {
-            if (!Debug) {
+            if (!Debug)
+            {
                 return;
             }
-            foreach (var s in Backstories.Values) {
-                if (s.Title == story.Title && s.Id != story.Id) {
+            foreach (var s in Backstories.Values)
+            {
+                if (s.Title == story.Title && s.Id != story.Id)
+                {
                     Logger.Warn($"Possible backstory collision between {s.Id} and {story.Id}");
                 }
             }

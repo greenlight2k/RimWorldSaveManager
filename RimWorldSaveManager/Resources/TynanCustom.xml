@@ -9,12 +9,12 @@
 		</Name>
 		<Gender>Male</Gender>
 		<Childhood>
-			<Title>Punk</Title>
-			<titleShort>Punk</titleShort>
-			<BaseDesc>NAME spent his childhood selling knockoff cigarettes to 15-year-olds. The cigarettes were often full of grass clippings.</BaseDesc>
+			<Title>punk</Title>
+			<titleShort>punk</titleShort>
+			<BaseDesc>[PAWN_nameDef] spent his childhood selling knockoff cigarettes to 15-year-olds. The cigarettes were often full of grass clippings.</BaseDesc>
 			<SkillGains>
 				<li>
-					<key>Research</key>
+					<key>Intellectual</key>
 					<value>-2</value>
 				</li>
 				<li>
@@ -24,9 +24,9 @@
 			</SkillGains>
 		</Childhood>
 		<Adulthood>
-			<Title>Game developer</Title>
-			<TitleShort>Game dev</TitleShort>
-			<BaseDesc>NAME was an independent game developer.\n\nAfter an early success, NAME's career quickly degenerated into a circus of misguided ideas, deals gone wrong, and desperate, failed PR stunts.</BaseDesc>
+			<Title>game developer</Title>
+			<TitleShort>game dev</TitleShort>
+			<BaseDesc>[PAWN_nameDef] was an independent game developer.\n\nAfter an early success, [PAWN_possessive] career quickly degenerated into a circus of misguided ideas, deals gone wrong, and desperate, failed PR stunts.</BaseDesc>
 			<SkillGains>
 				<li>
 					<key>Construction</key>

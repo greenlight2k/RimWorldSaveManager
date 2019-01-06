@@ -70,29 +70,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataStructure\CrownType.cs" />
+    <Compile Include="Data\DataStructure\Defs\BodyDef.cs" />
+    <Compile Include="Data\DataStructure\Defs\BodyPartDef.cs" />
     <Compile Include="Data\DataStructure\Defs\NeedDef.cs" />
     <Compile Include="Data\DataStructure\Defs\ThingDef.cs" />
     <Compile Include="Data\DataStructure\Faction.cs" />
     <Compile Include="Data\DataStructure\GameData.cs" />
     <Compile Include="Data\DataStructure\Defs\Hair.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnApparel.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnNeeds.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnRelationDef.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnApparel.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnNeeds.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnRelationDef.cs" />
     <Compile Include="Data\DataStructure\Defs\Race.cs" />
     <Compile Include="Data\DataStructure\Relation.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\SaveThing.cs" />
     <Compile Include="Data\ResourceLoader.cs" />
     <Compile Include="Data\DataLoader.cs" />
     <Compile Include="Data\DataStructure\Hediff.cs" />
     <Compile Include="Data\DataStructure\Defs\HediffDef.cs" />
     <Compile Include="Data\DataStructure\Name.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\Pawn.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnData.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnSkill.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\Pawn.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnData.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnSkill.cs" />
     <Compile Include="Data\DataStructure\Training.cs" />
     <Compile Include="Data\DataStructure\Defs\TraitDef.cs" />
     <Compile Include="Data\DataStructure\Defs\WorkType.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnHealth.cs" />
-    <Compile Include="Data\DataStructure\PawnInfo\PawnTrait.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnHealth.cs" />
+    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnTrait.cs" />
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Data\Backstory.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -126,11 +129,17 @@
     <Compile Include="UserControls\AnimalPage.Designer.cs">
       <DependentUpon>AnimalPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\GameDataPage.cs">
+    <Compile Include="UserControls\GeneralPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\GameDataPage.Designer.cs">
-      <DependentUpon>GameDataPage.cs</DependentUpon>
+    <Compile Include="UserControls\GeneralPage.Designer.cs">
+      <DependentUpon>GeneralPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ItemsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ItemsPage.Designer.cs">
+      <DependentUpon>ItemsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\RelationPage.cs">
       <SubType>UserControl</SubType>
@@ -152,8 +161,11 @@
     <EmbeddedResource Include="UserControls\AnimalPage.resx">
       <DependentUpon>AnimalPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\GameDataPage.resx">
-      <DependentUpon>GameDataPage.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\GeneralPage.resx">
+      <DependentUpon>GeneralPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ItemsPage.resx">
+      <DependentUpon>ItemsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RelationPage.resx">
       <DependentUpon>RelationPage.cs</DependentUpon>
@@ -180,22 +192,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="application.ico" />
-    <Content Include="Resources\Bodyparts.xml" />
-    <Content Include="Resources\AdulthoodsCivil.xml" />
-    <Content Include="Resources\AdulthoodsRaider.xml" />
     <Content Include="Resources\Backstories.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Resources\Childhoods.xml" />
-    <Content Include="Resources\ExtraA.xml" />
-    <Content Include="Resources\ExtraB.xml" />
-    <Content Include="Resources\ExtraC.xml" />
-    <Content Include="Resources\ExtraD.xml" />
+    <None Include="Resources\CivilChildhoods.xml" />
+    <None Include="Resources\CivilAdulthoods.xml" />
+    <None Include="Resources\OutsiderAdulthoods.xml" />
+    <None Include="Resources\RaiderAdulthoods.xml" />
     <Content Include="Resources\rimworld_creations.xml" />
-    <Content Include="Resources\Travelers.xml" />
-    <Content Include="Resources\TribalAdulthoodsA.xml" />
-    <Content Include="Resources\TribalB.xml" />
-    <Content Include="Resources\TribalChildhoodsA.xml" />
+    <None Include="Resources\TribalAdulthoods.xml" />
+    <None Include="Resources\TribalChildhoods.xml" />
     <Content Include="Resources\TynanCustom.xml" />
   </ItemGroup>
   <ItemGroup />

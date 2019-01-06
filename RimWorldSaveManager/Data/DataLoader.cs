@@ -11,6 +11,7 @@ using RimWorldSaveManager.Data.DataStructure;
 using System.Text;
 using RimWorldSaveManager.UserControls;
 using RimWorldSaveManager.Data.DataStructure.Defs;
+using RimWorldSaveManager.Data.DataStructure.SaveThings;
 
 namespace RimWorldSaveManager
 {
@@ -18,12 +19,13 @@ namespace RimWorldSaveManager
     {
 
         private XDocument SaveDocument;
+        public static string CurrentDocumentPath = null;
+
         private List<Pawn> Animals = new List<Pawn>();
         private TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
 
         public static SortedDictionary<string, TraitDef> Traits = new SortedDictionary<string, TraitDef>();
         public static Dictionary<string, Hediff> Hediffs = new Dictionary<string, Hediff>();
-        public static Dictionary<string, string> HumanBodyPartDescription = new Dictionary<string, string>();
         public static List<WorkType> WorkTypes = new List<WorkType>();
         public static List<string> Genders = new List<string>();
         public static Dictionary<string, Faction> Factions = new Dictionary<string, Faction>();
@@ -35,11 +37,16 @@ namespace RimWorldSaveManager
         public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
         public static List<PawnRelationDef> PawnRelationDefs = new List<PawnRelationDef>();
         public static GameData GameData;
+        public static bool IgnoreMaxHitPoints = false;
 
         private Dictionary<string, List<string>> pathsForLaodingData = new Dictionary<string, List<string>>();
 
         private Dictionary<string, ThingDef> ThingDefs = new Dictionary<string, ThingDef>();
-        private Dictionary<string, ThingDef> ThingDefsByDefName = new Dictionary<string, ThingDef>();
+        public static Dictionary<string, ThingDef> ThingDefsByDefName = new Dictionary<string, ThingDef>();
+        public static Dictionary<string, List<ThingDef>> ThingDefsByStuffCategory = new Dictionary<string, List<ThingDef>>();
+
+        public static Dictionary<string, BodyDef> BodyDefsByDef = new Dictionary<string, BodyDef>();
+        public static Dictionary<string, List<SaveThing>> SaveThingsByClass = new Dictionary<string, List<SaveThing>>();
 
         public DataLoader()
         {
@@ -94,6 +101,7 @@ namespace RimWorldSaveManager
                 using (var fileStream = File.OpenRead(xmlFile))
                 {
                     var docRoot = XDocument.Load(fileStream).Root;
+                    CurrentDocumentPath = xmlFile;
                     var workTypeDefsRoot = docRoot.XPathSelectElements("WorkTypeDef/workTags/..");
 
                     if (workTypeDefsRoot.Count() != 0)
@@ -265,6 +273,15 @@ namespace RimWorldSaveManager
                         }
                     }
 
+                    foreach (var bodyDefElement in docRoot.XPathSelectElements("BodyDef"))
+                    {
+                        BodyDef bodyDef = new BodyDef(bodyDefElement);
+                        if(bodyDef.DefName != null)
+                        {
+                            BodyDefsByDef.Add(bodyDef.DefName, bodyDef);
+                        }
+                    }
+
                     fileStream.Close();
                 }
 
@@ -320,6 +337,19 @@ namespace RimWorldSaveManager
                 if (thingDef.DefName != null && !ThingDefsByDefName.ContainsKey(thingDef.DefName))
                 {
                     ThingDefsByDefName.Add(thingDef.DefName, thingDef);
+                }
+                foreach(string stuffPropCat in thingDef.StuffPropsCategories)
+                {
+                    if(ThingDefsByStuffCategory.TryGetValue(stuffPropCat, out var list))
+                    {
+                        list.Add(thingDef);
+                    }
+                    else
+                    {
+                        List<ThingDef> thingDefs = new List<ThingDef>();
+                        thingDefs.Add(thingDef);
+                        ThingDefsByStuffCategory.Add(stuffPropCat, thingDefs);
+                    }
                 }
             }
 
@@ -386,14 +416,14 @@ namespace RimWorldSaveManager
                 }
 
             }
-
-            foreach (var pawn in SaveDocument.Descendants("thing"))
+            SaveThingsByClass = new Dictionary<string, List<SaveThing>>();
+            foreach (var thing in SaveDocument.Descendants("thing"))
             {
-                if ((string)pawn.Attribute("Class") == "Pawn")
+                if ((string)thing.Attribute("Class") == "Pawn")
                 {
 
 
-                    Pawn p = new Pawn(pawn, ThingDefsByDefName);
+                    Pawn p = new Pawn(thing, ThingDefsByDefName);
                     if(p.Faction != null)
                     {
                         List<PawnData> pawnDataList;
@@ -406,6 +436,20 @@ namespace RimWorldSaveManager
                         PawnsById[p.PawnId] = p;
                         Faction faction = Factions[p.Faction];
                         PawnsByFactions[faction].Add(p);
+                    }
+                }
+                else
+                {
+                    SaveThing SaveThing = new SaveThing(thing);
+                    if(SaveThingsByClass.TryGetValue(SaveThing.Class, out List<SaveThing> list))
+                    {
+                        list.Add(SaveThing);
+                    }
+                    else
+                    {
+                        List<SaveThing> newList = new List<SaveThing>();
+                        newList.Add(SaveThing);
+                        SaveThingsByClass.Add(SaveThing.Class, newList);
                     }
                     
                 }
@@ -420,21 +464,26 @@ namespace RimWorldSaveManager
             colonistPage.Dock = DockStyle.Fill;
             var animalPage = new AnimalPage(PawnsByFactions[PlayerFaction].Where(p => p.Skills.Count == 0).ToList());
             animalPage.Dock = DockStyle.Fill;
+            var itemsPage = new ItemsPage();
+            itemsPage.Dock = DockStyle.Fill;
 
             TabPage colonisTabPage = new TabPage("Colonists");
             TabPage animalsTabPage = new TabPage("Animals");
             TabPage relationsTabPage = new TabPage("Relations");
-            TabPage gameDataTabPage = new TabPage("Game Info");
+            TabPage gameDataTabPage = new TabPage("General");
+            TabPage itemsTabPage = new TabPage("Items");
             colonisTabPage.Controls.Add(colonistPage);
             animalsTabPage.Controls.Add(animalPage);
+            itemsTabPage.Controls.Add(itemsPage);
             relationsTabPage.Controls.Add(new RelationPage());
-            gameDataTabPage.Controls.Add(new GameDataPage());
+            gameDataTabPage.Controls.Add(new GeneralPage());
 
 
             tabControl.TabPages.Add(gameDataTabPage);
             tabControl.TabPages.Add(colonisTabPage);
             tabControl.TabPages.Add(animalsTabPage);
             tabControl.TabPages.Add(relationsTabPage);
+            tabControl.TabPages.Add(itemsTabPage);
 
 
             return true;

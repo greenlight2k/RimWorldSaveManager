@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorldSaveManager.Data.DataStructure.Defs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,19 @@ namespace RimWorldSaveManager.Data.DataStructure
                 if(part != null)
                 {
                     return (string)part.Element("index");
+                }
+                return null;
+            }
+        }
+
+        public string PartBody
+        {
+            get
+            {
+                XElement part = _xml.Element("part");
+                if (part != null)
+                {
+                    return (string)part.Element("body");
                 }
                 return null;
             }
@@ -44,17 +58,17 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         public override string ToString()
         {
-            String description;
-            switch (_PawnDef)
-            {
-                case "Human":
-                    description = PartIndex != null ? DataLoader.HumanBodyPartDescription[PartIndex] : null;
-                    break;
-                default:
-                    description = null;
-                    break;
-            }
+            String description = null;
 
+
+            if(PartIndex != null && DataLoader.BodyDefsByDef.TryGetValue(PartBody, out BodyDef bodyDef)){
+                int partIndexInt = int.Parse(PartIndex);
+                if(bodyDef.BodyPartDefDic.TryGetValue(partIndexInt, out BodyPartDef value))
+                {
+                    description = bodyDef.BodyPartDefDic[partIndexInt].getLabel();
+                }
+            }
+            
             return (Label ?? (string)_xml.Element("def"))  + (description != null ? (" - " + description) : "");
         }
     }

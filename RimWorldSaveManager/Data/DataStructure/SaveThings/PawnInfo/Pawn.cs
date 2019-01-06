@@ -367,6 +367,36 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         public Race Race { get => _race; set => _race = value; }
 
+        public bool HealthStateDown
+        {
+            get {
+                XElement healthState = _xml.XPathSelectElement("healthTracker/healthState");
+                if(healthState != null && healthState.Value == "Down")
+                {
+                    return true;
+                }
+                return false;
+            }
+            set
+            {
+                if (value)
+                {
+                    XElement healthTracker = _xml.XPathSelectElement("healthTracker");
+                    XElement healthState = new XElement("healthState", "Down");
+                    healthTracker.AddFirst(healthState);
+                }
+                else
+                {
+                    XElement healthState = _xml.XPathSelectElement("healthTracker/healthState");
+                    if (healthState != null && healthState.Value == "Down")
+                    {
+                        healthState.Remove();
+                    }
+                }
+            }
+        }
+
+
         public List<PawnSkill> Skills;
         public List<PawnTrait> Traits;
         public List<PawnHealth> Hediffs;

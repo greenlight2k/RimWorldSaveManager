@@ -117,32 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Backstories" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\backstories.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="CivilAdulthoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CivilAdulthoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="CivilChildhoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CivilChildhoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="OutsiderAdulthoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OutsiderAdulthoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
-  </data>
-  <data name="RaiderAdulthoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RaiderAdulthoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
-  </data>
-  <data name="rimworld_creations" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rimworld_creations.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="TribalAdulthoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TribalAdulthoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="TribalChildhoods" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TribalChildhoods.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="TynanCustom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TynanCustom.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
-  </data>
+  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="backgroundWorker2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>181, 17</value>
+  </metadata>
 </root>

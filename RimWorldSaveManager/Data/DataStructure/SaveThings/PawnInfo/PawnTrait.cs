@@ -22,7 +22,7 @@ namespace RimWorldSaveManager.Data.DataStructure
         {
             _xml = xml;
 
-            var traitKey = Def + Degree;
+            var traitKey = Def + (Degree != null ? Degree: "0");
             _label = DataLoader.Traits.ContainsKey(traitKey) ? DataLoader.Traits[traitKey].Label : Def;
         }
 

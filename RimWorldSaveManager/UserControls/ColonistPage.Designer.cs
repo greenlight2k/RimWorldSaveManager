@@ -48,6 +48,7 @@
             this.btnAddTrait = new System.Windows.Forms.Button();
             this.listBoxTraits = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBoxDowned = new System.Windows.Forms.CheckBox();
             this.btnRemoveInjury = new System.Windows.Forms.Button();
             this.listBoxInjuries = new System.Windows.Forms.ListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -79,11 +80,15 @@
             this.comboBoxGender = new System.Windows.Forms.ComboBox();
             this.colorDialogHair = new System.Windows.Forms.ColorDialog();
             this.groupBoxApparel = new System.Windows.Forms.GroupBox();
+            this.comboBoxMaterial = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.numericUpDownApparelHealth = new System.Windows.Forms.NumericUpDown();
             this.comboBoxApparelQuality = new System.Windows.Forms.ComboBox();
             this.listBoxApparel = new System.Windows.Forms.ListBox();
-            this.numericUpDownApparelHealth = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.labelID = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.skillsGroupBoxOuter.SuspendLayout();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
@@ -105,9 +110,9 @@
             this.skillsGroupBoxOuter.Controls.Add(this.skillsGroupBox);
             this.skillsGroupBoxOuter.Controls.Add(this.buttonMinSkills);
             this.skillsGroupBoxOuter.Controls.Add(this.buttonMaxSkills);
-            this.skillsGroupBoxOuter.Location = new System.Drawing.Point(187, 79);
+            this.skillsGroupBoxOuter.Location = new System.Drawing.Point(187, 130);
             this.skillsGroupBoxOuter.Name = "skillsGroupBoxOuter";
-            this.skillsGroupBoxOuter.Size = new System.Drawing.Size(313, 534);
+            this.skillsGroupBoxOuter.Size = new System.Drawing.Size(210, 483);
             this.skillsGroupBoxOuter.TabIndex = 1;
             this.skillsGroupBoxOuter.TabStop = false;
             this.skillsGroupBoxOuter.Text = "Skills";
@@ -116,7 +121,7 @@
             // 
             this.skillsGroupBox.Location = new System.Drawing.Point(7, 48);
             this.skillsGroupBox.Name = "skillsGroupBox";
-            this.skillsGroupBox.Size = new System.Drawing.Size(300, 480);
+            this.skillsGroupBox.Size = new System.Drawing.Size(196, 435);
             this.skillsGroupBox.TabIndex = 2;
             this.skillsGroupBox.TabStop = false;
             // 
@@ -146,7 +151,7 @@
             this.ageGroupBox.Controls.Add(this.bioAgeField);
             this.ageGroupBox.Controls.Add(this.label2);
             this.ageGroupBox.Controls.Add(this.label1);
-            this.ageGroupBox.Location = new System.Drawing.Point(725, 6);
+            this.ageGroupBox.Location = new System.Drawing.Point(622, 6);
             this.ageGroupBox.Name = "ageGroupBox";
             this.ageGroupBox.Size = new System.Drawing.Size(164, 100);
             this.ageGroupBox.TabIndex = 2;
@@ -210,7 +215,7 @@
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.adulthoodComboBox);
             this.groupBox4.Controls.Add(this.childhoodComboBox);
-            this.groupBox4.Location = new System.Drawing.Point(506, 263);
+            this.groupBox4.Location = new System.Drawing.Point(403, 263);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(385, 80);
             this.groupBox4.TabIndex = 10;
@@ -273,7 +278,7 @@
             this.groupBox2.Controls.Add(this.btnRemoveTrait);
             this.groupBox2.Controls.Add(this.btnAddTrait);
             this.groupBox2.Controls.Add(this.listBoxTraits);
-            this.groupBox2.Location = new System.Drawing.Point(506, 349);
+            this.groupBox2.Location = new System.Drawing.Point(403, 349);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(192, 234);
             this.groupBox2.TabIndex = 11;
@@ -283,9 +288,12 @@
             // traitComboBox
             // 
             this.traitComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.traitComboBox.DropDownHeight = 227;
             this.traitComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.traitComboBox.FormattingEnabled = true;
+            this.traitComboBox.IntegralHeight = false;
             this.traitComboBox.Location = new System.Drawing.Point(6, 161);
+            this.traitComboBox.MaxDropDownItems = 15;
             this.traitComboBox.Name = "traitComboBox";
             this.traitComboBox.Size = new System.Drawing.Size(180, 21);
             this.traitComboBox.TabIndex = 3;
@@ -322,14 +330,26 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkBoxDowned);
             this.groupBox3.Controls.Add(this.btnRemoveInjury);
             this.groupBox3.Controls.Add(this.listBoxInjuries);
-            this.groupBox3.Location = new System.Drawing.Point(901, 6);
+            this.groupBox3.Location = new System.Drawing.Point(798, 6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(389, 255);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Injuries";
+            // 
+            // checkBoxDowned
+            // 
+            this.checkBoxDowned.AutoSize = true;
+            this.checkBoxDowned.Location = new System.Drawing.Point(12, 228);
+            this.checkBoxDowned.Name = "checkBoxDowned";
+            this.checkBoxDowned.Size = new System.Drawing.Size(66, 17);
+            this.checkBoxDowned.TabIndex = 9;
+            this.checkBoxDowned.Text = "Downed";
+            this.checkBoxDowned.UseVisualStyleBackColor = true;
+            this.checkBoxDowned.CheckedChanged += new System.EventHandler(this.checkBoxDowned_CheckedChanged);
             // 
             // btnRemoveInjury
             // 
@@ -355,11 +375,11 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.DescriptionText);
-            this.groupBox5.Location = new System.Drawing.Point(908, 264);
+            this.groupBox5.Location = new System.Drawing.Point(798, 264);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox5.Size = new System.Drawing.Size(382, 351);
+            this.groupBox5.Size = new System.Drawing.Size(389, 351);
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Description";
@@ -374,7 +394,7 @@
             this.DescriptionText.Multiline = true;
             this.DescriptionText.Name = "DescriptionText";
             this.DescriptionText.ReadOnly = true;
-            this.DescriptionText.Size = new System.Drawing.Size(372, 325);
+            this.DescriptionText.Size = new System.Drawing.Size(379, 325);
             this.DescriptionText.TabIndex = 0;
             // 
             // listBox1
@@ -394,7 +414,7 @@
             this.nameGroupBox.Controls.Add(this.label5);
             this.nameGroupBox.Controls.Add(this.label4);
             this.nameGroupBox.Controls.Add(this.label3);
-            this.nameGroupBox.Location = new System.Drawing.Point(506, 6);
+            this.nameGroupBox.Location = new System.Drawing.Point(403, 6);
             this.nameGroupBox.Name = "nameGroupBox";
             this.nameGroupBox.Size = new System.Drawing.Size(212, 100);
             this.nameGroupBox.TabIndex = 15;
@@ -454,12 +474,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelID);
+            this.groupBox1.Controls.Add(this.label18);
             this.groupBox1.Controls.Add(this.labelRaceSupport);
             this.groupBox1.Controls.Add(this.labelDefinition);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(187, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(313, 72);
+            this.groupBox1.Size = new System.Drawing.Size(210, 118);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Infos";
@@ -467,7 +489,7 @@
             // labelRaceSupport
             // 
             this.labelRaceSupport.AutoSize = true;
-            this.labelRaceSupport.Location = new System.Drawing.Point(7, 38);
+            this.labelRaceSupport.Location = new System.Drawing.Point(6, 64);
             this.labelRaceSupport.Name = "labelRaceSupport";
             this.labelRaceSupport.Size = new System.Drawing.Size(201, 26);
             this.labelRaceSupport.TabIndex = 14;
@@ -506,7 +528,7 @@
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.label8);
             this.groupBox6.Controls.Add(this.comboBoxGender);
-            this.groupBox6.Location = new System.Drawing.Point(506, 110);
+            this.groupBox6.Location = new System.Drawing.Point(403, 110);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(385, 150);
             this.groupBox6.TabIndex = 17;
@@ -632,17 +654,63 @@
             // 
             // groupBoxApparel
             // 
+            this.groupBoxApparel.Controls.Add(this.comboBoxMaterial);
+            this.groupBoxApparel.Controls.Add(this.label16);
             this.groupBoxApparel.Controls.Add(this.label15);
             this.groupBoxApparel.Controls.Add(this.label14);
             this.groupBoxApparel.Controls.Add(this.numericUpDownApparelHealth);
             this.groupBoxApparel.Controls.Add(this.comboBoxApparelQuality);
             this.groupBoxApparel.Controls.Add(this.listBoxApparel);
-            this.groupBoxApparel.Location = new System.Drawing.Point(704, 349);
+            this.groupBoxApparel.Location = new System.Drawing.Point(601, 349);
             this.groupBoxApparel.Name = "groupBoxApparel";
-            this.groupBoxApparel.Size = new System.Drawing.Size(192, 234);
+            this.groupBoxApparel.Size = new System.Drawing.Size(192, 266);
             this.groupBoxApparel.TabIndex = 18;
             this.groupBoxApparel.TabStop = false;
             this.groupBoxApparel.Text = "Apparel/Equipment";
+            // 
+            // comboBoxMaterial
+            // 
+            this.comboBoxMaterial.FormattingEnabled = true;
+            this.comboBoxMaterial.Location = new System.Drawing.Point(66, 218);
+            this.comboBoxMaterial.Name = "comboBoxMaterial";
+            this.comboBoxMaterial.Size = new System.Drawing.Size(119, 21);
+            this.comboBoxMaterial.TabIndex = 8;
+            this.comboBoxMaterial.SelectedIndexChanged += new System.EventHandler(this.comboBoxMaterial_SelectedIndexChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 221);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(44, 13);
+            this.label16.TabIndex = 7;
+            this.label16.Text = "Material";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 194);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(38, 13);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Health";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 164);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(39, 13);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Quality";
+            // 
+            // numericUpDownApparelHealth
+            // 
+            this.numericUpDownApparelHealth.Location = new System.Drawing.Point(66, 192);
+            this.numericUpDownApparelHealth.Name = "numericUpDownApparelHealth";
+            this.numericUpDownApparelHealth.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownApparelHealth.TabIndex = 4;
+            this.numericUpDownApparelHealth.ValueChanged += new System.EventHandler(this.numericUpDownApparelHealth_ValueChanged);
             // 
             // comboBoxApparelQuality
             // 
@@ -662,31 +730,23 @@
             this.listBoxApparel.TabIndex = 0;
             this.listBoxApparel.SelectedIndexChanged += new System.EventHandler(this.listBoxApparel_SelectedIndexChanged);
             // 
-            // numericUpDownApparelHealth
+            // labelID
             // 
-            this.numericUpDownApparelHealth.Location = new System.Drawing.Point(66, 192);
-            this.numericUpDownApparelHealth.Name = "numericUpDownApparelHealth";
-            this.numericUpDownApparelHealth.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDownApparelHealth.TabIndex = 4;
-            this.numericUpDownApparelHealth.ValueChanged += new System.EventHandler(this.numericUpDownApparelHealth_ValueChanged);
+            this.labelID.AutoSize = true;
+            this.labelID.Location = new System.Drawing.Point(68, 42);
+            this.labelID.Name = "labelID";
+            this.labelID.Size = new System.Drawing.Size(35, 13);
+            this.labelID.TabIndex = 16;
+            this.labelID.Text = "label8";
             // 
-            // label14
+            // label18
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 164);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(39, 13);
-            this.label14.TabIndex = 5;
-            this.label14.Text = "Quality";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 194);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(38, 13);
-            this.label15.TabIndex = 6;
-            this.label15.Text = "Health";
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(7, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(21, 13);
+            this.label18.TabIndex = 15;
+            this.label18.Text = "ID:";
             // 
             // ColonistPage
             // 
@@ -714,6 +774,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.nameGroupBox.ResumeLayout(false);
@@ -787,5 +848,10 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown numericUpDownApparelHealth;
+        private System.Windows.Forms.ComboBox comboBoxMaterial;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox checkBoxDowned;
+        private System.Windows.Forms.Label labelID;
+        private System.Windows.Forms.Label label18;
     }
 }

@@ -32,14 +32,14 @@ namespace RimWorldSaveManager.UserControls
             listBox1.DisplayMember = "FullName";
 
             comboBoxGender.Items.AddRange(DataLoader.Genders.ToArray());
-            foreach (var trait in DataLoader.Traits)
-            {
-                traitComboBox.Items.Add(trait.Value);
-            }
+
+            TraitDef[] traitDefArray = DataLoader.Traits.Values.ToArray();
+            Array.Sort(traitDefArray, Comparer<TraitDef>.Create((x, y) => String.Compare(x.ToString(), y.ToString())));
+            traitComboBox.Items.AddRange(traitDefArray);
             childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
             adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
 
-            comboBoxApparelQuality.DataSource = DataLoader.Quality;
+            comboBoxApparelQuality.DataSource = new List<string>(DataLoader.Quality);
 
             setPawn(_pawnBindingList[0]);
         }
@@ -58,6 +58,7 @@ namespace RimWorldSaveManager.UserControls
             numericUpDownMelanin.Value = _pawn.Melanin;
 
             labelDefinition.Text = _pawn.Def;
+            labelID.Text = _pawn.Id;
 
 
             traitComboBox.SelectedIndex = 0;
@@ -101,16 +102,17 @@ namespace RimWorldSaveManager.UserControls
                         break;
                     }
                 }
-            }else
+            }
+            else
             {
                 comboBoxBodyType.Enabled = false;
                 comboBoxHeadType.Enabled = false;
                 labelRaceSupport.Visible = true;
             }
-            
+
             comboBoxGender.SelectedItem = _pawn.Gender;
             comboBoxBodyType.SelectedItem = _pawn.BodyType;
-                       
+
 
             var skillPos = new Size(skillsGroupBox.Margin.Left + skillsGroupBox.Padding.Left, skillsGroupBox.Margin.Top + skillsGroupBox.Padding.Top + 10);
             skillsGroupBox.Height = pawn.Skills.Count * 25 + skillsGroupBox.Margin.Bottom + skillsGroupBox.Padding.Bottom + 15;
@@ -140,6 +142,7 @@ namespace RimWorldSaveManager.UserControls
                 comboBox.SelectedItem = string.IsNullOrEmpty(skill.Passion) ? "None" : skill.Passion;
                 comboBox.Left = textBox.Right + 5;
                 comboBox.Top = skillPos.Height;
+                comboBox.Width = 53;
                 comboBox.SelectionChangeCommitted += (obj, a) =>
                 {
                     skill.Passion = comboBox.SelectedItem.ToString();
@@ -205,6 +208,8 @@ namespace RimWorldSaveManager.UserControls
 
                 listBoxInjuries.Items.Add(pawnHediff);
             }
+
+            checkBoxDowned.Checked = _pawn.HealthStateDown;
         }
 
         private void fillHairComboBox()
@@ -214,7 +219,8 @@ namespace RimWorldSaveManager.UserControls
             {
                 hairList = new List<Hair>();
                 comboBoxHairDef.Enabled = false;
-            }else
+            }
+            else
             {
                 comboBoxHairDef.Enabled = true;
             }
@@ -331,7 +337,7 @@ namespace RimWorldSaveManager.UserControls
             e.DrawFocusRectangle();
         }
 
-         private void Traits_DrawItem(object sender, DrawItemEventArgs e)
+        private void Traits_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
                 return;
@@ -492,7 +498,7 @@ namespace RimWorldSaveManager.UserControls
 
         private void buttonMaxSkills_Click(object sender, EventArgs e)
         {
-            foreach(var textBox in Skills.Values)
+            foreach (var textBox in Skills.Values)
             {
                 textBox.Text = "20";
                 textBox.Update();
@@ -510,25 +516,56 @@ namespace RimWorldSaveManager.UserControls
 
         private void listBoxApparel_SelectedIndexChanged(object sender, EventArgs e)
         {
+            setApparel();
+        }
 
-            PawnApparel pawnApparel = (PawnApparel)((ListBox)sender).SelectedItem;
-            comboBoxApparelQuality.SelectedItem = pawnApparel.Quality;
-            comboBoxApparelQuality.Update();
+        private void setApparel()
+        {
+            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            if (pawnApparel != null)
+            {
+                comboBoxApparelQuality.SelectedItem = pawnApparel.Quality;
+                comboBoxApparelQuality.Update();
+                decimal health = (decimal)pawnApparel.Health;
 
-            if(pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
-            {
-                numericUpDownApparelHealth.Maximum = (decimal)pawnApparel.MaxHealth;
-            }else
-            {
-                numericUpDownApparelHealth.Maximum = 1000;
+                if (!DataLoader.IgnoreMaxHitPoints && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
+                {
+                    numericUpDownApparelHealth.Maximum = (decimal)pawnApparel.MaxHealth;
+                }
+                else
+                {
+                    numericUpDownApparelHealth.Maximum = int.MaxValue;
+                }
+
+                List<ThingDef> availableMaterials = new List<ThingDef>();
+                foreach (var thingCategories in pawnApparel.Thing.ReciepStuffCategories)
+                {
+                    if (DataLoader.ThingDefsByStuffCategory.TryGetValue(thingCategories, out var thingDefList))
+                    {
+                        availableMaterials.AddRange(thingDefList);
+                    }
+                }
+                comboBoxMaterial.Items.Clear();
+                comboBoxMaterial.Items.AddRange(availableMaterials.ToArray());
+                if (availableMaterials.Count == 0)
+                {
+                    comboBoxMaterial.SelectedItem = null;
+                    comboBoxMaterial.Enabled = false;
+                }
+                else
+                {
+                    comboBoxMaterial.Enabled = true;
+                    comboBoxMaterial.SelectedItem = pawnApparel.StuffThingDef;
+                }
+
+                numericUpDownApparelHealth.Value = health;
             }
-            numericUpDownApparelHealth.Value = (decimal)pawnApparel.Health;
         }
 
         private void comboBoxApparelQuality_SelectedIndexChanged(object sender, EventArgs e)
         {
             PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
-            if(pawnApparel != null)
+            if (pawnApparel != null)
             {
                 pawnApparel.Quality = (string)comboBoxApparelQuality.SelectedItem;
             }
@@ -541,6 +578,32 @@ namespace RimWorldSaveManager.UserControls
             {
                 pawnApparel.Health = (int)numericUpDownApparelHealth.Value;
             }
+        }
+
+        private void comboBoxMaterial_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ThingDef stuffDef = (ThingDef)comboBoxMaterial.SelectedItem;
+
+            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            if (pawnApparel != null && stuffDef != null)
+            {
+                pawnApparel.StuffThingDef = stuffDef;
+                pawnApparel.Stuff = stuffDef.DefName;
+
+                if (!DataLoader.IgnoreMaxHitPoints && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
+                {
+                    numericUpDownApparelHealth.Maximum = (decimal)pawnApparel.MaxHealth;
+                }
+                else
+                {
+                    numericUpDownApparelHealth.Maximum = int.MaxValue;
+                }
+            }
+        }
+
+        private void checkBoxDowned_CheckedChanged(object sender, EventArgs e)
+        {
+            _pawn.HealthStateDown = checkBoxDowned.Checked;
         }
     }
 }
