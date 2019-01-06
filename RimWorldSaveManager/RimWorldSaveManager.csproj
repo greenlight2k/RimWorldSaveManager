@@ -83,6 +83,7 @@
     <Compile Include="Data\DataStructure\Defs\Race.cs" />
     <Compile Include="Data\DataStructure\Relation.cs" />
     <Compile Include="Data\DataStructure\SaveThings\SaveThing.cs" />
+    <Compile Include="Data\DataStructure\UniqueIDsManager.cs" />
     <Compile Include="Data\ResourceLoader.cs" />
     <Compile Include="Data\DataLoader.cs" />
     <Compile Include="Data\DataStructure\Hediff.cs" />

@@ -25,22 +25,32 @@ namespace RimWorldSaveManager.UserControls
         public RelationPage()
         {
             InitializeComponent();
+            initializePage();
+        }
+
+        public void initializePage()
+        {
 
             _pawnBindingList = new BindingList<Pawn>(DataLoader.PawnsByFactions[DataLoader.PlayerFaction]);
             listBox1.DataSource = _pawnBindingList;
             listBox1.DisplayMember = "FullNameAndDef";
+            listBox1.Update();
 
             _pawnRelations = new BindingList<Relation>();
             listBoxRelations.DataSource = _pawnRelations;
             listBoxRelations.DisplayMember = "Def";
+            listBoxRelations.Update();
 
-            comboBoxRelations.Items.AddRange(DataLoader.PawnRelationDefs.ToArray());
-            comboBoxRelationDefs.Items.AddRange(DataLoader.PawnRelationDefs.ToArray());
+            comboBoxRelations.Items.Clear();
+            comboBoxRelationDefs.Items.Clear();
+            comboBoxFaction.Items.Clear();
+            comboBoxRelations.Items.AddRange(DataLoader.PawnRelationDefs.Values.ToArray());
+            comboBoxRelationDefs.Items.AddRange(DataLoader.PawnRelationDefs.Values.ToArray());
             comboBoxFaction.Items.AddRange(DataLoader.Factions.Values.ToArray());
 
             numericUpDownStartTime.Maximum = DataLoader.GameData.GameTime;
 
-            if(_pawnBindingList.Count > 0)
+            if (_pawnBindingList.Count > 0)
             {
                 setPawn(_pawnBindingList[0]);
             }
@@ -92,7 +102,7 @@ namespace RimWorldSaveManager.UserControls
 
             numericUpDownStartTime.Value = _relation.StartTicks;
 
-            foreach(var def in DataLoader.PawnRelationDefs)
+            foreach(var def in DataLoader.PawnRelationDefs.Values)
             {
                 if (def.DefName.Equals(_relation.Def))
                 {

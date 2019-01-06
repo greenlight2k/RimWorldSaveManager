@@ -22,19 +22,29 @@ namespace RimWorldSaveManager.UserControls
         public Dictionary<string, TextBox> Skills;
         public Dictionary<string, ComboBox> Passions;
 
-        public ColonistPage(List<Pawn> pawns)
+        public ColonistPage()
         {
             InitializeComponent();
+            initializePage();
+        }
 
-            _pawnBindingList = new BindingList<Pawn>(pawns);
+        private void initializePage()
+        {
+            _pawnBindingList = new BindingList<Pawn>(DataLoader.PawnsByFactions[DataLoader.PlayerFaction].Where(p => p.Skills.Count != 0).ToList());
 
             listBox1.DataSource = _pawnBindingList;
             listBox1.DisplayMember = "FullName";
+            listBox1.Update();
 
             comboBoxGender.Items.AddRange(DataLoader.Genders.ToArray());
 
             TraitDef[] traitDefArray = DataLoader.Traits.Values.ToArray();
             Array.Sort(traitDefArray, Comparer<TraitDef>.Create((x, y) => String.Compare(x.ToString(), y.ToString())));
+
+            traitComboBox.Items.Clear();
+            childhoodComboBox.Items.Clear();
+            adulthoodComboBox.Items.Clear();
+
             traitComboBox.Items.AddRange(traitDefArray);
             childhoodComboBox.Items.AddRange(ResourceLoader.ChildhoodStories.ToArray());
             adulthoodComboBox.Items.AddRange(ResourceLoader.AdulthoodStories.ToArray());
@@ -538,13 +548,17 @@ namespace RimWorldSaveManager.UserControls
                 }
 
                 List<ThingDef> availableMaterials = new List<ThingDef>();
-                foreach (var thingCategories in pawnApparel.Thing.ReciepStuffCategories)
+                if (pawnApparel.Thing != null)
                 {
-                    if (DataLoader.ThingDefsByStuffCategory.TryGetValue(thingCategories, out var thingDefList))
+                    foreach (var thingCategories in pawnApparel.Thing.ReciepStuffCategories)
                     {
-                        availableMaterials.AddRange(thingDefList);
+                        if (DataLoader.ThingDefsByStuffCategory.TryGetValue(thingCategories, out var thingDefList))
+                        {
+                            availableMaterials.AddRange(thingDefList);
+                        }
                     }
                 }
+
                 comboBoxMaterial.Items.Clear();
                 comboBoxMaterial.Items.AddRange(availableMaterials.ToArray());
                 if (availableMaterials.Count == 0)
@@ -604,6 +618,13 @@ namespace RimWorldSaveManager.UserControls
         private void checkBoxDowned_CheckedChanged(object sender, EventArgs e)
         {
             _pawn.HealthStateDown = checkBoxDowned.Checked;
+        }
+
+        private void buttonCopyPawn_Click(object sender, EventArgs e)
+        {
+            _pawn.copyPawn();
+            initializePage();
+            DataLoader.relationsPage.initializePage();
         }
     }
 }

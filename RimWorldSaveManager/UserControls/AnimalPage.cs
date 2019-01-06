@@ -18,19 +18,26 @@ namespace RimWorldSaveManager.UserControls
 
         private Pawn _pawn;
 
-        public AnimalPage(List<Pawn> pawnList)
+        public AnimalPage()
         {
             InitializeComponent();
-            _pawnBindingList = new BindingList<Pawn>(pawnList);
+            initializePage();
+        }
+
+        public void initializePage()
+        {
+            _pawnBindingList = new BindingList<Pawn>(DataLoader.PawnsByFactions[DataLoader.PlayerFaction].Where(p => p.Skills.Count == 0).ToList());
 
             listBox1.DataSource = _pawnBindingList;
             listBox1.DisplayMember = "FullName";
+            listBox1.Update();
 
             if (_pawnBindingList.Count > 0)
             {
                 setPawn(_pawnBindingList[0]);
             }
         }
+
         private void listBox1_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedItems.Count > 0)
@@ -160,6 +167,13 @@ namespace RimWorldSaveManager.UserControls
         private void numericUpDownTameness_ValueChanged(object sender, EventArgs e)
         {
             _pawn.Training.TamenessStep = (int)numericUpDownTameness.Value;
+        }
+
+        private void buttonCopyPawn_Click(object sender, EventArgs e)
+        {
+            _pawn.copyPawn();
+            initializePage();
+            DataLoader.relationsPage.initializePage();
         }
     }
 }

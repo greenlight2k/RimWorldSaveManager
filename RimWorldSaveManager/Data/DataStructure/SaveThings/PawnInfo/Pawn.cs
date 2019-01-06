@@ -369,9 +369,10 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         public bool HealthStateDown
         {
-            get {
+            get
+            {
                 XElement healthState = _xml.XPathSelectElement("healthTracker/healthState");
-                if(healthState != null && healthState.Value == "Down")
+                if (healthState != null && healthState.Value == "Down")
                 {
                     return true;
                 }
@@ -420,7 +421,7 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         private readonly List<PawnData> _pawnDatas;
 
-        public Pawn(XElement xml, Dictionary<string, ThingDef> ThingDefs)
+        public Pawn(XElement xml)
         {
             _xml = xml;
             if (_xml.Element("name") == null)
@@ -496,14 +497,15 @@ namespace RimWorldSaveManager.Data.DataStructure
                 training = null;
             }
 
-           
+
+
             IEnumerable<XElement> apparels = _xml.XPathSelectElements("apparel/wornApparel/innerList/li");
             Apparel = (from apparel in apparels
-                       select new PawnApparel(apparel, ThingDefs)).ToList();
+                       select new PawnApparel(apparel)).ToList();
             IEnumerable<XElement> equipments = _xml.XPathSelectElements("equipment/equipment/innerList/li");
-            foreach(var equipment in equipments)
+            foreach (var equipment in equipments)
             {
-                Apparel.Add(new PawnApparel(equipment, ThingDefs));
+                Apparel.Add(new PawnApparel(equipment));
             }
 
 
@@ -564,6 +566,96 @@ namespace RimWorldSaveManager.Data.DataStructure
             trait.Element.Remove();
         }
 
+
+        public void copyPawn()
+        {
+            UniqueIDsManager idManager = DataLoader.uniqueIdsManager;
+            XElement copy = new XElement(_xml);
+
+            Dictionary<string, string> idsToReplace = new Dictionary<string, string>();
+            string newID = copy.Element("def").GetValue() + idManager.getNextThingID();
+            string oldID = copy.Element("id").GetValue();
+            copy.Element("id").SetValue(newID);
+
+            idsToReplace.Add(oldID, newID);
+
+            IEnumerable<XElement> apparels = copy.XPathSelectElements("apparel/wornApparel/innerList/li");
+            IEnumerable<XElement> equipments = copy.XPathSelectElements("equipment/equipment/innerList/li");
+            IEnumerable<XElement> inventory = copy.XPathSelectElements("inventory/innerContainer/innerList/li");
+            IEnumerable<XElement> carryTracker = copy.XPathSelectElements("carryTracker/innerContainer/innerList/li");
+            IEnumerable<XElement> carriedFilth = copy.XPathSelectElements("filth/carriedFilth/li");
+            // RT Magic
+            IEnumerable<XElement> enchantingContainer = copy.XPathSelectElements("enchantingContainer/innerList/li");
+
+            IEnumerable<XElement> allPawnThings = apparels.Union(equipments).Union(inventory).Union(carryTracker).Union(carriedFilth).Union(enchantingContainer);
+
+            foreach (var thing in allPawnThings)
+            {
+                newID = thing.Element("def").GetValue() + idManager.getNextThingID();
+                oldID = thing.Element("id").GetValue();
+                thing.Element("id").SetValue(newID);
+                idsToReplace.Add(oldID, newID);
+            }
+            IEnumerable<XElement> directRelations = copy.XPathSelectElements("social/directRelations/li");
+            foreach(var directRelation in directRelations)
+            {
+                if (DataLoader.PawnRelationDefs.TryGetValue(directRelation.Element("def").GetValue(), out var relation))
+                {
+                    if (relation.Reflexive)
+                    {
+                        directRelation.Remove();
+                    }
+                }
+            }
+
+
+
+            IEnumerable<XElement> hediffs = copy.XPathSelectElements("healthTracker/hediffSet/hediffs/li");
+            foreach (var hediff in hediffs)
+            {
+                newID = "" + idManager.getNextHediffID();
+                oldID = hediff.Element("loadID").GetValue();
+
+                idsToReplace.Add("Hediff_" + oldID, "Hediff_" + newID);
+                hediff.Element("loadID").SetValue(newID);
+            }
+
+            XElement jobID = copy.XPathSelectElement("jobs/curJob/loadID");
+            if (jobID != null)
+            {
+                jobID.SetValue(idManager.getNextJobID());
+            }
+
+            XElement ownedBed = copy.XPathSelectElement("ownership/ownedBed");
+            if(ownedBed != null)
+            {
+                ownedBed.SetValue("null");
+            }
+
+            foreach (var descendant in copy.Descendants())
+            {
+                if (descendant.GetValue() != null)
+                {
+                    foreach (var mapping in idsToReplace)
+                    {
+                        if (!descendant.HasElements && descendant.GetValue().Contains(mapping.Key))
+                        {
+                            descendant.SetValue(descendant.GetValue().Replace(mapping.Key, mapping.Value));
+                        }
+                    }
+                }
+            }
+
+            if (DataLoader.Factions.TryGetValue(copy.Element("faction").GetValue(), out var faction))
+            {
+                if (DataLoader.PawnsByFactions.TryGetValue(faction, out var value))
+                {
+                    value.Add(new Pawn(copy));
+                }
+            }
+
+            _xml.AddAfterSelf(copy);
+        }
 
         public override string ToString()
         {

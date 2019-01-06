@@ -61,6 +61,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.labelDefinition = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.buttonCopyPawn = new System.Windows.Forms.Button();
             this.nameGroupBox.SuspendLayout();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
@@ -77,11 +78,10 @@
             // 
             // listBox1
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Location = new System.Drawing.Point(0, 35);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(240, 547);
+            this.listBox1.Size = new System.Drawing.Size(240, 498);
             this.listBox1.TabIndex = 15;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             // 
@@ -442,10 +442,21 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Definition:";
             // 
+            // buttonCopyPawn
+            // 
+            this.buttonCopyPawn.Location = new System.Drawing.Point(3, 6);
+            this.buttonCopyPawn.Name = "buttonCopyPawn";
+            this.buttonCopyPawn.Size = new System.Drawing.Size(239, 23);
+            this.buttonCopyPawn.TabIndex = 21;
+            this.buttonCopyPawn.Text = "Copy selected animal";
+            this.buttonCopyPawn.UseVisualStyleBackColor = true;
+            this.buttonCopyPawn.Click += new System.EventHandler(this.buttonCopyPawn_Click);
+            // 
             // AnimalPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonCopyPawn);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
@@ -509,5 +520,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownTameness;
         private System.Windows.Forms.CheckBox checkBoxTameness;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button buttonCopyPawn;
     }
 }

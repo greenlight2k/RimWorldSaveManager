@@ -15,16 +15,16 @@ namespace RimWorldSaveManager.Data.DataStructure.PawnInfo
         private ThingDef thingDef;
         private ThingDef stuffThingDef;
 
-        public PawnApparel(XElement xml, Dictionary<string, ThingDef> ThingDefs)
+        public PawnApparel(XElement xml)
         {
             _xml = xml;
-            if(ThingDefs.TryGetValue(Def, out var value))
+            if(DataLoader.ThingDefsByDefName.TryGetValue(Def, out var value))
             {
                 thingDef = value;
             }
             if(Stuff != null)
             {
-                if (ThingDefs.TryGetValue(Stuff, out value))
+                if (DataLoader.ThingDefsByDefName.TryGetValue(Stuff, out value))
                 {
                     StuffThingDef = value;
                 }

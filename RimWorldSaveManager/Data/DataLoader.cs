@@ -35,7 +35,7 @@ namespace RimWorldSaveManager
         public static List<string> Quality = new List<string>();
 
         public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
-        public static List<PawnRelationDef> PawnRelationDefs = new List<PawnRelationDef>();
+        public static SortedDictionary<string, PawnRelationDef> PawnRelationDefs = new SortedDictionary<string, PawnRelationDef>();
         public static GameData GameData;
         public static bool IgnoreMaxHitPoints = false;
 
@@ -47,6 +47,14 @@ namespace RimWorldSaveManager
 
         public static Dictionary<string, BodyDef> BodyDefsByDef = new Dictionary<string, BodyDef>();
         public static Dictionary<string, List<SaveThing>> SaveThingsByClass = new Dictionary<string, List<SaveThing>>();
+
+        public static UniqueIDsManager uniqueIdsManager = null;
+
+        public static AnimalPage animalPage;
+        public static ColonistPage colonistPage;
+        public static GeneralPage generalPage;
+        public static ItemsPage itemsPage;
+        public static RelationPage relationsPage;
 
         public DataLoader()
         {
@@ -257,7 +265,8 @@ namespace RimWorldSaveManager
 
                     foreach (var relationDef in docRoot.XPathSelectElements("PawnRelationDef"))
                     {
-                        PawnRelationDefs.Add(new PawnRelationDef(relationDef));
+                        var pawnRelation = new PawnRelationDef(relationDef);
+                        PawnRelationDefs.Add(pawnRelation.DefName, pawnRelation);
                     }
 
                     foreach (var thingDef in docRoot.XPathSelectElements("ThingDef"))
@@ -353,7 +362,6 @@ namespace RimWorldSaveManager
                 }
             }
 
-            PawnRelationDefs = PawnRelationDefs.OrderBy(x => x.DefName).ToList();
             ResourceLoader.ChildhoodStories = ResourceLoader.ChildhoodStories.OrderBy(x => x.DisplayTitle).ToList();
             ResourceLoader.AdulthoodStories = ResourceLoader.AdulthoodStories.OrderBy(x => x.DisplayTitle).ToList();
         }
@@ -367,6 +375,8 @@ namespace RimWorldSaveManager
             SaveDocument = XDocument.Load(path);
 
             GameData = new GameData(SaveDocument.Root.XPathSelectElement("game/tickManager"));
+
+            uniqueIdsManager = new UniqueIDsManager(SaveDocument.Root.XPathSelectElement("game/uniqueIDsManager"));
 
             var playerFactionDef = EvaluateSingle<XElement>("scenario/playerFaction/factionDef").Value;
 
@@ -400,7 +410,7 @@ namespace RimWorldSaveManager
 
             foreach (var pawn in SaveDocument.Root.XPathSelectElements("game/world/worldPawns/pawnsAlive/li"))
             {
-                Pawn p = new Pawn(pawn, ThingDefsByDefName);
+                Pawn p = new Pawn(pawn);
                 if (p.Faction != null)
                 {
                     List<PawnData> pawnDataList;
@@ -423,7 +433,7 @@ namespace RimWorldSaveManager
                 {
 
 
-                    Pawn p = new Pawn(thing, ThingDefsByDefName);
+                    Pawn p = new Pawn(thing);
                     if(p.Faction != null)
                     {
                         List<PawnData> pawnDataList;
@@ -460,12 +470,15 @@ namespace RimWorldSaveManager
                 throw new Exception("No characters found!\nTry playing the game a little more.");
             }
 
-            var colonistPage = new ColonistPage(PawnsByFactions[PlayerFaction].Where(p => p.Skills.Count != 0).ToList());
+            colonistPage = new ColonistPage();
             colonistPage.Dock = DockStyle.Fill;
-            var animalPage = new AnimalPage(PawnsByFactions[PlayerFaction].Where(p => p.Skills.Count == 0).ToList());
+            animalPage = new AnimalPage();
             animalPage.Dock = DockStyle.Fill;
-            var itemsPage = new ItemsPage();
+            itemsPage = new ItemsPage();
             itemsPage.Dock = DockStyle.Fill;
+
+            relationsPage = new RelationPage();
+            generalPage = new GeneralPage();
 
             TabPage colonisTabPage = new TabPage("Colonists");
             TabPage animalsTabPage = new TabPage("Animals");
@@ -475,8 +488,8 @@ namespace RimWorldSaveManager
             colonisTabPage.Controls.Add(colonistPage);
             animalsTabPage.Controls.Add(animalPage);
             itemsTabPage.Controls.Add(itemsPage);
-            relationsTabPage.Controls.Add(new RelationPage());
-            gameDataTabPage.Controls.Add(new GeneralPage());
+            relationsTabPage.Controls.Add(relationsPage);
+            gameDataTabPage.Controls.Add(generalPage);
 
 
             tabControl.TabPages.Add(gameDataTabPage);

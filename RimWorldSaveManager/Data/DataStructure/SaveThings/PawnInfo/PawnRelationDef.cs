@@ -12,6 +12,7 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         private string _DefName;
         private string _Label;
+        private bool _Reflexive;
 
 
 
@@ -19,10 +20,20 @@ namespace RimWorldSaveManager.Data.DataStructure
         {
             _DefName = xElement.Element("defName").GetValue();
             _Label = xElement.Element("label").GetValue();
+            if(xElement.Element("reflexive")!= null)
+            {
+                _Reflexive = bool.Parse(xElement.Element("reflexive").GetValue());
+            }
+            else
+            {
+                _Reflexive = false;
+            }
+
         }
 
         public string DefName { get => _DefName; }
         public string Label { get => _Label;  }
+        public bool Reflexive { get => _Reflexive; set => _Reflexive = value; }
 
         public override string ToString()
         {

@@ -89,6 +89,7 @@
             this.listBoxApparel = new System.Windows.Forms.ListBox();
             this.labelID = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.buttonCopyPawn = new System.Windows.Forms.Button();
             this.skillsGroupBoxOuter.SuspendLayout();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
@@ -400,9 +401,9 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Location = new System.Drawing.Point(0, 35);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(181, 615);
+            this.listBox1.Size = new System.Drawing.Size(181, 576);
             this.listBox1.TabIndex = 14;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             // 
@@ -748,10 +749,21 @@
             this.label18.TabIndex = 15;
             this.label18.Text = "ID:";
             // 
+            // buttonCopyPawn
+            // 
+            this.buttonCopyPawn.Location = new System.Drawing.Point(3, 6);
+            this.buttonCopyPawn.Name = "buttonCopyPawn";
+            this.buttonCopyPawn.Size = new System.Drawing.Size(178, 23);
+            this.buttonCopyPawn.TabIndex = 19;
+            this.buttonCopyPawn.Text = "Copy selected colonist";
+            this.buttonCopyPawn.UseVisualStyleBackColor = true;
+            this.buttonCopyPawn.Click += new System.EventHandler(this.buttonCopyPawn_Click);
+            // 
             // ColonistPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonCopyPawn);
             this.Controls.Add(this.groupBoxApparel);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox1);
@@ -853,5 +865,6 @@
         private System.Windows.Forms.CheckBox checkBoxDowned;
         private System.Windows.Forms.Label labelID;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button buttonCopyPawn;
     }
 }
