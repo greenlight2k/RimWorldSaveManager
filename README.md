@@ -20,7 +20,7 @@ Copy the executable file (.exe) into your game directory and run it.
 
 ### ChangeLog ###
 #### v0.7.1.1 ####
-* Add buildin editing
+* Add building editing
 * Bugfixes
 #### v0.7.1.0 ####
 * Add item editing for pawn apparel and equipment
