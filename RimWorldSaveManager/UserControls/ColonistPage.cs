@@ -10,12 +10,14 @@ using System.Windows.Forms;
 using RimWorldSaveManager.Data.DataStructure;
 using RimWorldSaveManager.Data.DataStructure.Defs;
 using RimWorldSaveManager.Data.DataStructure.PawnInfo;
+using RimWorldSaveManager.Data.DataStructure.SaveThings;
 
 namespace RimWorldSaveManager.UserControls
 {
     public partial class ColonistPage : UserControl
     {
         private BindingList<Pawn> _pawnBindingList;
+        private BindingList<SaveThing> _pawnApparelBindingList;
 
         private Pawn _pawn;
 
@@ -51,6 +53,11 @@ namespace RimWorldSaveManager.UserControls
 
             comboBoxApparelQuality.DataSource = new List<string>(DataLoader.Quality);
 
+            comboBoxPassionAll.Items.Add("None");
+            comboBoxPassionAll.Items.Add("Minor");
+            comboBoxPassionAll.Items.Add("Major");
+            comboBoxPassionAll.SelectedItem = "None";
+
             setPawn(_pawnBindingList[0]);
         }
 
@@ -78,7 +85,6 @@ namespace RimWorldSaveManager.UserControls
 
             skillsGroupBox.Controls.Clear();
             listBoxTraits.Items.Clear();
-            listBoxApparel.Items.Clear();
             listBoxInjuries.Items.Clear();
             comboBoxBodyType.Items.Clear();
             comboBoxHeadType.Items.Clear();
@@ -141,7 +147,14 @@ namespace RimWorldSaveManager.UserControls
                 textBox.SetBounds(skillPos.Width + 100, skillPos.Height, 20, 20);
                 textBox.TextChanged += (obj, a) =>
                 {
-                    skill.Level = int.Parse(textBox.Text);
+                    if (int.TryParse(textBox.Text, out var value))
+                    {
+                        skill.Level = value;
+                    }
+                    else
+                    {
+                        textBox.Text = "0";
+                    }
                 };
 
                 var comboBox = new ComboBox();
@@ -172,10 +185,9 @@ namespace RimWorldSaveManager.UserControls
             {
                 listBoxTraits.Items.Add(trait);
             }
-            foreach (var apparel in pawn.Apparel)
-            {
-                listBoxApparel.Items.Add(apparel);
-            }
+            _pawnApparelBindingList = new BindingList<SaveThing>(pawn.Apparel);
+            listBoxApparel.DisplayMember = "ToString";
+            listBoxApparel.DataSource = _pawnApparelBindingList;
 
             Action<ComboBox, string> setBackstory = (comboBox, storyKey) =>
             {
@@ -506,21 +518,21 @@ namespace RimWorldSaveManager.UserControls
             _pawn.Melanin = numericUpDownMelanin.Value;
         }
 
-        private void buttonMaxSkills_Click(object sender, EventArgs e)
+        private void buttonSetAllSkills_Click(object sender, EventArgs e)
         {
             foreach (var textBox in Skills.Values)
             {
-                textBox.Text = "20";
+                textBox.Text = "" + numericUpDownSkillLevelAll.Value;
                 textBox.Update();
             }
-        }
-
-        private void buttonMinSkills_Click(object sender, EventArgs e)
-        {
-            foreach (var textBox in Skills.Values)
+            foreach (var skill in _pawn.Skills)
             {
-                textBox.Text = "0";
-                textBox.Update();
+                skill.Passion = comboBoxPassionAll.SelectedItem.ToString();
+            }
+            foreach (var passionBox in Passions.Values)
+            {
+                passionBox.SelectedItem = comboBoxPassionAll.SelectedItem;
+                passionBox.Update();
             }
         }
 
@@ -531,7 +543,7 @@ namespace RimWorldSaveManager.UserControls
 
         private void setApparel()
         {
-            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            SaveThing pawnApparel = (SaveThing)listBoxApparel.SelectedItem;
             if (pawnApparel != null)
             {
                 comboBoxApparelQuality.SelectedItem = pawnApparel.Quality;
@@ -548,9 +560,9 @@ namespace RimWorldSaveManager.UserControls
                 }
 
                 List<ThingDef> availableMaterials = new List<ThingDef>();
-                if (pawnApparel.Thing != null)
+                if (pawnApparel.BaseThing != null)
                 {
-                    foreach (var thingCategories in pawnApparel.Thing.ReciepStuffCategories)
+                    foreach (var thingCategories in pawnApparel.BaseThing.ReciepStuffCategories)
                     {
                         if (DataLoader.ThingDefsByStuffCategory.TryGetValue(thingCategories, out var thingDefList))
                         {
@@ -569,16 +581,18 @@ namespace RimWorldSaveManager.UserControls
                 else
                 {
                     comboBoxMaterial.Enabled = true;
-                    comboBoxMaterial.SelectedItem = pawnApparel.StuffThingDef;
+                    comboBoxMaterial.SelectedItem = pawnApparel.StuffBaseThing;
                 }
 
                 numericUpDownApparelHealth.Value = health;
+                checkBoxWornByCorpse.Checked = pawnApparel.WornByCorpse;
+
             }
         }
 
         private void comboBoxApparelQuality_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            SaveThing pawnApparel = (SaveThing)listBoxApparel.SelectedItem;
             if (pawnApparel != null)
             {
                 pawnApparel.Quality = (string)comboBoxApparelQuality.SelectedItem;
@@ -587,7 +601,7 @@ namespace RimWorldSaveManager.UserControls
 
         private void numericUpDownApparelHealth_ValueChanged(object sender, EventArgs e)
         {
-            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            SaveThing pawnApparel = (SaveThing)listBoxApparel.SelectedItem;
             if (pawnApparel != null)
             {
                 pawnApparel.Health = (int)numericUpDownApparelHealth.Value;
@@ -598,10 +612,10 @@ namespace RimWorldSaveManager.UserControls
         {
             ThingDef stuffDef = (ThingDef)comboBoxMaterial.SelectedItem;
 
-            PawnApparel pawnApparel = (PawnApparel)listBoxApparel.SelectedItem;
+            SaveThing pawnApparel = (SaveThing)listBoxApparel.SelectedItem;
             if (pawnApparel != null && stuffDef != null)
             {
-                pawnApparel.StuffThingDef = stuffDef;
+                pawnApparel.StuffBaseThing = stuffDef;
                 pawnApparel.Stuff = stuffDef.DefName;
 
                 if (!DataLoader.IgnoreMaxHitPoints && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
@@ -625,6 +639,13 @@ namespace RimWorldSaveManager.UserControls
             _pawn.copyPawn();
             initializePage();
             DataLoader.relationsPage.initializePage();
+        }
+
+        private void checkBoxWornByCorpse_CheckedChanged(object sender, EventArgs e)
+        {
+            var currentThing = (SaveThing)listBoxApparel.SelectedItem;
+            currentThing.WornByCorpse = checkBoxWornByCorpse.Checked;
+            _pawnApparelBindingList.ResetItem(_pawnApparelBindingList.IndexOf(currentThing));
         }
     }
 }

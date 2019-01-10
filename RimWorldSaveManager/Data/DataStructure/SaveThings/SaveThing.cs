@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace RimWorldSaveManager.Data.DataStructure.SaveThings
 {
@@ -14,6 +15,7 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
         private XElement _XElement;
         private ThingDef _BaseThing = null;
         private ThingDef _StuffBaseThing = null;
+        private SaveThing _MinifiedThing = null;
 
         public SaveThing(XElement xElement)
         {
@@ -25,6 +27,13 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
             if (Stuff != null && DataLoader.ThingDefsByDefName.TryGetValue(Stuff, out var stuffThingDef))
             {
                 StuffBaseThing = stuffThingDef;
+            }
+            if(Class == "MinifiedThing")
+            {
+                if(_XElement.XPathSelectElement("innerContainer/innerList/li") != null)
+                {
+                    _MinifiedThing = new SaveThing(_XElement.XPathSelectElement("innerContainer/innerList/li"));
+                }
             }
         }
 
@@ -205,7 +214,7 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
         {
             get
             {
-                if (BaseThing != null)
+                if (BaseThing != null && BaseThing.MaxHitPoints != null)
                 {
                     if(BaseThing.MaxHitPoints > 1 && DataLoader.IgnoreMaxHitPoints)
                     {
@@ -225,6 +234,32 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
             }
         }
 
+        public bool WornByCorpse
+        {
+            get
+            {
+                if (_XElement.Element("wornByCorpse") != null)
+                {
+                    return bool.Parse(_XElement.Element("wornByCorpse").GetValue());
+                }
+                return false;
+            }
+            set
+            {
+                if(Class == "Apparel" || Class == "")
+                {
+                    if (_XElement.Element("wornByCorpse") != null && !value)
+                    {
+                        _XElement.Element("wornByCorpse").Remove();
+                    }
+                    if (_XElement.Element("wornByCorpse") == null && value)
+                    {
+                        _XElement.Add(new XElement("wornByCorpse", "true"));
+                    }
+                }
+            }
+        }
+
         public int? StackLimit
         {
             get
@@ -239,14 +274,24 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
 
         public ThingDef StuffBaseThing { get => _StuffBaseThing; set => _StuffBaseThing = value; }
         public ThingDef BaseThing { get => _BaseThing; set => _BaseThing = value; }
+        public SaveThing MinifiedThing { get => _MinifiedThing; set => _MinifiedThing = value; }
+        public ThingDef BaseThing1 { get => _BaseThing; set => _BaseThing = value; }
 
         public override string ToString()
         {
+            String ofTheJedi;
             if (BaseThing != null)
             {
-                return BaseThing.Label;
+                ofTheJedi= BaseThing.Label;
             }
-            return Def;
+            else {
+                ofTheJedi = Def;
+            }
+            if(MinifiedThing != null)
+            {
+                ofTheJedi = ofTheJedi + " - " + MinifiedThing.ToString();
+            }
+            return ofTheJedi + (WornByCorpse ? " - T" : "");
         }
     }
 }

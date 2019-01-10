@@ -77,7 +77,6 @@
     <Compile Include="Data\DataStructure\Faction.cs" />
     <Compile Include="Data\DataStructure\GameData.cs" />
     <Compile Include="Data\DataStructure\Defs\Hair.cs" />
-    <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnApparel.cs" />
     <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnNeeds.cs" />
     <Compile Include="Data\DataStructure\SaveThings\PawnInfo\PawnRelationDef.cs" />
     <Compile Include="Data\DataStructure\Defs\Race.cs" />
@@ -118,6 +117,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\BuildingsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\BuildingsPage.Designer.cs">
+      <DependentUpon>BuildingsPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ColonistPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -155,6 +160,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\BuildingsPage.resx">
+      <DependentUpon>BuildingsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ColonistPage.resx">
       <DependentUpon>ColonistPage.cs</DependentUpon>

@@ -55,6 +55,7 @@ namespace RimWorldSaveManager
         public static GeneralPage generalPage;
         public static ItemsPage itemsPage;
         public static RelationPage relationsPage;
+        public static BuildingsPage buidingsPage;
 
         public DataLoader()
         {
@@ -451,7 +452,14 @@ namespace RimWorldSaveManager
                 else
                 {
                     SaveThing SaveThing = new SaveThing(thing);
-                    if(SaveThingsByClass.TryGetValue(SaveThing.Class, out List<SaveThing> list))
+
+                    String key = SaveThing.Class;
+                    if(SaveThing.BaseThing != null && SaveThing.BaseThing.BaseName == "BuildingBase")
+                    {
+                        key = SaveThing.BaseThing.BaseName;
+                    }
+
+                    if (SaveThingsByClass.TryGetValue(key, out List<SaveThing> list))
                     {
                         list.Add(SaveThing);
                     }
@@ -459,7 +467,7 @@ namespace RimWorldSaveManager
                     {
                         List<SaveThing> newList = new List<SaveThing>();
                         newList.Add(SaveThing);
-                        SaveThingsByClass.Add(SaveThing.Class, newList);
+                        SaveThingsByClass.Add(key, newList);
                     }
                     
                 }
@@ -476,6 +484,8 @@ namespace RimWorldSaveManager
             animalPage.Dock = DockStyle.Fill;
             itemsPage = new ItemsPage();
             itemsPage.Dock = DockStyle.Fill;
+            buidingsPage = new BuildingsPage();
+            buidingsPage.Dock = DockStyle.Fill;
 
             relationsPage = new RelationPage();
             generalPage = new GeneralPage();
@@ -485,11 +495,13 @@ namespace RimWorldSaveManager
             TabPage relationsTabPage = new TabPage("Relations");
             TabPage gameDataTabPage = new TabPage("General");
             TabPage itemsTabPage = new TabPage("Items");
+            TabPage buildingsTabPage = new TabPage("Buildings");
             colonisTabPage.Controls.Add(colonistPage);
             animalsTabPage.Controls.Add(animalPage);
             itemsTabPage.Controls.Add(itemsPage);
             relationsTabPage.Controls.Add(relationsPage);
             gameDataTabPage.Controls.Add(generalPage);
+            buildingsTabPage.Controls.Add(buidingsPage);
 
 
             tabControl.TabPages.Add(gameDataTabPage);
@@ -497,6 +509,7 @@ namespace RimWorldSaveManager
             tabControl.TabPages.Add(animalsTabPage);
             tabControl.TabPages.Add(relationsTabPage);
             tabControl.TabPages.Add(itemsTabPage);
+            tabControl.TabPages.Add(buildingsTabPage);
 
 
             return true;

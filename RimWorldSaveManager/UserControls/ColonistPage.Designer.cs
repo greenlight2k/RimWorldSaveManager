@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.skillsGroupBoxOuter = new System.Windows.Forms.GroupBox();
+            this.numericUpDownSkillLevelAll = new System.Windows.Forms.NumericUpDown();
             this.skillsGroupBox = new System.Windows.Forms.GroupBox();
-            this.buttonMinSkills = new System.Windows.Forms.Button();
-            this.buttonMaxSkills = new System.Windows.Forms.Button();
+            this.buttonSetAllSkills = new System.Windows.Forms.Button();
             this.ageGroupBox = new System.Windows.Forms.GroupBox();
             this.chronoAgeField = new System.Windows.Forms.NumericUpDown();
             this.bioAgeField = new System.Windows.Forms.NumericUpDown();
@@ -62,6 +62,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelID = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.labelRaceSupport = new System.Windows.Forms.Label();
             this.labelDefinition = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -80,6 +82,7 @@
             this.comboBoxGender = new System.Windows.Forms.ComboBox();
             this.colorDialogHair = new System.Windows.Forms.ColorDialog();
             this.groupBoxApparel = new System.Windows.Forms.GroupBox();
+            this.checkBoxWornByCorpse = new System.Windows.Forms.CheckBox();
             this.comboBoxMaterial = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -87,10 +90,10 @@
             this.numericUpDownApparelHealth = new System.Windows.Forms.NumericUpDown();
             this.comboBoxApparelQuality = new System.Windows.Forms.ComboBox();
             this.listBoxApparel = new System.Windows.Forms.ListBox();
-            this.labelID = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.buttonCopyPawn = new System.Windows.Forms.Button();
+            this.comboBoxPassionAll = new System.Windows.Forms.ComboBox();
             this.skillsGroupBoxOuter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSkillLevelAll)).BeginInit();
             this.ageGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bioAgeField)).BeginInit();
@@ -108,15 +111,28 @@
             // 
             // skillsGroupBoxOuter
             // 
+            this.skillsGroupBoxOuter.Controls.Add(this.comboBoxPassionAll);
+            this.skillsGroupBoxOuter.Controls.Add(this.numericUpDownSkillLevelAll);
             this.skillsGroupBoxOuter.Controls.Add(this.skillsGroupBox);
-            this.skillsGroupBoxOuter.Controls.Add(this.buttonMinSkills);
-            this.skillsGroupBoxOuter.Controls.Add(this.buttonMaxSkills);
+            this.skillsGroupBoxOuter.Controls.Add(this.buttonSetAllSkills);
             this.skillsGroupBoxOuter.Location = new System.Drawing.Point(187, 130);
             this.skillsGroupBoxOuter.Name = "skillsGroupBoxOuter";
             this.skillsGroupBoxOuter.Size = new System.Drawing.Size(210, 483);
             this.skillsGroupBoxOuter.TabIndex = 1;
             this.skillsGroupBoxOuter.TabStop = false;
             this.skillsGroupBoxOuter.Text = "Skills";
+            // 
+            // numericUpDownSkillLevelAll
+            // 
+            this.numericUpDownSkillLevelAll.Location = new System.Drawing.Point(10, 19);
+            this.numericUpDownSkillLevelAll.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numericUpDownSkillLevelAll.Name = "numericUpDownSkillLevelAll";
+            this.numericUpDownSkillLevelAll.Size = new System.Drawing.Size(39, 20);
+            this.numericUpDownSkillLevelAll.TabIndex = 0;
             // 
             // skillsGroupBox
             // 
@@ -126,25 +142,15 @@
             this.skillsGroupBox.TabIndex = 2;
             this.skillsGroupBox.TabStop = false;
             // 
-            // buttonMinSkills
+            // buttonSetAllSkills
             // 
-            this.buttonMinSkills.Location = new System.Drawing.Point(91, 19);
-            this.buttonMinSkills.Name = "buttonMinSkills";
-            this.buttonMinSkills.Size = new System.Drawing.Size(75, 23);
-            this.buttonMinSkills.TabIndex = 1;
-            this.buttonMinSkills.Text = "Min All";
-            this.buttonMinSkills.UseVisualStyleBackColor = true;
-            this.buttonMinSkills.Click += new System.EventHandler(this.buttonMinSkills_Click);
-            // 
-            // buttonMaxSkills
-            // 
-            this.buttonMaxSkills.Location = new System.Drawing.Point(10, 19);
-            this.buttonMaxSkills.Name = "buttonMaxSkills";
-            this.buttonMaxSkills.Size = new System.Drawing.Size(75, 23);
-            this.buttonMaxSkills.TabIndex = 0;
-            this.buttonMaxSkills.Text = "Max All";
-            this.buttonMaxSkills.UseVisualStyleBackColor = true;
-            this.buttonMaxSkills.Click += new System.EventHandler(this.buttonMaxSkills_Click);
+            this.buttonSetAllSkills.Location = new System.Drawing.Point(147, 16);
+            this.buttonSetAllSkills.Name = "buttonSetAllSkills";
+            this.buttonSetAllSkills.Size = new System.Drawing.Size(57, 23);
+            this.buttonSetAllSkills.TabIndex = 1;
+            this.buttonSetAllSkills.Text = "Set All";
+            this.buttonSetAllSkills.UseVisualStyleBackColor = true;
+            this.buttonSetAllSkills.Click += new System.EventHandler(this.buttonSetAllSkills_Click);
             // 
             // ageGroupBox
             // 
@@ -487,6 +493,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Infos";
             // 
+            // labelID
+            // 
+            this.labelID.AutoSize = true;
+            this.labelID.Location = new System.Drawing.Point(68, 42);
+            this.labelID.Name = "labelID";
+            this.labelID.Size = new System.Drawing.Size(35, 13);
+            this.labelID.TabIndex = 16;
+            this.labelID.Text = "label8";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(7, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(21, 13);
+            this.label18.TabIndex = 15;
+            this.label18.Text = "ID:";
+            // 
             // labelRaceSupport
             // 
             this.labelRaceSupport.AutoSize = true;
@@ -655,6 +679,7 @@
             // 
             // groupBoxApparel
             // 
+            this.groupBoxApparel.Controls.Add(this.checkBoxWornByCorpse);
             this.groupBoxApparel.Controls.Add(this.comboBoxMaterial);
             this.groupBoxApparel.Controls.Add(this.label16);
             this.groupBoxApparel.Controls.Add(this.label15);
@@ -668,6 +693,17 @@
             this.groupBoxApparel.TabIndex = 18;
             this.groupBoxApparel.TabStop = false;
             this.groupBoxApparel.Text = "Apparel/Equipment";
+            // 
+            // checkBoxWornByCorpse
+            // 
+            this.checkBoxWornByCorpse.AutoSize = true;
+            this.checkBoxWornByCorpse.Location = new System.Drawing.Point(66, 245);
+            this.checkBoxWornByCorpse.Name = "checkBoxWornByCorpse";
+            this.checkBoxWornByCorpse.Size = new System.Drawing.Size(110, 17);
+            this.checkBoxWornByCorpse.TabIndex = 26;
+            this.checkBoxWornByCorpse.Text = "Worn by a corpse";
+            this.checkBoxWornByCorpse.UseVisualStyleBackColor = true;
+            this.checkBoxWornByCorpse.CheckedChanged += new System.EventHandler(this.checkBoxWornByCorpse_CheckedChanged);
             // 
             // comboBoxMaterial
             // 
@@ -731,24 +767,6 @@
             this.listBoxApparel.TabIndex = 0;
             this.listBoxApparel.SelectedIndexChanged += new System.EventHandler(this.listBoxApparel_SelectedIndexChanged);
             // 
-            // labelID
-            // 
-            this.labelID.AutoSize = true;
-            this.labelID.Location = new System.Drawing.Point(68, 42);
-            this.labelID.Name = "labelID";
-            this.labelID.Size = new System.Drawing.Size(35, 13);
-            this.labelID.TabIndex = 16;
-            this.labelID.Text = "label8";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(7, 42);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(21, 13);
-            this.label18.TabIndex = 15;
-            this.label18.Text = "ID:";
-            // 
             // buttonCopyPawn
             // 
             this.buttonCopyPawn.Location = new System.Drawing.Point(3, 6);
@@ -758,6 +776,14 @@
             this.buttonCopyPawn.Text = "Copy selected colonist";
             this.buttonCopyPawn.UseVisualStyleBackColor = true;
             this.buttonCopyPawn.Click += new System.EventHandler(this.buttonCopyPawn_Click);
+            // 
+            // comboBoxPassionAll
+            // 
+            this.comboBoxPassionAll.FormattingEnabled = true;
+            this.comboBoxPassionAll.Location = new System.Drawing.Point(55, 18);
+            this.comboBoxPassionAll.Name = "comboBoxPassionAll";
+            this.comboBoxPassionAll.Size = new System.Drawing.Size(85, 21);
+            this.comboBoxPassionAll.TabIndex = 3;
             // 
             // ColonistPage
             // 
@@ -778,6 +804,7 @@
             this.Name = "ColonistPage";
             this.Size = new System.Drawing.Size(1300, 627);
             this.skillsGroupBoxOuter.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSkillLevelAll)).EndInit();
             this.ageGroupBox.ResumeLayout(false);
             this.ageGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chronoAgeField)).EndInit();
@@ -851,8 +878,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownMelanin;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label labelRaceSupport;
-        private System.Windows.Forms.Button buttonMinSkills;
-        private System.Windows.Forms.Button buttonMaxSkills;
+        private System.Windows.Forms.Button buttonSetAllSkills;
         private System.Windows.Forms.GroupBox skillsGroupBox;
         private System.Windows.Forms.GroupBox groupBoxApparel;
         private System.Windows.Forms.ComboBox comboBoxApparelQuality;
@@ -866,5 +892,8 @@
         private System.Windows.Forms.Label labelID;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button buttonCopyPawn;
+        private System.Windows.Forms.CheckBox checkBoxWornByCorpse;
+        private System.Windows.Forms.NumericUpDown numericUpDownSkillLevelAll;
+        private System.Windows.Forms.ComboBox comboBoxPassionAll;
     }
 }

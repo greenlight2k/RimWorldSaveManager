@@ -85,7 +85,7 @@ namespace RimWorldSaveManager.Data.DataStructure.Defs
                     _ReciepStuffCategories.Add(categorie.GetValue());
                 }
             }
-            if (thing.Element("stuffProps") != null && thing.Element("stuffProps").Element("statFactors") != null && thing.Element("stuffProps").Element("statFactors").Element("MaxHitPoints") != null)
+            if (thing.Element("stuffProps") != null)
             {
                 XElement stuffProps = thing.Element("stuffProps");
 
@@ -129,6 +129,19 @@ namespace RimWorldSaveManager.Data.DataStructure.Defs
             set { _Name = value; }
         }
         public string ParentName { get => _ParentName; set => _ParentName = value; }
+
+        public string BaseName
+        {
+            get
+            {
+                if(Parent != null)
+                {
+                    return Parent.BaseName;
+                }
+                return Name;
+            }
+        }
+
         public string DefName { get => _DefName; set => _DefName = value; }
         public string Label { get => _Label; set => _Label = value; }
         public string Description { get => _Description; set => _Description = value; }
@@ -176,6 +189,11 @@ namespace RimWorldSaveManager.Data.DataStructure.Defs
         {
             get
             {
+                if(_MaxHitPointFactor == null && Parent != null)
+                {
+                    return Parent.MaxHitPointFactor;
+                }
+
                 return _MaxHitPointFactor;
             }
             set

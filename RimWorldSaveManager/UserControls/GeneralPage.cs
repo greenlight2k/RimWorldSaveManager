@@ -24,6 +24,7 @@ namespace RimWorldSaveManager.UserControls
             pawnList = DataLoader.PawnsByFactions[DataLoader.PlayerFaction].Where(p => p.Skills.Count != 0).ToList();
             comboBoxItemQuality.DataSource = new List<string>(DataLoader.Quality);
             comboBoxGroundItemQuality.DataSource = new List<string>(DataLoader.Quality);
+            comboBoxBuildingQuality.DataSource = new List<string>(DataLoader.Quality);
 
             setFields();
             initiated = true;
@@ -105,12 +106,12 @@ namespace RimWorldSaveManager.UserControls
 
         private void buttonItemHP_Click(object sender, EventArgs e)
         {
-            
+
             foreach (Pawn pawn in pawnList)
             {
-                foreach(PawnApparel apparel in pawn.Apparel)
+                foreach (SaveThing apparel in pawn.Apparel)
                 {
-                    if(apparel.MaxHealth != null)
+                    if (apparel.MaxHealth != null)
                     {
                         apparel.Health = (int)apparel.MaxHealth;
                     }
@@ -122,35 +123,60 @@ namespace RimWorldSaveManager.UserControls
         {
             foreach (Pawn pawn in pawnList)
             {
-                foreach (PawnApparel apparel in pawn.Apparel)
+                foreach (SaveThing apparel in pawn.Apparel)
                 {
                     apparel.Quality = comboBoxItemQuality.SelectedItem.ToString();
                 }
             }
         }
 
+        private List<SaveThing> loadAllEditableItems()
+        {
+            List<SaveThing> editableItems = new List<SaveThing>();
+            if (DataLoader.SaveThingsByClass.TryGetValue("ThingWithComps", out var value))
+            {
+                editableItems.AddRange(value);
+            }
+            if (DataLoader.SaveThingsByClass.TryGetValue("Apparel", out value))
+            {
+                editableItems.AddRange(value);
+            }
+            if (DataLoader.SaveThingsByClass.TryGetValue("Medicine", out value))
+            {
+                editableItems.AddRange(value);
+            }
+            if (DataLoader.SaveThingsByClass.TryGetValue("MinifiedThing", out value))
+            {
+                editableItems.AddRange(value);
+                foreach(var minifiedThing in value)
+                {
+                    editableItems.Add(minifiedThing.MinifiedThing);
+                }
+            }
+            if (DataLoader.SaveThingsByClass.TryGetValue("ShieldBelt", out value))
+            {
+                editableItems.AddRange(value);
+            }
+            return editableItems;
+        }
+
         private void buttonGroundItemHP_Click(object sender, EventArgs e)
         {
-            if (DataLoader.SaveThingsByClass.TryGetValue("ThingWithComps", out var thingList))
+
+            foreach (SaveThing saveThing in loadAllEditableItems())
             {
-                foreach (SaveThing saveThing in thingList)
+                if (saveThing.Health != null && saveThing.MaxHealth != null)
                 {
-                    if(saveThing.Health != null && saveThing.MaxHealth != null)
-                    {
-                        saveThing.Health = (int)saveThing.MaxHealth;
-                    }
+                    saveThing.Health = (int)saveThing.MaxHealth;
                 }
             }
         }
 
         private void buttonGroundItemQuality_Click(object sender, EventArgs e)
         {
-            if (DataLoader.SaveThingsByClass.TryGetValue("ThingWithComps", out var thingList))
+            foreach (SaveThing saveThing in loadAllEditableItems())
             {
-                foreach (SaveThing saveThing in thingList)
-                {
-                    saveThing.Quality = comboBoxGroundItemQuality.SelectedItem.ToString();
-                }
+                saveThing.Quality = comboBoxGroundItemQuality.SelectedItem.ToString();
             }
         }
 
@@ -173,6 +199,47 @@ namespace RimWorldSaveManager.UserControls
                 foreach (var plant in plantList)
                 {
                     plant.Growth = 1;
+                }
+            }
+        }
+
+        private void buttonRemoveWornByCorpse_Click(object sender, EventArgs e)
+        {
+            foreach (SaveThing saveThing in loadAllEditableItems())
+            {
+                saveThing.WornByCorpse = false;
+            }
+            DataLoader.itemsPage.Items.ResetBindings();
+            foreach (Pawn pawn in pawnList)
+            {
+                foreach (SaveThing apparel in pawn.Apparel)
+                {
+                    if (apparel.MaxHealth != null)
+                    {
+                        apparel.WornByCorpse = false;
+                    }
+                }
+            }
+        }
+
+        private void buttonBuildingHP_Click(object sender, EventArgs e)
+        {
+            if (DataLoader.SaveThingsByClass.TryGetValue("BuildingBase", out var buildingList))
+            {
+                foreach (var building in buildingList)
+                {
+                    building.Health = building.MaxHealth;
+                }
+            }
+        }
+
+        private void buttonBuildingQuality_Click(object sender, EventArgs e)
+        {
+            if (DataLoader.SaveThingsByClass.TryGetValue("BuildingBase", out var buildingList))
+            {
+                foreach (var building in buildingList)
+                {
+                    building.Quality = comboBoxBuildingQuality.SelectedItem.ToString();
                 }
             }
         }

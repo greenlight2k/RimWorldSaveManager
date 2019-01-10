@@ -44,6 +44,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.Actions = new System.Windows.Forms.GroupBox();
+            this.buttonRemoveWornByCorpse = new System.Windows.Forms.Button();
+            this.buttonGrowPlants = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.comboBoxGroundItemQuality = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -58,7 +60,12 @@
             this.buttonItemHP = new System.Windows.Forms.Button();
             this.buttonItemQuality = new System.Windows.Forms.Button();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            this.buttonGrowPlants = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.comboBoxBuildingQuality = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.buttonBuildingHP = new System.Windows.Forms.Button();
+            this.buttonBuildingQuality = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTicks)).BeginInit();
@@ -69,6 +76,7 @@
             this.Actions.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -233,16 +241,38 @@
             // 
             // Actions
             // 
+            this.Actions.Controls.Add(this.groupBox5);
+            this.Actions.Controls.Add(this.buttonRemoveWornByCorpse);
             this.Actions.Controls.Add(this.buttonGrowPlants);
             this.Actions.Controls.Add(this.groupBox4);
             this.Actions.Controls.Add(this.buttonRemoveAllFilth);
             this.Actions.Controls.Add(this.groupBox3);
             this.Actions.Location = new System.Drawing.Point(3, 168);
             this.Actions.Name = "Actions";
-            this.Actions.Size = new System.Drawing.Size(275, 297);
+            this.Actions.Size = new System.Drawing.Size(275, 419);
             this.Actions.TabIndex = 3;
             this.Actions.TabStop = false;
             this.Actions.Text = "Actions";
+            // 
+            // buttonRemoveWornByCorpse
+            // 
+            this.buttonRemoveWornByCorpse.Location = new System.Drawing.Point(9, 354);
+            this.buttonRemoveWornByCorpse.Name = "buttonRemoveWornByCorpse";
+            this.buttonRemoveWornByCorpse.Size = new System.Drawing.Size(237, 23);
+            this.buttonRemoveWornByCorpse.TabIndex = 6;
+            this.buttonRemoveWornByCorpse.Text = "Remove  \"Worn by corpse\"-Flag from all items";
+            this.buttonRemoveWornByCorpse.UseVisualStyleBackColor = true;
+            this.buttonRemoveWornByCorpse.Click += new System.EventHandler(this.buttonRemoveWornByCorpse_Click);
+            // 
+            // buttonGrowPlants
+            // 
+            this.buttonGrowPlants.Location = new System.Drawing.Point(9, 325);
+            this.buttonGrowPlants.Name = "buttonGrowPlants";
+            this.buttonGrowPlants.Size = new System.Drawing.Size(237, 23);
+            this.buttonGrowPlants.TabIndex = 5;
+            this.buttonGrowPlants.Text = "Full grow all plants";
+            this.buttonGrowPlants.UseVisualStyleBackColor = true;
+            this.buttonGrowPlants.Click += new System.EventHandler(this.buttonGrowPlants_Click);
             // 
             // groupBox4
             // 
@@ -306,9 +336,9 @@
             // 
             // buttonRemoveAllFilth
             // 
-            this.buttonRemoveAllFilth.Location = new System.Drawing.Point(9, 257);
+            this.buttonRemoveAllFilth.Location = new System.Drawing.Point(9, 383);
             this.buttonRemoveAllFilth.Name = "buttonRemoveAllFilth";
-            this.buttonRemoveAllFilth.Size = new System.Drawing.Size(154, 23);
+            this.buttonRemoveAllFilth.Size = new System.Drawing.Size(237, 23);
             this.buttonRemoveAllFilth.TabIndex = 3;
             this.buttonRemoveAllFilth.Text = "Remove all filth";
             this.buttonRemoveAllFilth.UseVisualStyleBackColor = true;
@@ -374,15 +404,65 @@
             this.buttonItemQuality.UseVisualStyleBackColor = true;
             this.buttonItemQuality.Click += new System.EventHandler(this.buttonItemQuality_Click);
             // 
-            // buttonGrowPlants
+            // groupBox5
             // 
-            this.buttonGrowPlants.Location = new System.Drawing.Point(9, 223);
-            this.buttonGrowPlants.Name = "buttonGrowPlants";
-            this.buttonGrowPlants.Size = new System.Drawing.Size(154, 23);
-            this.buttonGrowPlants.TabIndex = 5;
-            this.buttonGrowPlants.Text = "Full grow all plants";
-            this.buttonGrowPlants.UseVisualStyleBackColor = true;
-            this.buttonGrowPlants.Click += new System.EventHandler(this.buttonGrowPlants_Click);
+            this.groupBox5.Controls.Add(this.comboBoxBuildingQuality);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.label11);
+            this.groupBox5.Controls.Add(this.buttonBuildingHP);
+            this.groupBox5.Controls.Add(this.buttonBuildingQuality);
+            this.groupBox5.Location = new System.Drawing.Point(9, 223);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(249, 96);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Buildings";
+            // 
+            // comboBoxBuildingQuality
+            // 
+            this.comboBoxBuildingQuality.FormattingEnabled = true;
+            this.comboBoxBuildingQuality.Location = new System.Drawing.Point(10, 66);
+            this.comboBoxBuildingQuality.Name = "comboBoxBuildingQuality";
+            this.comboBoxBuildingQuality.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxBuildingQuality.TabIndex = 4;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 48);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(112, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Set quality of buildings";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 24);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(106, 13);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Repair every building";
+            // 
+            // buttonBuildingHP
+            // 
+            this.buttonBuildingHP.Location = new System.Drawing.Point(162, 19);
+            this.buttonBuildingHP.Name = "buttonBuildingHP";
+            this.buttonBuildingHP.Size = new System.Drawing.Size(75, 23);
+            this.buttonBuildingHP.TabIndex = 0;
+            this.buttonBuildingHP.Text = "Set Hitpoints";
+            this.buttonBuildingHP.UseVisualStyleBackColor = true;
+            this.buttonBuildingHP.Click += new System.EventHandler(this.buttonBuildingHP_Click);
+            // 
+            // buttonBuildingQuality
+            // 
+            this.buttonBuildingQuality.Location = new System.Drawing.Point(162, 66);
+            this.buttonBuildingQuality.Name = "buttonBuildingQuality";
+            this.buttonBuildingQuality.Size = new System.Drawing.Size(75, 23);
+            this.buttonBuildingQuality.TabIndex = 1;
+            this.buttonBuildingQuality.Text = "Set Quality";
+            this.buttonBuildingQuality.UseVisualStyleBackColor = true;
+            this.buttonBuildingQuality.Click += new System.EventHandler(this.buttonBuildingQuality_Click);
             // 
             // GeneralPage
             // 
@@ -407,6 +487,8 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -444,5 +526,12 @@
         private System.Windows.Forms.Button buttonGroundItemHP;
         private System.Windows.Forms.Button buttonGroundItemQuality;
         private System.Windows.Forms.Button buttonGrowPlants;
+        private System.Windows.Forms.Button buttonRemoveWornByCorpse;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.ComboBox comboBoxBuildingQuality;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button buttonBuildingHP;
+        private System.Windows.Forms.Button buttonBuildingQuality;
     }
 }
