@@ -37,7 +37,8 @@ namespace RimWorldSaveManager
         public static Dictionary<string, Race> RaceDictionary = new Dictionary<string, Race>();
         public static SortedDictionary<string, PawnRelationDef> PawnRelationDefs = new SortedDictionary<string, PawnRelationDef>();
         public static GameData GameData;
-        public static bool IgnoreMaxHitPoints = false;
+        public static decimal MaxHitPointsMultiplikator = 1;
+        public static decimal MaxStackCountMultiplikator = 1;
 
         private Dictionary<string, List<string>> pathsForLaodingData = new Dictionary<string, List<string>>();
 
@@ -226,41 +227,44 @@ namespace RimWorldSaveManager
 
                     foreach (var def in docRoot.Descendants("AlienRace.BackstoryDef"))
                     {
-                        Backstory backstory = new Backstory
+                        if (def.Attribute("Abstract") == null || def.Attribute("Abstract").Value != "True")
                         {
-                            Id = (string)def.Element("defName"),
-                            Title = (string)def.Element("title"),
-                            DisplayTitle = "(AlienRace)" + (string)def.Element("title"),
-                            TitleShort = (string)def.Element("titleShort"),
-                            Description = (string)def.Element("baseDescription"),
-                            Slot = (string)def.Element("slot"),
-                            SkillGains = new Dictionary<string, int>(),
-                            WorkDisables = new List<string>()
-                        };
-                        foreach (var skillGain in def.XPathSelectElements("skillGains/li"))
-                        {
-                            string defName = (string)skillGain.Element("defName");
-                            int amount = Convert.ToInt32(skillGain.Element("amount").GetValue());
-                            backstory.SkillGains.Add(defName, amount);
-                        }
-                        foreach (var workDisables in def.XPathSelectElements("workDisables/li"))
-                        {
-                            backstory.WorkDisables.Add(workDisables.GetValue());
-                        }
-                        ResourceLoader.Backstories[backstory.Id] = backstory;
+                            Backstory backstory = new Backstory
+                            {
+                                Id = (string)def.Element("defName"),
+                                Title = (string)def.Element("title"),
+                                DisplayTitle = "(AlienRace)" + (string)def.Element("title"),
+                                TitleShort = (string)def.Element("titleShort"),
+                                Description = (string)def.Element("baseDescription"),
+                                Slot = (string)def.Element("slot"),
+                                SkillGains = new Dictionary<string, int>(),
+                                WorkDisables = new List<string>()
+                            };
+                            foreach (var skillGain in def.XPathSelectElements("skillGains/li"))
+                            {
+                                string defName = (string)skillGain.Element("defName");
+                                int amount = Convert.ToInt32(skillGain.Element("amount").GetValue());
+                                backstory.SkillGains.Add(defName, amount);
+                            }
+                            foreach (var workDisables in def.XPathSelectElements("workDisables/li"))
+                            {
+                                backstory.WorkDisables.Add(workDisables.GetValue());
+                            }
+                            ResourceLoader.Backstories[backstory.Id] = backstory;
 
-                        if (string.IsNullOrEmpty(backstory.Slot))
-                        {
-                            ResourceLoader.ChildhoodStories.Add(backstory);
-                            ResourceLoader.AdulthoodStories.Add(backstory);
-                        }
-                        else if (backstory.Slot == "Childhood")
-                        {
-                            ResourceLoader.ChildhoodStories.Add(backstory);
-                        }
-                        else
-                        {
-                            ResourceLoader.AdulthoodStories.Add(backstory);
+                            if (string.IsNullOrEmpty(backstory.Slot))
+                            {
+                                ResourceLoader.ChildhoodStories.Add(backstory);
+                                ResourceLoader.AdulthoodStories.Add(backstory);
+                            }
+                            else if (backstory.Slot == "Childhood")
+                            {
+                                ResourceLoader.ChildhoodStories.Add(backstory);
+                            }
+                            else
+                            {
+                                ResourceLoader.AdulthoodStories.Add(backstory);
+                            }
                         }
                     }
 
@@ -273,7 +277,7 @@ namespace RimWorldSaveManager
                     foreach (var thingDef in docRoot.XPathSelectElements("ThingDef"))
                     {
                         ThingDef def = new ThingDef(thingDef);
-                        if(ThingDefs.TryGetValue(def.Name, out ThingDef value))
+                        if (ThingDefs.TryGetValue(def.Name, out ThingDef value))
                         {
                             value.updateDef(thingDef);
                         }
@@ -286,9 +290,9 @@ namespace RimWorldSaveManager
                     foreach (var bodyDefElement in docRoot.XPathSelectElements("BodyDef"))
                     {
                         BodyDef bodyDef = new BodyDef(bodyDefElement);
-                        if(bodyDef.DefName != null)
+                        if (bodyDef.DefName != null)
                         {
-                            BodyDefsByDef.Add(bodyDef.DefName, bodyDef);
+                            BodyDefsByDef[bodyDef.DefName] = bodyDef;
                         }
                     }
 
@@ -298,7 +302,7 @@ namespace RimWorldSaveManager
             }
 
             Dictionary<string, Race> tempRaceDic = RaceDictionary.Values.ToDictionary(x => x.Label.ToLower(), x => x);
-            foreach(Hair hair in allHairs)
+            foreach (Hair hair in allHairs)
             {
                 List<Race> races = new List<Race>();
                 foreach (var hairTags in hair.HairTags)
@@ -312,7 +316,7 @@ namespace RimWorldSaveManager
                 if (races.Count == 0)
                 {
                     races.Add(RaceDictionary["Human"]);
-                    if(RaceDictionary.TryGetValue("Alien_Orassan", out var race))
+                    if (RaceDictionary.TryGetValue("Alien_Orassan", out var race))
                     {
                         races.Add(race);
                     }
@@ -338,9 +342,9 @@ namespace RimWorldSaveManager
                 }
             }
 
-            foreach(ThingDef thingDef in ThingDefs.Values)
+            foreach (ThingDef thingDef in ThingDefs.Values)
             {
-                if(thingDef.ParentName != null && ThingDefs.TryGetValue(thingDef.ParentName, out ThingDef value))
+                if (thingDef.ParentName != null && ThingDefs.TryGetValue(thingDef.ParentName, out ThingDef value))
                 {
                     thingDef.Parent = value;
                 }
@@ -348,9 +352,9 @@ namespace RimWorldSaveManager
                 {
                     ThingDefsByDefName.Add(thingDef.DefName, thingDef);
                 }
-                foreach(string stuffPropCat in thingDef.StuffPropsCategories)
+                foreach (string stuffPropCat in thingDef.StuffPropsCategories)
                 {
-                    if(ThingDefsByStuffCategory.TryGetValue(stuffPropCat, out var list))
+                    if (ThingDefsByStuffCategory.TryGetValue(stuffPropCat, out var list))
                     {
                         list.Add(thingDef);
                     }
@@ -435,7 +439,7 @@ namespace RimWorldSaveManager
 
 
                     Pawn p = new Pawn(thing);
-                    if(p.Faction != null)
+                    if (p.Faction != null)
                     {
                         List<PawnData> pawnDataList;
                         if (!pawnDataDir.TryGetValue(p.PawnId, out pawnDataList))
@@ -454,7 +458,7 @@ namespace RimWorldSaveManager
                     SaveThing SaveThing = new SaveThing(thing);
 
                     String key = SaveThing.Class;
-                    if(SaveThing.BaseThing != null && SaveThing.BaseThing.BaseName == "BuildingBase")
+                    if (SaveThing.BaseThing != null && SaveThing.BaseThing.BaseName == "BuildingBase")
                     {
                         key = SaveThing.BaseThing.BaseName;
                     }
@@ -469,7 +473,7 @@ namespace RimWorldSaveManager
                         newList.Add(SaveThing);
                         SaveThingsByClass.Add(key, newList);
                     }
-                    
+
                 }
             }
 

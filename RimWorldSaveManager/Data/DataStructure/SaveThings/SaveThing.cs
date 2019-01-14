@@ -114,6 +114,9 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
                 if (_XElement.Element("quality") != null)
                 {
                     return _XElement.Element("quality").GetValue();
+                }if(BaseThing != null && BaseThing.UseQuality)
+                {
+                    return "Awful";
                 }
                 return null;
             }
@@ -122,6 +125,10 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
                 if (_XElement.Element("quality") != null)
                 {
                     _XElement.Element("quality").SetValue(value);
+                }
+                if (BaseThing != null && BaseThing.UseQuality)
+                {
+                    _XElement.Add(new XElement("quality", value));
                 }
             }
         }
@@ -216,18 +223,18 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
             {
                 if (BaseThing != null && BaseThing.MaxHitPoints != null)
                 {
-                    if(BaseThing.MaxHitPoints > 1 && DataLoader.IgnoreMaxHitPoints)
-                    {
-                        return int.MaxValue;
-                    }
                     if (StuffBaseThing != null && StuffBaseThing.MaxHitPointFactor != null)
                     {
-                        return (int)(BaseThing.MaxHitPoints * StuffBaseThing.MaxHitPointFactor);
+                        return (int)Math.Round((decimal)BaseThing.MaxHitPoints * (decimal)StuffBaseThing.MaxHitPointFactor, 0);
                     }
                     return BaseThing.MaxHitPoints;
                 }
                 if(Health != null)
                 {
+                    if (Def.ToLower().Contains("meat"))
+                    {
+                        return (int)(60 * DataLoader.MaxHitPointsMultiplikator);
+                    }
                     return Health;
                 }
                 return 1;
@@ -264,9 +271,13 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
         {
             get
             {
-                if (BaseThing != null)
+                if (BaseThing != null && BaseThing.StackLimit > 1)
                 {
-                    return BaseThing.StackLimit;
+                    return (int)(BaseThing.StackLimit * DataLoader.MaxStackCountMultiplikator);
+                }
+                if(BaseThing == null && Def.ToLower().Contains("meat"))
+                {
+                    return (int)(75 * DataLoader.MaxStackCountMultiplikator);
                 }
                 return 1;
             }
@@ -276,6 +287,8 @@ namespace RimWorldSaveManager.Data.DataStructure.SaveThings
         public ThingDef BaseThing { get => _BaseThing; set => _BaseThing = value; }
         public SaveThing MinifiedThing { get => _MinifiedThing; set => _MinifiedThing = value; }
         public ThingDef BaseThing1 { get => _BaseThing; set => _BaseThing = value; }
+
+
 
         public override string ToString()
         {

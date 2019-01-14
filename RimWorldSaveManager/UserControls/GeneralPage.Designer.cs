@@ -40,13 +40,25 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.numericUpDownSeason = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxIgnoreMaxHitPoints = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.numericUpDownMaxStackCountMult = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numericUpDownMaxHitMult = new System.Windows.Forms.NumericUpDown();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.Actions = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.comboBoxBuildingQuality = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.buttonBuildingHP = new System.Windows.Forms.Button();
+            this.buttonBuildingQuality = new System.Windows.Forms.Button();
             this.buttonRemoveWornByCorpse = new System.Windows.Forms.Button();
             this.buttonGrowPlants = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.buttonSetStacks = new System.Windows.Forms.Button();
             this.comboBoxGroundItemQuality = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -60,12 +72,6 @@
             this.buttonItemHP = new System.Windows.Forms.Button();
             this.buttonItemQuality = new System.Windows.Forms.Button();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.comboBoxBuildingQuality = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.buttonBuildingHP = new System.Windows.Forms.Button();
-            this.buttonBuildingQuality = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTicks)).BeginInit();
@@ -73,10 +79,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeason)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxStackCountMult)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHitMult)).BeginInit();
             this.Actions.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -218,26 +226,66 @@
             this.numericUpDownSeason.TabIndex = 0;
             this.numericUpDownSeason.ValueChanged += new System.EventHandler(this.numericUpDownSeason_ValueChanged);
             // 
-            // checkBoxIgnoreMaxHitPoints
-            // 
-            this.checkBoxIgnoreMaxHitPoints.AutoSize = true;
-            this.checkBoxIgnoreMaxHitPoints.Location = new System.Drawing.Point(9, 19);
-            this.checkBoxIgnoreMaxHitPoints.Name = "checkBoxIgnoreMaxHitPoints";
-            this.checkBoxIgnoreMaxHitPoints.Size = new System.Drawing.Size(175, 17);
-            this.checkBoxIgnoreMaxHitPoints.TabIndex = 1;
-            this.checkBoxIgnoreMaxHitPoints.Text = "Ignore max hitpoints for all items";
-            this.checkBoxIgnoreMaxHitPoints.UseVisualStyleBackColor = true;
-            this.checkBoxIgnoreMaxHitPoints.CheckedChanged += new System.EventHandler(this.checkBoxIgnoreMaxHitPoints_CheckedChanged);
-            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBoxIgnoreMaxHitPoints);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.numericUpDownMaxStackCountMult);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.numericUpDownMaxHitMult);
             this.groupBox2.Location = new System.Drawing.Point(3, 108);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(275, 54);
+            this.groupBox2.Size = new System.Drawing.Size(275, 140);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(16, 86);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(252, 39);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Only increase the max stackcount if you use mods \r\nto increase in in game. Stacks" +
+    " that are too large will \r\nbe reduced to max stackcount.";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // numericUpDownMaxStackCountMult
+            // 
+            this.numericUpDownMaxStackCountMult.DecimalPlaces = 2;
+            this.numericUpDownMaxStackCountMult.Location = new System.Drawing.Point(171, 54);
+            this.numericUpDownMaxStackCountMult.Name = "numericUpDownMaxStackCountMult";
+            this.numericUpDownMaxStackCountMult.Size = new System.Drawing.Size(87, 20);
+            this.numericUpDownMaxStackCountMult.TabIndex = 3;
+            this.numericUpDownMaxStackCountMult.ValueChanged += new System.EventHandler(this.numericUpDownMaxStackCountMult_ValueChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(16, 56);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(147, 13);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Max. Stackcount Multiplikator";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(16, 21);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(128, 13);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Max. Hitpoint Multiplikator";
+            // 
+            // numericUpDownMaxHitMult
+            // 
+            this.numericUpDownMaxHitMult.DecimalPlaces = 2;
+            this.numericUpDownMaxHitMult.Location = new System.Drawing.Point(171, 19);
+            this.numericUpDownMaxHitMult.Name = "numericUpDownMaxHitMult";
+            this.numericUpDownMaxHitMult.Size = new System.Drawing.Size(87, 20);
+            this.numericUpDownMaxHitMult.TabIndex = 0;
+            this.numericUpDownMaxHitMult.ValueChanged += new System.EventHandler(this.numericUpDownMaxHitMult_ValueChanged);
             // 
             // Actions
             // 
@@ -247,16 +295,76 @@
             this.Actions.Controls.Add(this.groupBox4);
             this.Actions.Controls.Add(this.buttonRemoveAllFilth);
             this.Actions.Controls.Add(this.groupBox3);
-            this.Actions.Location = new System.Drawing.Point(3, 168);
+            this.Actions.Location = new System.Drawing.Point(3, 254);
             this.Actions.Name = "Actions";
-            this.Actions.Size = new System.Drawing.Size(275, 419);
+            this.Actions.Size = new System.Drawing.Size(510, 257);
             this.Actions.TabIndex = 3;
             this.Actions.TabStop = false;
             this.Actions.Text = "Actions";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.comboBoxBuildingQuality);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.label11);
+            this.groupBox5.Controls.Add(this.buttonBuildingHP);
+            this.groupBox5.Controls.Add(this.buttonBuildingQuality);
+            this.groupBox5.Location = new System.Drawing.Point(264, 19);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(237, 96);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Buildings";
+            // 
+            // comboBoxBuildingQuality
+            // 
+            this.comboBoxBuildingQuality.FormattingEnabled = true;
+            this.comboBoxBuildingQuality.Location = new System.Drawing.Point(10, 66);
+            this.comboBoxBuildingQuality.Name = "comboBoxBuildingQuality";
+            this.comboBoxBuildingQuality.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxBuildingQuality.TabIndex = 4;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 48);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(112, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Set quality of buildings";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 24);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(106, 13);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Repair every building";
+            // 
+            // buttonBuildingHP
+            // 
+            this.buttonBuildingHP.Location = new System.Drawing.Point(142, 14);
+            this.buttonBuildingHP.Name = "buttonBuildingHP";
+            this.buttonBuildingHP.Size = new System.Drawing.Size(75, 23);
+            this.buttonBuildingHP.TabIndex = 0;
+            this.buttonBuildingHP.Text = "Set Hitpoints";
+            this.buttonBuildingHP.UseVisualStyleBackColor = true;
+            this.buttonBuildingHP.Click += new System.EventHandler(this.buttonBuildingHP_Click);
+            // 
+            // buttonBuildingQuality
+            // 
+            this.buttonBuildingQuality.Location = new System.Drawing.Point(142, 64);
+            this.buttonBuildingQuality.Name = "buttonBuildingQuality";
+            this.buttonBuildingQuality.Size = new System.Drawing.Size(75, 23);
+            this.buttonBuildingQuality.TabIndex = 1;
+            this.buttonBuildingQuality.Text = "Set Quality";
+            this.buttonBuildingQuality.UseVisualStyleBackColor = true;
+            this.buttonBuildingQuality.Click += new System.EventHandler(this.buttonBuildingQuality_Click);
+            // 
             // buttonRemoveWornByCorpse
             // 
-            this.buttonRemoveWornByCorpse.Location = new System.Drawing.Point(9, 354);
+            this.buttonRemoveWornByCorpse.Location = new System.Drawing.Point(264, 150);
             this.buttonRemoveWornByCorpse.Name = "buttonRemoveWornByCorpse";
             this.buttonRemoveWornByCorpse.Size = new System.Drawing.Size(237, 23);
             this.buttonRemoveWornByCorpse.TabIndex = 6;
@@ -266,7 +374,7 @@
             // 
             // buttonGrowPlants
             // 
-            this.buttonGrowPlants.Location = new System.Drawing.Point(9, 325);
+            this.buttonGrowPlants.Location = new System.Drawing.Point(264, 121);
             this.buttonGrowPlants.Name = "buttonGrowPlants";
             this.buttonGrowPlants.Size = new System.Drawing.Size(237, 23);
             this.buttonGrowPlants.TabIndex = 5;
@@ -276,6 +384,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.buttonSetStacks);
             this.groupBox4.Controls.Add(this.comboBoxGroundItemQuality);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.label9);
@@ -283,10 +393,29 @@
             this.groupBox4.Controls.Add(this.buttonGroundItemQuality);
             this.groupBox4.Location = new System.Drawing.Point(9, 121);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(249, 96);
+            this.groupBox4.Size = new System.Drawing.Size(249, 133);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Ground Items";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 106);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(94, 13);
+            this.label15.TabIndex = 5;
+            this.label15.Text = " Set stacks to max";
+            // 
+            // buttonSetStacks
+            // 
+            this.buttonSetStacks.Location = new System.Drawing.Point(162, 101);
+            this.buttonSetStacks.Name = "buttonSetStacks";
+            this.buttonSetStacks.Size = new System.Drawing.Size(75, 23);
+            this.buttonSetStacks.TabIndex = 4;
+            this.buttonSetStacks.Text = "Set Stacks";
+            this.buttonSetStacks.UseVisualStyleBackColor = true;
+            this.buttonSetStacks.Click += new System.EventHandler(this.buttonSetStacks_Click);
             // 
             // comboBoxGroundItemQuality
             // 
@@ -336,7 +465,7 @@
             // 
             // buttonRemoveAllFilth
             // 
-            this.buttonRemoveAllFilth.Location = new System.Drawing.Point(9, 383);
+            this.buttonRemoveAllFilth.Location = new System.Drawing.Point(264, 179);
             this.buttonRemoveAllFilth.Name = "buttonRemoveAllFilth";
             this.buttonRemoveAllFilth.Size = new System.Drawing.Size(237, 23);
             this.buttonRemoveAllFilth.TabIndex = 3;
@@ -404,66 +533,6 @@
             this.buttonItemQuality.UseVisualStyleBackColor = true;
             this.buttonItemQuality.Click += new System.EventHandler(this.buttonItemQuality_Click);
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.comboBoxBuildingQuality);
-            this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Controls.Add(this.buttonBuildingHP);
-            this.groupBox5.Controls.Add(this.buttonBuildingQuality);
-            this.groupBox5.Location = new System.Drawing.Point(9, 223);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(249, 96);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Buildings";
-            // 
-            // comboBoxBuildingQuality
-            // 
-            this.comboBoxBuildingQuality.FormattingEnabled = true;
-            this.comboBoxBuildingQuality.Location = new System.Drawing.Point(10, 66);
-            this.comboBoxBuildingQuality.Name = "comboBoxBuildingQuality";
-            this.comboBoxBuildingQuality.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxBuildingQuality.TabIndex = 4;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 48);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(112, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Set quality of buildings";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 24);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(106, 13);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "Repair every building";
-            // 
-            // buttonBuildingHP
-            // 
-            this.buttonBuildingHP.Location = new System.Drawing.Point(162, 19);
-            this.buttonBuildingHP.Name = "buttonBuildingHP";
-            this.buttonBuildingHP.Size = new System.Drawing.Size(75, 23);
-            this.buttonBuildingHP.TabIndex = 0;
-            this.buttonBuildingHP.Text = "Set Hitpoints";
-            this.buttonBuildingHP.UseVisualStyleBackColor = true;
-            this.buttonBuildingHP.Click += new System.EventHandler(this.buttonBuildingHP_Click);
-            // 
-            // buttonBuildingQuality
-            // 
-            this.buttonBuildingQuality.Location = new System.Drawing.Point(162, 66);
-            this.buttonBuildingQuality.Name = "buttonBuildingQuality";
-            this.buttonBuildingQuality.Size = new System.Drawing.Size(75, 23);
-            this.buttonBuildingQuality.TabIndex = 1;
-            this.buttonBuildingQuality.Text = "Set Quality";
-            this.buttonBuildingQuality.UseVisualStyleBackColor = true;
-            this.buttonBuildingQuality.Click += new System.EventHandler(this.buttonBuildingQuality_Click);
-            // 
             // GeneralPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -482,13 +551,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeason)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxStackCountMult)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHitMult)).EndInit();
             this.Actions.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -507,7 +578,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDownSeason;
         private System.Windows.Forms.Label startingYearLabel;
-        private System.Windows.Forms.CheckBox checkBoxIgnoreMaxHitPoints;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox Actions;
@@ -533,5 +603,12 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button buttonBuildingHP;
         private System.Windows.Forms.Button buttonBuildingQuality;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxStackCountMult;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxHitMult;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button buttonSetStacks;
     }
 }

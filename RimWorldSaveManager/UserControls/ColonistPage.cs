@@ -550,7 +550,7 @@ namespace RimWorldSaveManager.UserControls
                 comboBoxApparelQuality.Update();
                 decimal health = (decimal)pawnApparel.Health;
 
-                if (!DataLoader.IgnoreMaxHitPoints && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
+                if (DataLoader.MaxHitPointsMultiplikator != 1 && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
                 {
                     numericUpDownApparelHealth.Maximum = (decimal)pawnApparel.MaxHealth;
                 }
@@ -618,7 +618,7 @@ namespace RimWorldSaveManager.UserControls
                 pawnApparel.StuffBaseThing = stuffDef;
                 pawnApparel.Stuff = stuffDef.DefName;
 
-                if (!DataLoader.IgnoreMaxHitPoints && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
+                if (DataLoader.MaxHitPointsMultiplikator != 1 && pawnApparel.MaxHealth != null && pawnApparel.MaxHealth >= pawnApparel.Health)
                 {
                     numericUpDownApparelHealth.Maximum = (decimal)pawnApparel.MaxHealth;
                 }

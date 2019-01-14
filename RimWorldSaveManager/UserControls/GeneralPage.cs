@@ -26,6 +26,9 @@ namespace RimWorldSaveManager.UserControls
             comboBoxGroundItemQuality.DataSource = new List<string>(DataLoader.Quality);
             comboBoxBuildingQuality.DataSource = new List<string>(DataLoader.Quality);
 
+            numericUpDownMaxHitMult.Value = DataLoader.MaxHitPointsMultiplikator;
+            numericUpDownMaxStackCountMult.Value = DataLoader.MaxStackCountMultiplikator;
+
             setFields();
             initiated = true;
         }
@@ -97,11 +100,6 @@ namespace RimWorldSaveManager.UserControls
                 convertFields();
                 setFields();
             }
-        }
-
-        private void checkBoxIgnoreMaxHitPoints_CheckedChanged(object sender, EventArgs e)
-        {
-            DataLoader.IgnoreMaxHitPoints = checkBoxIgnoreMaxHitPoints.Checked;
         }
 
         private void buttonItemHP_Click(object sender, EventArgs e)
@@ -242,6 +240,24 @@ namespace RimWorldSaveManager.UserControls
                     building.Quality = comboBoxBuildingQuality.SelectedItem.ToString();
                 }
             }
+        }
+
+        private void buttonSetStacks_Click(object sender, EventArgs e)
+        {
+            foreach (SaveThing saveThing in loadAllEditableItems())
+            {
+                saveThing.StackCount = saveThing.StackLimit;
+            }
+        }
+
+        private void numericUpDownMaxHitMult_ValueChanged(object sender, EventArgs e)
+        {
+            DataLoader.MaxHitPointsMultiplikator = numericUpDownMaxHitMult.Value;
+        }
+
+        private void numericUpDownMaxStackCountMult_ValueChanged(object sender, EventArgs e)
+        {
+            DataLoader.MaxStackCountMultiplikator = numericUpDownMaxStackCountMult.Value;
         }
     }
 }

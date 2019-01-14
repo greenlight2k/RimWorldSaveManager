@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace RimWorldSaveManager
@@ -9,7 +10,12 @@ namespace RimWorldSaveManager
 	{
 	    readonly DataLoader _dataLoader = new DataLoader();
 
-		public MainForm()
+
+        [DllImport("shell32.dll")]
+        static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);
+
+
+        public MainForm()
 		{
 			InitializeComponent();
 
@@ -34,11 +40,9 @@ namespace RimWorldSaveManager
 					"RimWorld");
 			else
 				ofn.InitialDirectory = string.Join(Path.DirectorySeparatorChar.ToString(),
-					Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-					"Library",
-					"Application",
-					"Support",
-					"RimWorld",
+                    getLocalLow(),
+                    "Ludeon Studios",
+                    "RimWorld by Ludeon Studios",
 					"Saves");
 
 			ofn.Filter = @"RimWorld Save File|*.rws";
@@ -50,6 +54,23 @@ namespace RimWorldSaveManager
 				toolStrip1.Items[2].Enabled = true;
 			}
 		}
+
+        private string getLocalLow()
+        {
+            IntPtr pszPath = IntPtr.Zero;
+            try
+            {
+                int hr = SHGetKnownFolderPath(new Guid("A520A1A4-1780-4FF6-BD18-167343C5AF16"), 0, IntPtr.Zero, out pszPath);
+                if (hr >= 0)
+                    return Marshal.PtrToStringAuto(pszPath);
+                throw Marshal.GetExceptionForHR(hr);
+            }
+            finally
+            {
+                if (pszPath != IntPtr.Zero)
+                    Marshal.FreeCoTaskMem(pszPath);
+            }
+        }
 
 		private void toolStripLabel2_Click(object sender, EventArgs e)
 		{
@@ -67,13 +88,12 @@ namespace RimWorldSaveManager
 					"RimWorld");
 			else
 				sfn.InitialDirectory = string.Join(Path.DirectorySeparatorChar.ToString(),
-					Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-					"Library",
-					"Application Support",
-					"RimWorld",
-					"Saves");
+                    getLocalLow(),
+                    "Ludeon Studios",
+                    "RimWorld by Ludeon Studios",
+                    "Saves");
 
-			sfn.Filter = @"RimWorld Save File (.rws)|*.rws";
+            sfn.Filter = @"RimWorld Save File |*.rws";
 			sfn.FilterIndex = 1;
 
 			if (sfn.ShowDialog() == DialogResult.OK)
@@ -82,4 +102,5 @@ namespace RimWorldSaveManager
 			}
 		}
     }
+
 }

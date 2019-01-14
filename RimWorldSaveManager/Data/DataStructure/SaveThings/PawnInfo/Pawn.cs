@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -419,6 +420,8 @@ namespace RimWorldSaveManager.Data.DataStructure
         private string _crownFirstType;
         private Race _race;
 
+        private string headGraphicPathBase;
+        private bool useGenderinHeadGraphicPath;
 
         private readonly List<PawnData> _pawnDatas;
 
@@ -508,7 +511,15 @@ namespace RimWorldSaveManager.Data.DataStructure
             {
                 Apparel.Add(new SaveThing(equipment));
             }
+            XElement headGraphicPathBaseElement = _xml.XPathSelectElement("story/headGraphicPath");
+            if(headGraphicPathBaseElement != null)
+            {
+                string path = headGraphicPathBaseElement.GetValue();
+                useGenderinHeadGraphicPath = path.Contains("/" + Gender + "/");
 
+                headGraphicPathBase = headGraphicPathBaseElement.GetValue().Replace(Gender, "").Replace(_crownFirstType, "").Replace(_crownSubType, "").Replace("_", "");
+                headGraphicPathBase = Regex.Replace(headGraphicPathBase, "\\/+$", "");
+            }
 
             _pawnDatas = new List<PawnData>();
         }
@@ -520,9 +531,9 @@ namespace RimWorldSaveManager.Data.DataStructure
 
         private void setHeadGraphicPath()
         {
-            if (Race.DefName.Equals("Human"))
+            if (Race.DefName.Equals("Human") || !Race.GraphicPaths.ContainsKey("head"))
             {
-                HeadGraphicPath = "Things/Pawn/Humanlike/Heads/" + Gender + "/" + Gender + "_" + _crownFirstType + "_" + _crownSubType;
+                HeadGraphicPath = headGraphicPathBase + "/" + Gender + "/" + Gender + "_" + _crownFirstType + "_" + _crownSubType;
             }
             else
             {

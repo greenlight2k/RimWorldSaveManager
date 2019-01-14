@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace RimWorldSaveManager.Data.DataStructure.Defs
 {
@@ -20,6 +21,7 @@ namespace RimWorldSaveManager.Data.DataStructure.Defs
         private int? _StackLimit;
         private decimal? _MaxHitPointFactor;
         private bool _UseHitPoints;
+        private bool _UseQuality;
 
         private List<String> _StuffPropsCategories = new List<string>();
         private List<String> _ReciepStuffCategories = new List<string>();
@@ -103,6 +105,16 @@ namespace RimWorldSaveManager.Data.DataStructure.Defs
                     {
                         _StuffPropsCategories.Add(categorie.GetValue());
                     }
+                }
+            }
+
+            _UseQuality = false;
+            IEnumerable<XElement> elements = thing.XPathSelectElements("comps/li");
+            foreach(XElement element in elements)
+            {
+                if (element.Element("compClass") != null&& element.Element("compClass").GetValue() == "CompQuality")
+                {
+                    _UseQuality = true;
                 }
             }
 
@@ -199,6 +211,22 @@ namespace RimWorldSaveManager.Data.DataStructure.Defs
             set
             {
                 _MaxHitPointFactor = value;
+            }
+        }
+
+        public bool UseQuality
+        {
+            get
+            {
+                if (_UseQuality)
+                {
+                    return _UseQuality;
+                }
+                if(Parent != null)
+                {
+                    return Parent.UseQuality;
+                }
+                return _UseQuality;
             }
         }
 
