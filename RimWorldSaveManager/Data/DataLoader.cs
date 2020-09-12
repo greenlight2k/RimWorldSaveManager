@@ -96,7 +96,7 @@ namespace RimWorldSaveManager
 
             ResourceLoader.Load();
 
-            var allXmlFiles = Directory.GetFiles("Mods", "*.xml", SearchOption.AllDirectories);
+            var allXmlFiles = Directory.GetFiles("Data", "*.xml", SearchOption.AllDirectories);
 
             List<Hair> allHairs = new List<Hair>();
 
